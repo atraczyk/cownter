@@ -4,12 +4,21 @@ Scrapes counter information from dotesports.com and creates a counter relationsh
 """
 
 import logging
+import json
+import unicodedata
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.INFO)
+
+def normalize_hero_name(name):
+    """Normalize hero name by removing spaces and normalizing unicode characters."""
+    # Normalize unicode characters (removes accents)
+    normalized = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('ASCII')
+    # Remove spaces and convert to lowercase for consistency
+    return normalized.replace(" ", "").lower()
 
 def parse_counter_table(table):
     """
@@ -43,18 +52,11 @@ def parse_counter_table(table):
         if len(cells) != 4:  # Skip malformed rows
             continue
 
-        # Extract hero name from the first cell
-        hero_link = cells[0].find('a')
-        if hero_link:
-            hero_name = hero_link.text
-        else:
-            # For heroes without links, just get the text
-            hero_name = cells[0].text.strip()
-
-        # Get counters from the other cells
-        tank_counters = [c.strip() for c in cells[1].text.split(',') if c.strip()]
-        dps_counters = [c.strip() for c in cells[2].text.split(',') if c.strip()]
-        support_counters = [c.strip() for c in cells[3].text.split(',') if c.strip() and c.strip() != '–']
+        # Extract and normalize hero names
+        hero_name = normalize_hero_name(cells[0].text.strip())
+        tank_counters = [normalize_hero_name(c) for c in cells[1].text.split(',') if c.strip()]
+        dps_counters = [normalize_hero_name(c) for c in cells[2].text.split(',') if c.strip()]
+        support_counters = [normalize_hero_name(c) for c in cells[3].text.split(',') if c.strip() and c.strip() != '–']
 
         counter_data[hero_name] = {
             "tank_counters": tank_counters,
@@ -62,7 +64,10 @@ def parse_counter_table(table):
             "support_counters": support_counters
         }
 
-        logging.info("Processed hero: %s", hero_name)
+        # logging.info(f"Processed hero: {hero_name}")
+        # logging.info(f"\tTank counters: {tank_counters}")
+        # logging.info(f"\tDPS counters: {dps_counters}")
+        # logging.info(f"\tSupport counters: {support_counters}")
 
     if not counter_data:
         logging.error("No counter data was parsed from the table")
@@ -126,7 +131,6 @@ def fetch_counter_data():
 
         table = get_table_from_response(response)
         counter_data = parse_counter_table(table)
-        logging.info("Successfully fetched counter data from the internet.")
         return counter_data
 
     except requests.RequestException as e:
@@ -145,19 +149,15 @@ def main():
         logging.error("Failed to fetch counter data. Exiting.")
         return
 
-    # Print some example data
-    print("\nExample counter data for D.Va:")
-    print(counter_data['D.Va'])
-
     # Create and display the counter matrix
     counter_matrix = create_counter_matrix(counter_data)
-    print("\nCounter Matrix (sample):")
-    print(counter_matrix.head())
+    print("\nCounter Matrix:")
+    print(counter_matrix)
 
-    # Get list of all heroes
-    all_heroes = get_all_heroes(counter_data)
-    print(f"\nTotal number of heroes: {len(all_heroes)}")
-    print("All heroes:", all_heroes)
+    # # Get list of all heroes
+    # all_heroes = get_all_heroes(counter_data)
+    # print(f"\nTotal number of heroes: {len(all_heroes)}")
+    # print("All heroes:", all_heroes)
 
 if __name__ == "__main__":
     main()
