@@ -164,24 +164,49 @@ def fetch_counter_data(force_update=False):
         logging.error("Error parsing counter data: %s", e)
         return None
 
+def show_counters_for_heroes(counter_data, hero_list):
+    """
+    Display counters for specified heroes using normalized names.
+
+    Args:
+        counter_data: Dictionary containing hero counter information
+        hero_list: List of hero names to look up
+    """
+    for hero in hero_list:
+        normalized = normalize_hero_name(hero)
+        if normalized not in counter_data:
+            print(f"\nHero not found: {hero} (normalized: {normalized})")
+            continue
+
+        counters = counter_data[normalized]
+        print(f"\nCounters for {normalized}:")
+        print("\tTank\t:", ", ".join(counters["tank_counters"]))
+        print("\tDPS\t:", ", ".join(counters["dps_counters"]))
+        print("\tSupport\t:", ", ".join(counters["support_counters"]))
+
 def main():
     """Main function to execute the counter data fetching and analysis."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--update', action='store_true', help='Force update counter data from website')
     parser.add_argument('--list-heroes', action='store_true', help='List all available heroes')
+    parser.add_argument('--heroes', help='Comma-separated list of heroes to check counters for')
     args = parser.parse_args()
 
     counter_data = fetch_counter_data(force_update=args.update)
-
     if not counter_data:
         logging.error("Failed to fetch counter data. Exiting.")
         return
 
     if args.list_heroes:
-        heroes = get_all_heroes(counter_data)
-        print("\nAvailable Heroes:")
+        heroes = sorted(counter_data.keys())  # Use only normalized hero names from keys
+        print("\nAvailable Heroes (normalized):")
         for hero in heroes:
             print(f"- {hero}")
+        return
+
+    if args.heroes:
+        hero_list = [h.strip() for h in args.heroes.split(',')]
+        show_counters_for_heroes(counter_data, hero_list)
         return
 
     # Create and display the counter matrix
