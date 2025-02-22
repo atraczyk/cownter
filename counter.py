@@ -16,11 +16,20 @@ from bs4 import BeautifulSoup
 logging.basicConfig(level=logging.INFO)
 
 def normalize_hero_name(name):
-    """Normalize hero name by removing spaces and normalizing unicode characters."""
+    """
+    Normalize hero name by removing spaces, accents, and special characters.
+
+    Args:
+        name: Hero name string to normalize
+
+    Returns:
+        str: Normalized hero name in lowercase without special chars
+    """
     # Normalize unicode characters (removes accents)
     normalized = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('ASCII')
-    # Remove spaces and convert to lowercase for consistency
-    return normalized.replace(" ", "").lower()
+    # Remove special characters and spaces, convert to lowercase
+    normalized = ''.join(c.lower() for c in normalized if c.isalnum())
+    return normalized
 
 def parse_counter_table(table):
     """
@@ -65,11 +74,6 @@ def parse_counter_table(table):
             "dps_counters": dps_counters,
             "support_counters": support_counters
         }
-
-        # logging.info(f"Processed hero: {hero_name}")
-        # logging.info(f"\tTank counters: {tank_counters}")
-        # logging.info(f"\tDPS counters: {dps_counters}")
-        # logging.info(f"\tSupport counters: {support_counters}")
 
     if not counter_data:
         logging.error("No counter data was parsed from the table")

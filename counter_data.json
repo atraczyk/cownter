@@ -1,5 +1,5 @@
 {
-  "d.va": {
+  "dva": {
     "tank_counters": [
       "zarya",
       "winston"
@@ -37,7 +37,7 @@
       "sombra",
       "widowmaker",
       "hanzo",
-      "soldier:76"
+      "soldier76"
     ],
     "support_counters": [
       "ana",
@@ -50,7 +50,7 @@
     ],
     "dps_counters": [
       "widowmaker",
-      "soldier:76",
+      "soldier76",
       "hanzo"
     ],
     "support_counters": [
@@ -78,7 +78,7 @@
   "orisa": {
     "tank_counters": [
       "zarya",
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "mei",
@@ -239,7 +239,7 @@
     "dps_counters": [
       "ashe",
       "cassidy",
-      "soldier:76",
+      "soldier76",
       "widowmaker"
     ],
     "support_counters": []
@@ -260,7 +260,7 @@
   },
   "hanzo": {
     "tank_counters": [
-      "d.va",
+      "dva",
       "wreckingball"
     ],
     "dps_counters": [
@@ -278,7 +278,7 @@
     ],
     "dps_counters": [
       "cassidy",
-      "soldier:76"
+      "soldier76"
     ],
     "support_counters": [
       "lucio",
@@ -288,7 +288,7 @@
   },
   "mei": {
     "tank_counters": [
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "sombra",
@@ -301,12 +301,12 @@
   },
   "pharah": {
     "tank_counters": [
-      "d.va",
+      "dva",
       "roadhog",
       "mauga"
     ],
     "dps_counters": [
-      "soldier:76",
+      "soldier76",
       "cassidy",
       "ashe",
       "widowmaker"
@@ -342,7 +342,7 @@
       "lucio"
     ]
   },
-  "soldier:76": {
+  "soldier76": {
     "tank_counters": [
       "roadhog"
     ],
@@ -386,7 +386,7 @@
   },
   "torbjorn": {
     "tank_counters": [
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "junkrat",
@@ -411,7 +411,7 @@
   },
   "widowmaker": {
     "tank_counters": [
-      "d.va",
+      "dva",
       "winston"
     ],
     "dps_counters": [
@@ -428,11 +428,11 @@
       "reinhardt",
       "sigma",
       "zarya",
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "pharah",
-      "soldier:76",
+      "soldier76",
       "mei"
     ],
     "support_counters": [
@@ -456,7 +456,7 @@
   "baptiste": {
     "tank_counters": [
       "winston",
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "cassidy",
@@ -483,7 +483,7 @@
     "tank_counters": [
       "orisa",
       "zarya",
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "cassidy",
@@ -511,13 +511,13 @@
   },
   "juno": {
     "tank_counters": [
-      "d.va",
+      "dva",
       "winston",
       "reinhardt"
     ],
     "dps_counters": [
       "sombra",
-      "soldier:76",
+      "soldier76",
       "widowmaker"
     ],
     "support_counters": [
@@ -528,11 +528,11 @@
   "lifeweaver": {
     "tank_counters": [
       "roadhog",
-      "d.va"
+      "dva"
     ],
     "dps_counters": [
       "sombra",
-      "soldier:76"
+      "soldier76"
     ],
     "support_counters": [
       "lucio"
@@ -544,7 +544,7 @@
       "roadhog"
     ],
     "dps_counters": [
-      "soldier:76",
+      "soldier76",
       "cassidy",
       "symmetra",
       "torbjorn",
@@ -587,7 +587,7 @@
   },
   "zenyatta": {
     "tank_counters": [
-      "d.va",
+      "dva",
       "zarya"
     ],
     "dps_counters": [
