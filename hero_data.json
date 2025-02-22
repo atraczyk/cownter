@@ -1,0 +1,733 @@
+{
+  "dva": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "zarya",
+        "winston"
+      ],
+      "dps_counters": [
+        "symmetra",
+        "sojourn",
+        "bastion"
+      ],
+      "support_counters": [
+        "moira"
+      ]
+    }
+  },
+  "doomfist": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "orisa"
+      ],
+      "dps_counters": [
+        "sombra",
+        "tracer",
+        "bastion",
+        "genji"
+      ],
+      "support_counters": [
+        "ana",
+        "brigitte"
+      ]
+    }
+  },
+  "hazard": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "reinhardt",
+        "zarya"
+      ],
+      "dps_counters": [
+        "sombra",
+        "widowmaker",
+        "hanzo",
+        "soldier76"
+      ],
+      "support_counters": [
+        "ana",
+        "zenyatta"
+      ]
+    }
+  },
+  "junkerqueen": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "wreckingball"
+      ],
+      "dps_counters": [
+        "widowmaker",
+        "soldier76",
+        "hanzo"
+      ],
+      "support_counters": [
+        "ana",
+        "lucio",
+        "kiriko"
+      ]
+    }
+  },
+  "mauga": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "doomfist",
+        "wreckingball",
+        "mauga"
+      ],
+      "dps_counters": [
+        "sombra",
+        "reaper",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "zenyatta",
+        "kiriko"
+      ]
+    }
+  },
+  "orisa": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "zarya",
+        "dva"
+      ],
+      "dps_counters": [
+        "mei",
+        "echo"
+      ],
+      "support_counters": [
+        "moira"
+      ]
+    }
+  },
+  "ramattra": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "roadhog"
+      ],
+      "dps_counters": [
+        "reaper",
+        "tracer",
+        "pharah",
+        "genji",
+        "cassidy"
+      ],
+      "support_counters": [
+        "kiriko"
+      ]
+    }
+  },
+  "reinhardt": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "reinhardt"
+      ],
+      "dps_counters": [
+        "sombra",
+        "cassidy",
+        "mei",
+        "junkrat",
+        "pharah"
+      ],
+      "support_counters": [
+        "zenyatta"
+      ]
+    }
+  },
+  "roadhog": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "wreckingball",
+        "roadhog"
+      ],
+      "dps_counters": [
+        "reaper",
+        "echo",
+        "junkrat"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "sigma": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "ramattra",
+        "roadhog"
+      ],
+      "dps_counters": [
+        "genji",
+        "tracer",
+        "sombra"
+      ],
+      "support_counters": [
+        "lucio"
+      ]
+    }
+  },
+  "winston": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "zarya"
+      ],
+      "dps_counters": [
+        "junkrat",
+        "pharah",
+        "bastion"
+      ],
+      "support_counters": [
+        "ana",
+        "brigitte"
+      ]
+    }
+  },
+  "wreckingball": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "roadhog",
+        "doomfist"
+      ],
+      "dps_counters": [
+        "mei",
+        "sombra"
+      ],
+      "support_counters": [
+        "ana",
+        "brigitte"
+      ]
+    }
+  },
+  "zarya": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "zarya"
+      ],
+      "dps_counters": [
+        "hanzo",
+        "widowmaker",
+        "cassidy",
+        "tracer"
+      ],
+      "support_counters": [
+        "zenyatta"
+      ]
+    }
+  },
+  "ashe": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "zarya",
+        "reinhardt"
+      ],
+      "dps_counters": [
+        "genji",
+        "tracer",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "ana",
+        "kiriko"
+      ]
+    }
+  },
+  "bastion": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "zarya",
+        "orisa"
+      ],
+      "dps_counters": [
+        "junkrat",
+        "pharah",
+        "genji",
+        "tracer"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "cassidy": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "reinhardt",
+        "winston"
+      ],
+      "dps_counters": [
+        "genji",
+        "cassidy"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "echo": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "zarya"
+      ],
+      "dps_counters": [
+        "ashe",
+        "cassidy",
+        "soldier76",
+        "widowmaker"
+      ],
+      "support_counters": []
+    }
+  },
+  "genji": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "zarya"
+      ],
+      "dps_counters": [
+        "symmetra",
+        "mei"
+      ],
+      "support_counters": [
+        "moira",
+        "ana"
+      ]
+    }
+  },
+  "hanzo": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "dva",
+        "wreckingball"
+      ],
+      "dps_counters": [
+        "widowmaker",
+        "genji"
+      ],
+      "support_counters": [
+        "lucio"
+      ]
+    }
+  },
+  "junkrat": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "zarya",
+        "wreckingball"
+      ],
+      "dps_counters": [
+        "cassidy",
+        "soldier76"
+      ],
+      "support_counters": [
+        "lucio",
+        "brigitte",
+        "lifeweaver"
+      ]
+    }
+  },
+  "mei": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "dva"
+      ],
+      "dps_counters": [
+        "sombra",
+        "pharah",
+        "echo"
+      ],
+      "support_counters": [
+        "kiriko"
+      ]
+    }
+  },
+  "pharah": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "dva",
+        "roadhog",
+        "mauga"
+      ],
+      "dps_counters": [
+        "soldier76",
+        "cassidy",
+        "ashe",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "baptiste"
+      ]
+    }
+  },
+  "reaper": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "zarya"
+      ],
+      "dps_counters": [
+        "pharah",
+        "echo",
+        "junkrat",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "sojourn": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "mauga"
+      ],
+      "dps_counters": [
+        "genji",
+        "tracer"
+      ],
+      "support_counters": [
+        "lucio"
+      ]
+    }
+  },
+  "soldier76": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "roadhog"
+      ],
+      "dps_counters": [
+        "ashe",
+        "cassidy",
+        "genji",
+        "junkrat"
+      ],
+      "support_counters": [
+        "ana",
+        "lucio"
+      ]
+    }
+  },
+  "sombra": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "widowmaker"
+      ],
+      "dps_counters": [
+        "pharah",
+        "junkrat",
+        "hanzo",
+        "mei"
+      ],
+      "support_counters": [
+        "kiriko",
+        "ana"
+      ]
+    }
+  },
+  "symmetra": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "mauga"
+      ],
+      "dps_counters": [
+        "pharah",
+        "junkrat",
+        "echo"
+      ],
+      "support_counters": []
+    }
+  },
+  "torbjorn": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "dva"
+      ],
+      "dps_counters": [
+        "junkrat",
+        "ashe"
+      ],
+      "support_counters": []
+    }
+  },
+  "tracer": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "mauga"
+      ],
+      "dps_counters": [
+        "symmetra",
+        "torbjorn",
+        "mei"
+      ],
+      "support_counters": [
+        "brigitte",
+        "moira"
+      ]
+    }
+  },
+  "widowmaker": {
+    "role": "tank",
+    "counters": {
+      "tank_counters": [
+        "dva",
+        "winston"
+      ],
+      "dps_counters": [
+        "genji",
+        "tracer",
+        "sombra"
+      ],
+      "support_counters": [
+        "zenyatta"
+      ]
+    }
+  },
+  "venture": {
+    "role": "dps",
+    "counters": {
+      "tank_counters": [
+        "reinhardt",
+        "sigma",
+        "zarya",
+        "dva"
+      ],
+      "dps_counters": [
+        "pharah",
+        "soldier76",
+        "mei"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "ana": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "ramattra"
+      ],
+      "dps_counters": [
+        "echo",
+        "pharah",
+        "tracer"
+      ],
+      "support_counters": [
+        "kiriko"
+      ]
+    }
+  },
+  "baptiste": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "dva"
+      ],
+      "dps_counters": [
+        "cassidy",
+        "ashe",
+        "mei"
+      ],
+      "support_counters": [
+        "lucio"
+      ]
+    }
+  },
+  "brigitte": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "reinhardt",
+        "roadhog"
+      ],
+      "dps_counters": [
+        "pharah",
+        "echo",
+        "junkrat"
+      ],
+      "support_counters": []
+    }
+  },
+  "illari": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "orisa",
+        "zarya",
+        "dva"
+      ],
+      "dps_counters": [
+        "cassidy",
+        "ashe",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "baptiste",
+        "lifeweaver",
+        "lucio"
+      ]
+    }
+  },
+  "kiriko": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "roadhog",
+        "winston"
+      ],
+      "dps_counters": [
+        "tracer",
+        "sombra",
+        "genji",
+        "mei"
+      ],
+      "support_counters": []
+    }
+  },
+  "juno": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "dva",
+        "winston",
+        "reinhardt"
+      ],
+      "dps_counters": [
+        "sombra",
+        "soldier76",
+        "widowmaker"
+      ],
+      "support_counters": [
+        "lucio",
+        "ana"
+      ]
+    }
+  },
+  "lifeweaver": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "roadhog",
+        "dva"
+      ],
+      "dps_counters": [
+        "sombra",
+        "soldier76"
+      ],
+      "support_counters": [
+        "lucio"
+      ]
+    }
+  },
+  "lucio": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "roadhog"
+      ],
+      "dps_counters": [
+        "soldier76",
+        "cassidy",
+        "symmetra",
+        "torbjorn",
+        "mei"
+      ],
+      "support_counters": [
+        "moira"
+      ]
+    }
+  },
+  "mercy": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "winston",
+        "roadhog"
+      ],
+      "dps_counters": [
+        "echo",
+        "cassidy",
+        "widowmaker",
+        "genji",
+        "tracer"
+      ],
+      "support_counters": []
+    }
+  },
+  "moira": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "roadhog",
+        "zarya"
+      ],
+      "dps_counters": [
+        "echo",
+        "pharah",
+        "widowmaker",
+        "junkrat",
+        "mei",
+        "ashe"
+      ],
+      "support_counters": [
+        "ana"
+      ]
+    }
+  },
+  "zenyatta": {
+    "role": "support",
+    "counters": {
+      "tank_counters": [
+        "dva",
+        "zarya"
+      ],
+      "dps_counters": [
+        "junkrat",
+        "pharah",
+        "cassidy",
+        "widowmaker",
+        "ashe",
+        "hanzo",
+        "tracer"
+      ],
+      "support_counters": [
+        "kiriko",
+        "zenyatta"
+      ]
+    }
+  }
+}
