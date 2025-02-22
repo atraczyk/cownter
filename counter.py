@@ -6,6 +6,8 @@ Scrapes counter information from dotesports.com and creates a counter relationsh
 import logging
 import json
 import unicodedata
+import os
+import argparse
 
 import pandas as pd
 import requests
@@ -119,11 +121,24 @@ def get_table_from_response(response):
     figure = soup.find('figure', class_='wp-block-table')
     return figure.find('table')
 
-def fetch_counter_data():
+def fetch_counter_data(force_update=False):
     """
-    Fetch counter data directly from the dotesports website.
-    Returns a dictionary containing hero counter information.
+    Fetch counter data from cache or website.
+
+    Args:
+        force_update: If True, fetch fresh data from website instead of cache
+
+    Returns:
+        dict: Counter data dictionary
     """
+    cache_file = 'counter_data.json'
+
+    # Use cached data unless force update
+    if not force_update and os.path.exists(cache_file):
+        with open(cache_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    # Fetch fresh data
     url = "https://dotesports.com/overwatch/news/the-best-counters-for-each-overwatch-2-hero"
     try:
         response = requests.get(url, timeout=10)
@@ -131,6 +146,11 @@ def fetch_counter_data():
 
         table = get_table_from_response(response)
         counter_data = parse_counter_table(table)
+
+        # Cache the data
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump(counter_data, f, indent=2)
+
         return counter_data
 
     except requests.RequestException as e:
@@ -142,8 +162,11 @@ def fetch_counter_data():
 
 def main():
     """Main function to execute the counter data fetching and analysis."""
-    # Fetch counter data from website
-    counter_data = fetch_counter_data()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--update', action='store_true', help='Force update counter data from website')
+    args = parser.parse_args()
+
+    counter_data = fetch_counter_data(force_update=args.update)
 
     if not counter_data:
         logging.error("Failed to fetch counter data. Exiting.")
@@ -153,11 +176,6 @@ def main():
     counter_matrix = create_counter_matrix(counter_data)
     print("\nCounter Matrix:")
     print(counter_matrix)
-
-    # # Get list of all heroes
-    # all_heroes = get_all_heroes(counter_data)
-    # print(f"\nTotal number of heroes: {len(all_heroes)}")
-    # print("All heroes:", all_heroes)
 
 if __name__ == "__main__":
     main()
