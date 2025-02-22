@@ -168,12 +168,20 @@ def main():
     """Main function to execute the counter data fetching and analysis."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--update', action='store_true', help='Force update counter data from website')
+    parser.add_argument('--list-heroes', action='store_true', help='List all available heroes')
     args = parser.parse_args()
 
     counter_data = fetch_counter_data(force_update=args.update)
 
     if not counter_data:
         logging.error("Failed to fetch counter data. Exiting.")
+        return
+
+    if args.list_heroes:
+        heroes = get_all_heroes(counter_data)
+        print("\nAvailable Heroes:")
+        for hero in heroes:
+            print(f"- {hero}")
         return
 
     # Create and display the counter matrix
