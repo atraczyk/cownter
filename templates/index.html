@@ -89,7 +89,7 @@
             text-align: center;
             font-size: 24px;
             font-weight: bold;
-            margin: 5px 0;
+            margin: 0;
             color: #888;
         }
         /* Make dropdowns look nicer */
@@ -135,7 +135,7 @@
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
         }
 
@@ -214,14 +214,44 @@
             margin-left: auto;
         }
 
-        /* Update total score styles to be consistent */
+        /* Update total score styles to be more fancy */
         .total-score-display {
             font-size: 14px;
             color: #666;
-            margin: 15px 8px 5px 0;  /* top right bottom left */
+            margin: 10px 0 0 0;
             text-align: right;
-            padding: 8px;
+            padding: 8px 12px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-score-display::before {
+            content: 'Total Score:';
+            font-weight: normal;
+            color: #888;
+        }
+
+        .total-score-display::after {
+            content: attr(data-score);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Update team-specific total score colors */
+        .blue-team .total-score-display::after {
+            color: #0066cc;
+        }
+
+        .red-team .total-score-display::after {
+            color: #cc0000;
+        }
+
+        .suggestion-block .total-score-display::after {
+            color: #00cc66;
         }
 
         /* Remove old total-score class */
@@ -265,7 +295,7 @@
                 <div class="team blue-team">
                     <div class="team-header-container">
                         <div class="team-header">CURRENT PICKS</div>
-                        <button class="clear-teams" onclick="clearTeams()">Clear All</button>
+                        <button class="clear-teams" onclick="clearTeam('counter')">Clear</button>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-tank"></div>
@@ -317,7 +347,10 @@
             <!-- Enemy team block -->
             <div class="scoreboard">
                 <div class="team red-team">
-                    <div class="team-header">ENEMY TEAM</div>
+                    <div class="team-header-container">
+                        <div class="team-header">ENEMY TEAM</div>
+                        <button class="clear-teams" onclick="clearTeam('enemy')">Clear</button>
+                    </div>
                     <div class="player-row">
                         <div class="role-icon role-tank"></div>
                         <div class="hero-icon"></div>
@@ -539,7 +572,7 @@
             // Add total score at the bottom
             const score = document.createElement('div');
             score.className = 'total-score-display';
-            score.textContent = `Total Score: ${totalScore}`;
+            score.setAttribute('data-score', totalScore);
             content.appendChild(score);
 
             block.appendChild(content);
@@ -574,28 +607,38 @@
             };
         }
 
-        function clearTeams() {
-            if (!confirm('Clear all team selections?')) return;
+        function clearTeam(team) {
+            if (!confirm(`Clear ${team === 'enemy' ? 'enemy' : 'current'} team selections?`)) return;
 
-            // Clear local storage
-            localStorage.removeItem('ow2_teams');
-
-            // Clear all selections and icons
-            document.querySelectorAll('.hero-select').forEach(select => {
+            // Clear selections and icons for this team
+            document.querySelectorAll(`.hero-select[data-team="${team}"]`).forEach(select => {
                 select.value = '';
                 updateHeroIcon(select);
             });
 
-            // Clear suggestion block
-            const rightColumn = document.querySelector('.right-column');
-            rightColumn.innerHTML = '';
+            // Clear suggestion block if clearing enemy team
+            if (team === 'enemy') {
+                const rightColumn = document.querySelector('.right-column');
+                rightColumn.innerHTML = '';
+            }
 
-            // Clear server state
-            fetch('/api/clear_teams', {
+            // Clear server state for this team
+            fetch('/api/clear_team', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ team })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Save updated teams
+                saveTeams(data.teams);
+                // Update scores
+                updateTeamScores({
+                    current_scores: data.current_scores,
+                    enemy_scores: data.enemy_scores
+                });
             });
         }
 
@@ -698,7 +741,7 @@
                 // Update current team total score
                 const currentTotalDiv = document.querySelector('.team.blue-team .total-score-display');
                 if (currentTotalDiv) {
-                    currentTotalDiv.textContent = `Total Score: ${scores.current_scores.total_score}`;
+                    currentTotalDiv.setAttribute('data-score', scores.current_scores.total_score);
                 }
             }
 
@@ -724,7 +767,7 @@
                 // Update enemy team total score
                 const enemyTotalDiv = document.querySelector('.team.red-team .total-score-display');
                 if (enemyTotalDiv) {
-                    enemyTotalDiv.textContent = `Total Score: ${scores.enemy_scores.total_score}`;
+                    enemyTotalDiv.setAttribute('data-score', scores.enemy_scores.total_score);
                 }
             }
         }

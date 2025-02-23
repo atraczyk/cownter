@@ -128,12 +128,41 @@ def get_heroes_with_roles():
         for hero in counter_data.keys()
     })
 
-@app.route('/api/clear_teams', methods=['POST'])
-def clear_teams():
-    """Clear all team selections."""
-    teams['enemy'] = [None] * 5
-    teams['counter'] = [None] * 5
-    return jsonify({'teams': teams})
+@app.route('/api/clear_team', methods=['POST'])
+def clear_team():
+    """Clear specified team selections."""
+    data = request.json
+    team = data['team']
+    teams[team] = [None] * 5
+
+    # Calculate scores if applicable
+    current_scores = None
+    enemy_scores = None
+
+    enemy_heroes = [h for h in teams['enemy'] if h]
+    current_heroes = [h for h in teams['counter'] if h]
+
+    if enemy_heroes and current_heroes:
+        all_counters = suggest_counter_team(counter_data, enemy_heroes)
+        hero_scores = []
+        total_score = 0
+        for hero in current_heroes:
+            score = 0
+            for role_counters in all_counters.values():
+                if not isinstance(role_counters, list):
+                    continue
+                for counter_hero, counter_score in role_counters:
+                    if counter_hero == hero:
+                        score = counter_score
+                        break
+                hero_scores.append((hero, score))
+                total_score += score
+
+    return jsonify({
+        'teams': teams,
+        'current_scores': current_scores,
+        'enemy_scores': enemy_scores
+    })
 
 @app.route('/api/restore_teams', methods=['POST'])
 def restore_teams():
