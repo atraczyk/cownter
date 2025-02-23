@@ -26,3 +26,11 @@ python stats/stats-getter.py
 ```bash
 python counter.py
 ```
+
+## PyInstaller
+
+```bash
+pyinstaller --onefile --icon=ow2.ico --name="compinator" counter.py
+```
+
+
