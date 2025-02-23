@@ -33,6 +33,10 @@ def match_hero(hero):
     match = get_closest_match(hero, counter_data.keys())
     return jsonify({'match': match})
 
+def is_duplicate_hero(hero, team_heroes, current_slot):
+    """Check if hero is already selected in another slot."""
+    return hero in [h for i, h in enumerate(team_heroes) if i != current_slot and h is not None]
+
 @app.route('/api/update_team', methods=['POST'])
 def update_team():
     """Update team composition and get counter suggestions."""
@@ -41,11 +45,18 @@ def update_team():
     slot = int(data['slot'])
     hero = data['hero'] if data['hero'] else None
 
+    # Check for duplicate hero
+    if hero and is_duplicate_hero(hero, teams[team], slot):
+        return jsonify({
+            'error': 'This hero is already selected!',
+            'teams': teams
+        })
+
     teams[team][slot] = hero
 
     # If updating enemy team, calculate counter suggestions
     suggestions = None
-    if team == 'enemy' and any(teams['enemy']):
+    if team == 'enemy' and all(h is not None for h in teams['enemy']):
         enemy_heroes = [h for h in teams['enemy'] if h]
         if enemy_heroes:
             suggestions = suggest_counter_team(counter_data, enemy_heroes)
