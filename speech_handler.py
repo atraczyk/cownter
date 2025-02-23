@@ -74,8 +74,6 @@ class SpeechHandler:
         Starts with 'red team' and collects heroes one by one.
         Times out if no hero is recognized within 3 seconds.
 
-        example: "red team, orisa, soldier76, torbjorn, juno, mercy"
-
         Returns:
             List[str]: List of 5 hero names if successful, None otherwise
         """
@@ -87,22 +85,30 @@ class SpeechHandler:
 
         heroes = []
         hero_timeout = 3  # Seconds to wait for next hero
+        max_retries = 2   # Number of retries per hero
 
         print("Now listing heroes one by one...")
         while len(heroes) < 5:
-            text = self.listen(timeout=hero_timeout)
-            if not text:
-                if heroes:  # Only show timeout message if we've started collecting heroes
-                    print(f"\nTimeout after {len(heroes)} heroes. Please try again.")
+            retries = max_retries
+            while retries > 0:
+                text = self.listen(timeout=hero_timeout)
+                if text:
+                    # Add the first word as hero name
+                    hero = text.split()[0]
+                    heroes.append(hero)
+                    print(f"Hero {len(heroes)}: {hero}")
+
+                    if len(heroes) < 5:
+                        print(f"Say hero {len(heroes) + 1}...")
+                    break
+                else:
+                    retries -= 1
+                    if retries > 0:
+                        print(f"Didn't catch that. {retries} tries remaining for hero {len(heroes) + 1}...")
+
+            if not text:  # If we used all retries
+                print(f"\nToo many failed attempts. Got {len(heroes)} heroes: {', '.join(heroes)}")
                 return None
-
-            # Add the first word as hero name (ignore additional words)
-            hero = text.split()[0]
-            heroes.append(hero)
-            print(f"Hero {len(heroes)}: {hero}")
-
-            if len(heroes) < 5:
-                print(f"Say hero {len(heroes) + 1}...")
 
         print(f"\nRecognized team: {', '.join(heroes)}")
         return heroes

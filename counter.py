@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 def levenshtein(s1, s2):
     """Calculate the Levenshtein distance between two strings."""
     if len(s1) < len(s2):
-        return levenshtein(s2, s1)
+        return levenshtein(s2, s1)  # pylint: disable=arguments-out-of-order
     if not s2:
         return len(s1)
 
@@ -318,13 +318,6 @@ def validate_team_composition(hero_list, hero_data, open_queue=False):
 def suggest_counter_team(hero_data, enemy_team):
     """
     Suggest an optimal counter team composition based on role-lock rules.
-
-    Args:
-        hero_data: Hero data dictionary
-        enemy_team: List of normalized enemy hero names
-
-    Returns:
-        dict: Suggested counter picks for each role
     """
     # Count how many times each hero appears as a counter
     counter_scores = {}
@@ -350,25 +343,122 @@ def suggest_counter_team(hero_data, enemy_team):
 
     # Select top counters for each role
     suggestions = {
+        'total_score': sum(score for role, counters in role_counters.items() for _, score in counters),
         'tank': role_counters['tank'][:1],  # Top tank
         'dps': role_counters['dps'][:2],    # Top 2 DPS
         'support': role_counters['support'][:2]  # Top 2 supports
     }
 
-    # Print suggestions
-    print("\nSuggested counter picks:")
-    for role, counters in suggestions.items():
-        print(f"\n{role.upper()}:")
-        for hero, score in counters:
-            print(f"- {hero} (counters {score} enemies)")
+    # # Print detailed suggestions
+    # print("\nSuggested counter picks:")
+    # for role, counters in suggestions.items():
+    #     print(f"\n{role.upper()}:")
+    #     for hero, score in counters:
+    #         print(f"- {hero} (counters {score} enemies)")
+
+    # # Print total score
+    # total_score = sum(score for role, counters in suggestions.items() for _, score in counters)
+    # print(f"\nTotal score: {total_score}")
+
+    # # Print concise summary
+    # counters = []
+    # for role, heroes in suggestions.items():
+    #     for hero, _ in heroes:
+    #         counters.append(hero)
+    # print("\nSuggested team: " + ", ".join(counters))
 
     return suggestions
 
 def get_closest_match(hero, hero_list):
     """
     Get the closest match for a hero name from a list of heroes.
+    Uses a combination of prefix matching and phonetic similarity.
     """
-    return min(hero_list, key=lambda x: levenshtein(hero, x))
+    # Common nickname mappings
+    nicknames = {
+        'bast': 'bastion',
+        'cass': 'cassidy',
+        'doom': 'doomfist',
+        'rein': 'reinhardt',
+        'sym': 'symmetra',
+        'torb': 'torbjorn',
+        'widow': 'widowmaker',
+        'ball': 'wreckingball',
+        'zen': 'zenyatta',
+    }
+
+    # Common misspellings
+    phonetic_matches = {
+        'farrah': 'pharah',
+        'farah': 'pharah',
+        'mccree': 'cassidy',
+        'ramada': 'ramattra',
+        'soldier': 'soldier76',
+        'soldier 76': 'soldier76',
+    }
+
+    # Check for exact nickname or phonetic match
+    hero_lower = hero.lower()
+    if hero_lower in nicknames:
+        return nicknames[hero_lower]
+    if hero_lower in phonetic_matches:
+        return phonetic_matches[hero_lower]
+
+    def similarity_score(s1, s2):
+        """Calculate similarity score between two strings."""
+        s1, s2 = s1.lower(), s2.lower()
+
+        # Bonus for matching prefix
+        prefix_bonus = 0
+        for i in range(min(len(s1), len(s2))):
+            if s1[i] == s2[i]:
+                prefix_bonus += 1
+            else:
+                break
+
+        # Basic Levenshtein distance
+        lev_distance = levenshtein(s1, s2)
+
+        # Return combined score (lower is better)
+        return lev_distance - (prefix_bonus * 0.5)
+
+    # Find best match using similarity score
+    return min(hero_list, key=lambda x: similarity_score(hero, x))
+
+def print_counter_results(suggestions) -> str:
+    """
+    Print detailed counter suggestions and prepare speech summary.
+
+    Args:
+        suggestions: Dictionary containing counter suggestions
+
+    Returns:
+        str: Text to be spoken by speech handler
+    """
+    # Print total score
+    total_score = suggestions['total_score']
+    print(f"\nTotal score: {total_score}")
+
+    # Print detailed suggestions
+    print("Suggested counter picks:")
+    for role, counters in suggestions.items():
+        if role != 'total_score':  # Skip the score entry
+            print(f"\n{role.upper()}:")
+            for hero, score in counters:
+                print(f"- {hero} (counters {score} enemies)")
+
+    # Create team summary
+    counters = []
+    for role, heroes in suggestions.items():
+        if role != 'total_score':
+            for hero, _ in heroes:
+                counters.append(hero)
+    team_summary = ", ".join(counters)
+    print("\nSuggested team: " + team_summary)
+
+    # Prepare speech text
+    speech_text = f"Suggested counters: {team_summary}. Total effectiveness score: {total_score}"
+    return speech_text
 
 def main():
     """Main function to execute the counter data fetching and analysis."""
@@ -394,26 +484,40 @@ def main():
 
     if args.listen:
         handler = SpeechHandler()
-        print("Say 'red team' followed by 5 hero names...")
-        heroes = handler.listen_for_team()
+        while True:
+            print("\nSay 'red team' followed by 5 hero names...")
+            heroes = handler.listen_for_team()
 
-        # Find the closest match for each hero in the counter data
-        # This will have to be fuzzy matching because of speech recognition errors
-        for i, hero in enumerate(heroes):
-            closest_match = get_closest_match(hero, counter_data.keys())
-            heroes[i] = closest_match
+            if not heroes:
+                retry = input("\nWould you like to try again? (y/n): ")
+                if retry.lower() != 'y':
+                    return
+                continue
 
-        print("Using team: " + ", ".join(heroes))
+            # Find the closest match for each hero
+            for i, hero in enumerate(heroes):
+                closest_match = get_closest_match(hero, counter_data.keys())
+                heroes[i] = closest_match
 
-        if heroes:
-            if not validate_team_composition(heroes, counter_data, args.open):
+            print("Using team: " + ", ".join(heroes))
+
+            if validate_team_composition(heroes, counter_data, args.open):
+                normalized_heroes = [normalize_hero_name(h) for h in heroes]
+                suggestions = suggest_counter_team(counter_data, normalized_heroes)
+                speech_text = print_counter_results(suggestions)
+                handler.speak(speech_text)
                 return
-            normalized_heroes = [normalize_hero_name(h) for h in heroes]
-            suggest_counter_team(counter_data, normalized_heroes)
-        return
 
     if args.heroes:
         hero_list = [h.strip() for h in args.heroes.split(',')]
+
+        # Find the closest match for each hero in the counter data
+        for i, hero in enumerate(hero_list):
+            closest_match = get_closest_match(hero, counter_data.keys())
+            hero_list[i] = closest_match
+
+        print("Using team: " + ", ".join(hero_list))
+
         if not validate_team_composition(hero_list, counter_data, args.open):
             return
 
@@ -423,7 +527,8 @@ def main():
         # For full team, only show counter suggestions
         elif len(hero_list) == 5:
             normalized_heroes = [normalize_hero_name(h) for h in hero_list]
-            suggest_counter_team(counter_data, normalized_heroes)
+            suggestions = suggest_counter_team(counter_data, normalized_heroes)
+            print_counter_results(suggestions)
         return
 
     # Create and display the counter matrix
