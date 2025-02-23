@@ -39,6 +39,7 @@ def levenshtein(s1, s2):
 def normalize_hero_name(name):
     """
     Normalize hero name by removing spaces, accents, and special characters.
+    Preserves hyphens for heroes like soldier-76.
 
     Args:
         name: Hero name string to normalize
@@ -48,8 +49,15 @@ def normalize_hero_name(name):
     """
     # Normalize unicode characters (removes accents)
     normalized = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('ASCII')
-    # Remove special characters and spaces, convert to lowercase
-    normalized = ''.join(c.lower() for c in normalized if c.isalnum())
+    # Convert to lowercase
+    normalized = normalized.lower()
+    # Replace spaces with hyphens (for consistency with Blizzard's format)
+    normalized = normalized.replace(' ', '-')
+    # Remove special characters except hyphens
+    normalized = ''.join(c for c in normalized if c.isalnum() or c == '-')
+    # Remove any duplicate hyphens
+    while '--' in normalized:
+        normalized = normalized.replace('--', '-')
     return normalized
 
 def parse_counter_table(table):
@@ -558,11 +566,20 @@ def main():
     parser.add_argument('--heroes', help='Comma-separated list of 1 or 5 heroes to check counters for')
     parser.add_argument('--open', action='store_true', help='Allow non-role-lock team compositions')
     parser.add_argument('--listen', action='store_true', help='Listen for voice input of enemy team composition')
+    parser.add_argument('--serve', action='store_true', help='Start web interface')
+    parser.add_argument('--port', type=int, default=5000, help='Port for web interface')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode for web interface')
     args = parser.parse_args()
 
     counter_data = fetch_counter_data(force_update=args.update)
     if not counter_data:
         logging.error("Failed to fetch counter data. Exiting.")
+        return
+
+    if args.serve:
+        from server import start_server
+        print(f"Starting web interface on port {args.port}")
+        start_server(port=args.port, debug=args.debug)
         return
 
     if args.list_heroes:
@@ -620,8 +637,8 @@ def main():
     # Only show matrix if explicitly no other mode is active
     if not any([args.list_heroes, args.heroes, args.listen]):
         counter_matrix = create_counter_matrix(counter_data)
-        print("\nCounter Matrix:")
-        print(counter_matrix)
+    print("\nCounter Matrix:")
+    print(counter_matrix)
 
 if __name__ == "__main__":
     main()

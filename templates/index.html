@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OW2 Counter Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .scoreboard {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .team {
+            width: 100%;
+        }
+        .team-header {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .blue-team { color: #0066cc; }
+        .red-team { color: #cc0000; }
+
+        .player-row {
+            display: grid;
+            grid-template-columns: 40px 40px auto minmax(200px, 1fr);
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            margin: 4px 0;
+            align-items: center;
+            gap: 10px;
+        }
+        .player-icon {
+            display: none;
+        }
+        .role-icon {
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            background-position: center;
+        }
+        .role-tank { background-image: url('/resources/roles/tank.svg'); }
+        .role-dps { background-image: url('/resources/roles/dps.svg'); }
+        .role-support { background-image: url('/resources/roles/support.svg'); }
+        .hero-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .suggestion {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .score {
+            color: #666;
+            font-weight: bold;
+        }
+        .vs-divider {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #666;
+        }
+        /* Make dropdowns look nicer */
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="scoreboard">
+        <div class="team blue-team">
+            <div class="team-header">COUNTER PICKS</div>
+            <div class="player-row">
+                <div class="role-icon role-tank"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="counter" data-slot="0" data-role="tank">
+                    <option value="">Select Tank</option>
+                </select>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <span>Zarya</span>
+                        <span class="score">4</span>
+                    </div>
+                    <div class="suggestion">
+                        <span>D.Va</span>
+                        <span class="score">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-dps"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="counter" data-slot="1" data-role="dps">
+                    <option value="">Select DPS 1</option>
+                </select>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <span>McCree</span>
+                        <span class="score">3</span>
+                    </div>
+                    <div class="suggestion">
+                        <span>Soldier: 76</span>
+                        <span class="score">2</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-dps"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="counter" data-slot="2" data-role="dps">
+                    <option value="">Select DPS 2</option>
+                </select>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <span>Reaper</span>
+                        <span class="score">3</span>
+                    </div>
+                    <div class="suggestion">
+                        <span>Pharah</span>
+                        <span class="score">2</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-support"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="counter" data-slot="3" data-role="support">
+                    <option value="">Select Support 1</option>
+                </select>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <span>Mercy</span>
+                        <span class="score">4</span>
+                    </div>
+                    <div class="suggestion">
+                        <span>Ana</span>
+                        <span class="score">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-support"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="counter" data-slot="4" data-role="support">
+                    <option value="">Select Support 2</option>
+                </select>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <span>Zenyatta</span>
+                        <span class="score">4</span>
+                    </div>
+                    <div class="suggestion">
+                        <span>Lúcio</span>
+                        <span class="score">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vs-divider">VS</div>
+
+        <div class="team red-team">
+            <div class="team-header">ENEMY TEAM</div>
+            <div class="player-row">
+                <div class="role-icon role-tank"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="enemy" data-slot="0" data-role="tank">
+                    <option value="">Select Tank</option>
+                </select>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-dps"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="enemy" data-slot="1" data-role="dps">
+                    <option value="">Select DPS 1</option>
+                </select>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-dps"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="enemy" data-slot="2" data-role="dps">
+                    <option value="">Select DPS 2</option>
+                </select>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-support"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="enemy" data-slot="3" data-role="support">
+                    <option value="">Select Support 1</option>
+                </select>
+            </div>
+            <div class="player-row">
+                <div class="role-icon role-support"></div>
+                <div class="hero-icon"></div>
+                <select class="hero-select" data-team="enemy" data-slot="4" data-role="support">
+                    <option value="">Select Support 2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getHeroIcon(hero) {
+            if (!hero) return '';
+            return `/resources/icon-${hero.toLowerCase()}.png`;
+        }
+
+        function updateHeroIcon(select) {
+            const hero = select.value;
+            const row = select.closest('.player-row');
+            const iconDiv = row.querySelector('.hero-icon');
+            if (hero) {
+                iconDiv.style.backgroundImage = `url('${getHeroIcon(hero)}')`;
+            } else {
+                iconDiv.style.backgroundImage = 'none';
+            }
+        }
+
+        // Add this function to get a hero's role
+        function getHeroRole(hero, heroData) {
+            return heroData[hero]?.role || 'unknown';
+        }
+
+        // Update the dropdown population logic
+        fetch('/api/heroes_with_roles')  // New endpoint we'll create
+            .then(response => response.json())
+            .then(heroData => {
+                // Populate all dropdowns with role-filtered heroes
+                document.querySelectorAll('.hero-select').forEach(select => {
+                    const role = select.dataset.role;
+
+                    // Filter heroes by role
+                    const filteredHeroes = Object.entries(heroData)
+                        .filter(([_, data]) => data.role === role)
+                        .map(([hero, _]) => hero)
+                        .sort();
+
+                    // Add filtered heroes to dropdown
+                    filteredHeroes.forEach(hero => {
+                        const option = document.createElement('option');
+                        option.value = hero;
+                        option.textContent = hero;
+                        select.appendChild(option);
+                    });
+                });
+            });
+
+        // Handle hero selection
+        document.querySelectorAll('.hero-select').forEach(select => {
+            select.addEventListener('change', (e) => {
+                const team = e.target.dataset.team;
+                const slot = e.target.dataset.slot;
+                const role = e.target.dataset.role;
+                const hero = e.target.value;
+
+                // Update the hero icon
+                updateHeroIcon(e.target);
+
+                // Update server state
+                fetch('/api/update_team', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        team: team,
+                        slot: slot,
+                        role: role,
+                        hero: hero
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update suggestions if this was an enemy team selection
+                    if (team === 'enemy') {
+                        updateCounterSuggestions(data.suggestions);
+                    }
+                });
+            });
+        });
+
+        function updateCounterSuggestions(suggestions) {
+            if (!suggestions) return;
+
+            // Update each suggestion slot
+            Object.entries(suggestions).forEach(([role, heroes]) => {
+                if (role === 'total_score') return;
+
+                heroes.forEach((heroData, index) => {
+                    const [hero, score] = heroData;
+                    const suggestion = document.createElement('div');
+                    suggestion.className = 'suggestion';
+                    suggestion.innerHTML = `
+                        <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
+                        <span>${hero}</span>
+                        <span class="score">${score}</span>
+                    `;
+
+                    // Find the correct suggestion container and update it
+                    // Implementation depends on your HTML structure
+                });
+            });
+        }
+    </script>
+</body>
+</html>
