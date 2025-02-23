@@ -8,6 +8,7 @@ import json
 import unicodedata
 import os
 import argparse
+from typing import Optional, List
 
 import pandas as pd
 import requests
@@ -95,6 +96,10 @@ def parse_counter_table(table):
             "support_counters": support_counters
         }
 
+    # HACK:Manual overrides:
+    # sombra has widowmaker as a tank counter which is wrong, and it should be dva
+    counter_data['sombra']['tank_counters'] = ['dva']
+
     if not counter_data:
         logging.error("No counter data was parsed from the table")
     else:
@@ -148,13 +153,11 @@ def get_table_from_response(response):
 
 def infer_hero_roles(counter_data):
     """
-    Infer hero roles based on which counter categories they appear in.
-    A hero is classified as a role if they appear in that role's counters list for any hero.
+    Infer hero roles based on which counter categories they appear in most frequently.
+    A hero's role is determined by where they appear most often as a counter.
     Heroes that don't appear in any counter lists are marked as 'unknown'.
     """
-
-    # Due to missing counter data for some heroes, we need to supply some heroes with roles
-    # manually. The rest will be inferred from the counter data.
+    # Due to missing counter data for some heroes, we need to supply some heroes with roles manually
     manually_assigned_roles = {
         'hazard': 'tank',
         'illari': 'support',
@@ -179,19 +182,24 @@ def infer_hero_roles(counter_data):
             if counter in role_appearances:
                 role_appearances[counter]['support'] += 1
 
-    # Assign roles based on where heroes appear as counters
+    # Assign roles based on most frequent appearances
     for hero, counters in counter_data.items():
         appearances = role_appearances[hero]
-        if appearances['tank'] > 0:
-            role = 'tank'
-        elif appearances['support'] > 0:
-            role = 'support'
-        elif appearances['dps'] > 0:
-            role = 'dps'
-        else:
-            role = 'unknown'  # Hero doesn't appear in any counter lists
 
-        # HACK: manually assign roles for heroes that don't appear in the counter data
+        # Get role with most appearances
+        max_appearances = max(appearances.values())
+        if max_appearances > 0:
+            # Get all roles that have the max appearances
+            possible_roles = [role for role, count in appearances.items()
+                            if count == max_appearances]
+            # If multiple roles have same count, prefer tank > support > dps
+            role = 'tank' if 'tank' in possible_roles else \
+                   'support' if 'support' in possible_roles else \
+                   'dps' if 'dps' in possible_roles else 'unknown'
+        else:
+            role = 'unknown'
+
+        # Override with manually assigned roles
         if hero in manually_assigned_roles:
             role = manually_assigned_roles[hero]
 
@@ -349,24 +357,6 @@ def suggest_counter_team(hero_data, enemy_team):
         'support': role_counters['support'][:2]  # Top 2 supports
     }
 
-    # # Print detailed suggestions
-    # print("\nSuggested counter picks:")
-    # for role, counters in suggestions.items():
-    #     print(f"\n{role.upper()}:")
-    #     for hero, score in counters:
-    #         print(f"- {hero} (counters {score} enemies)")
-
-    # # Print total score
-    # total_score = sum(score for role, counters in suggestions.items() for _, score in counters)
-    # print(f"\nTotal score: {total_score}")
-
-    # # Print concise summary
-    # counters = []
-    # for role, heroes in suggestions.items():
-    #     for hero, _ in heroes:
-    #         counters.append(hero)
-    # print("\nSuggested team: " + ", ".join(counters))
-
     return suggestions
 
 def get_closest_match(hero, hero_list):
@@ -460,6 +450,32 @@ def print_counter_results(suggestions) -> str:
     speech_text = f"Suggested counters: {team_summary}. Total effectiveness score: {total_score}"
     return speech_text
 
+def get_team_by_voice(handler: SpeechHandler, counter_data: dict) -> Optional[List[str]]:
+    """
+    Get team composition using voice input.
+    """
+    while True:
+        heroes = handler.listen_for_list(
+            num_items=5,
+            prompt="List the red team members",
+            item_name="hero"
+        )
+
+        if not heroes:
+            handler.speak("Try again?")
+            retry = input("\nWould you like to try again? (y/n): ")
+            if retry.lower() != 'y':
+                return None
+            continue
+
+        # Find the closest match for each hero
+        for i, hero in enumerate(heroes):
+            closest_match = get_closest_match(hero, counter_data.keys())
+            heroes[i] = closest_match
+
+        print("Using team: " + ", ".join(heroes))
+        return heroes
+
 def main():
     """Main function to execute the counter data fetching and analysis."""
     parser = argparse.ArgumentParser()
@@ -485,21 +501,13 @@ def main():
     if args.listen:
         handler = SpeechHandler()
         while True:
-            print("\nSay 'red team' followed by 5 hero names...")
-            heroes = handler.listen_for_team()
+            heroes = get_team_by_voice(handler, counter_data)
 
             if not heroes:
                 retry = input("\nWould you like to try again? (y/n): ")
                 if retry.lower() != 'y':
                     return
                 continue
-
-            # Find the closest match for each hero
-            for i, hero in enumerate(heroes):
-                closest_match = get_closest_match(hero, counter_data.keys())
-                heroes[i] = closest_match
-
-            print("Using team: " + ", ".join(heroes))
 
             if validate_team_composition(heroes, counter_data, args.open):
                 normalized_heroes = [normalize_hero_name(h) for h in heroes]

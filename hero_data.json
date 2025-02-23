@@ -436,7 +436,7 @@
     "role": "dps",
     "counters": {
       "tank_counters": [
-        "widowmaker"
+        "dva"
       ],
       "dps_counters": [
         "pharah",
@@ -497,7 +497,7 @@
     }
   },
   "widowmaker": {
-    "role": "tank",
+    "role": "dps",
     "counters": {
       "tank_counters": [
         "dva",

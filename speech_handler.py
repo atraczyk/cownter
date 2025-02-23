@@ -68,57 +68,55 @@ class SpeechHandler:
             # Ignore unrecognized speech
             return None
 
-    def listen_for_team(self) -> Optional[List[str]]:
-        """
-        Listen for team composition incrementally.
-        Starts with 'red team' and collects heroes one by one.
-        Times out if no hero is recognized within 3 seconds.
-
-        Returns:
-            List[str]: List of 5 hero names if successful, None otherwise
-        """
-        # Wait for "red team" command
-        text = self.listen()
-        if not text or not text.startswith("red team"):
-            print("Please start by saying 'red team'")
-            return None
-
-        heroes = []
-        hero_timeout = 3  # Seconds to wait for next hero
-        max_retries = 2   # Number of retries per hero
-
-        print("Now listing heroes one by one...")
-        while len(heroes) < 5:
-            retries = max_retries
-            while retries > 0:
-                text = self.listen(timeout=hero_timeout)
-                if text:
-                    # Add the first word as hero name
-                    hero = text.split()[0]
-                    heroes.append(hero)
-                    print(f"Hero {len(heroes)}: {hero}")
-
-                    if len(heroes) < 5:
-                        print(f"Say hero {len(heroes) + 1}...")
-                    break
-                else:
-                    retries -= 1
-                    if retries > 0:
-                        print(f"Didn't catch that. {retries} tries remaining for hero {len(heroes) + 1}...")
-
-            if not text:  # If we used all retries
-                print(f"\nToo many failed attempts. Got {len(heroes)} heroes: {', '.join(heroes)}")
-                return None
-
-        print(f"\nRecognized team: {', '.join(heroes)}")
-        return heroes
-
     def process_speech(self):
         """Process one iteration of speech recognition and response."""
         recognized_text = self.listen()
         if recognized_text:
             print(f"-: {recognized_text}")
             self.speak(recognized_text)
+
+    def listen_for_list(self, num_items: int, prompt: str, item_name: str = "item") -> Optional[List[str]]:
+        """
+        Listen for a list of items one by one.
+
+        Args:
+            num_items: Number of items to collect
+            prompt: Initial prompt to speak
+            item_name: Name of items being collected for messages
+
+        Returns:
+            List[str]: List of recognized items if successful, None otherwise
+        """
+        self.speak(prompt)
+        items = []
+        hero_timeout = 3
+        max_retries = 2
+
+        print(f"Listening for {num_items} {item_name}s...")
+        while len(items) < num_items:
+            retries = max_retries
+            while retries > 0:
+                text = self.listen(timeout=hero_timeout)
+                if text:
+                    # Add the first word as item name
+                    item = text.split()[0]
+                    items.append(item)
+                    print(f"{item_name.title()} {len(items)}: {item}")
+
+                    if len(items) < num_items:
+                        print(f"Say {item_name} {len(items) + 1}...")
+                    break
+                else:
+                    retries -= 1
+                    if retries > 0:
+                        print(f"Didn't catch that. {retries} tries remaining for {item_name} {len(items) + 1}...")
+
+            if not text:  # If we used all retries
+                print(f"\nToo many failed attempts. Got {len(items)} {item_name}s: {', '.join(items)}")
+                return None
+
+        print(f"\nRecognized {item_name}s: {', '.join(items)}")
+        return items
 
 
 def main():
