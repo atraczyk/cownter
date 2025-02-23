@@ -44,7 +44,7 @@
         }
         .player-row {
             display: grid;
-            grid-template-columns: 40px 40px auto minmax(200px, 1fr);
+            grid-template-columns: 40px 40px 1fr 40px;  /* Change auto to 1fr for select, fixed width for score */
             padding: 12px;
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 4px;
@@ -94,10 +94,11 @@
         }
         /* Make dropdowns look nicer */
         select {
+            width: 100%;  /* Fill available space */
+            min-width: 0;  /* Allow shrinking */
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            width: 200px;
             background-color: white;
         }
         /* Add styles for the clear button */
@@ -205,7 +206,7 @@
             }
         }
 
-        /* Standardize score styles for both cards */
+        /* Update score display styles */
         .score-display {
             color: #666;
             font-size: 14px;
@@ -230,13 +231,29 @@
 
         /* Update the score colors */
         .current-score {
-            composes: score-display;
-            color: #0066cc;  /* Blue for current picks */
+            color: #0066cc;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            min-width: 40px;  /* Match grid column width */
         }
 
         .suggestion-block .score {
-            composes: score-display;
             color: #00cc66;  /* Green for suggestions */
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: auto;
+            min-width: 20px;  /* Ensure space for score */
+            text-align: right;
+        }
+
+        /* Add enemy score styles */
+        .enemy-score {
+            color: #cc0000;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            min-width: 40px;  /* Match grid column width */
         }
     </style>
 </head>
@@ -307,6 +324,7 @@
                         <select class="hero-select" data-team="enemy" data-slot="0" data-role="tank">
                             <option value="">Select Tank</option>
                         </select>
+                        <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-dps"></div>
@@ -314,6 +332,7 @@
                         <select class="hero-select" data-team="enemy" data-slot="1" data-role="dps">
                             <option value="">Select DPS 1</option>
                         </select>
+                        <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-dps"></div>
@@ -321,6 +340,7 @@
                         <select class="hero-select" data-team="enemy" data-slot="2" data-role="dps">
                             <option value="">Select DPS 2</option>
                         </select>
+                        <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -328,6 +348,7 @@
                         <select class="hero-select" data-team="enemy" data-slot="3" data-role="support">
                             <option value="">Select Support 1</option>
                         </select>
+                        <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -335,7 +356,9 @@
                         <select class="hero-select" data-team="enemy" data-slot="4" data-role="support">
                             <option value="">Select Support 2</option>
                         </select>
+                        <div class="enemy-score"></div>
                     </div>
+                    <div class="total-score-display"></div>
                 </div>
             </div>
         </div>
@@ -440,20 +463,35 @@
                 .then(data => {
                     if (data.error) {
                         alert(data.error);
-                        e.target.value = '';  // Reset selection
+                        e.target.value = '';
                         updateHeroIcon(e.target);
                         return;
                     }
                     // Save the updated teams
                     saveTeams(data.teams);
-                    updateTeamScores(data.current_scores);
+
+                    // Get current scores
+                    fetch('/api/current_scores')
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Current scores response:', data);  // Debug log
+                            console.log('Current scores:', data.current_scores);  // Debug log
+                            console.log('Enemy scores:', data.enemy_scores);  // Debug log
+                            updateTeamScores({
+                                current_scores: data.current_scores,
+                                enemy_scores: data.enemy_scores
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching scores:', error);
+                        });
 
                     // Update all dropdowns to reflect new selection
                     fetch('/api/heroes_with_roles')
                         .then(response => response.json())
                         .then(heroData => updateDropdowns(heroData));
 
-                    // Update suggestions if this was an enemy team selection
+                    // Update suggestions only if enemy team was changed
                     if (team === 'enemy') {
                         updateCounterSuggestions(data.suggestions);
                     }
@@ -600,7 +638,10 @@
                 .then(data => {
                     // Update current team scores immediately
                     if (data.current_scores) {
-                        updateTeamScores(data.current_scores);
+                        updateTeamScores({
+                            current_scores: data.current_scores,
+                            enemy_scores: data.enemy_scores
+                        });
                     }
 
                     // Check if enemy team is complete and request suggestions
@@ -627,24 +668,65 @@
         });
 
         function updateTeamScores(scores) {
-            if (!scores) {
-                document.querySelectorAll('.current-score').forEach(div => div.textContent = '');
-                document.querySelector('.total-score-display').textContent = '';
-                return;
+            console.log('updateTeamScores called with:', scores);
+
+            // Clear all scores
+            document.querySelectorAll('.current-score, .enemy-score').forEach(div => div.textContent = '');
+            document.querySelectorAll('.total-score-display').forEach(div => div.textContent = '');
+
+            if (!scores) return;
+
+            // Update current team scores
+            if (scores.current_scores) {
+                console.log('Updating current scores:', scores.current_scores);
+                scores.current_scores.heroes.forEach(([hero, score]) => {
+                    console.log(`Looking for current hero ${hero} with score ${score}`);
+                    // Get all selects and find the one with matching hero name (case-insensitive)
+                    const selects = document.querySelectorAll('.hero-select[data-team="counter"]');
+                    const select = Array.from(selects).find(s => s.value.toLowerCase() === hero.toLowerCase());
+                    console.log('Found current select:', select);
+                    if (select) {
+                        const row = select.closest('.player-row');
+                        const scoreDiv = row.querySelector('.current-score');
+                        console.log('Found current score div:', scoreDiv);
+                        if (scoreDiv) {
+                            scoreDiv.textContent = score;
+                        }
+                    }
+                });
+
+                // Update current team total score
+                const currentTotalDiv = document.querySelector('.team.blue-team .total-score-display');
+                if (currentTotalDiv) {
+                    currentTotalDiv.textContent = `Total Score: ${scores.current_scores.total_score}`;
+                }
             }
 
-            // Update individual hero scores
-            scores.heroes.forEach(([hero, score]) => {
-                const select = document.querySelector(`.hero-select[data-team="counter"][value="${hero}"]`);
-                if (select) {
-                    const row = select.closest('.player-row');
-                    const scoreDiv = row.querySelector('.current-score');
-                    scoreDiv.textContent = score;
-                }
-            });
+            // Update enemy team scores
+            if (scores.enemy_scores) {
+                console.log('Updating enemy scores:', scores.enemy_scores);
+                scores.enemy_scores.heroes.forEach(([hero, score]) => {
+                    console.log(`Looking for enemy hero ${hero} with score ${score}`);
+                    // Get all selects and find the one with matching hero name (case-insensitive)
+                    const selects = document.querySelectorAll('.hero-select[data-team="enemy"]');
+                    const select = Array.from(selects).find(s => s.value.toLowerCase() === hero.toLowerCase());
+                    console.log('Found enemy select:', select);
+                    if (select) {
+                        const row = select.closest('.player-row');
+                        const scoreDiv = row.querySelector('.enemy-score');
+                        console.log('Found enemy score div:', scoreDiv);
+                        if (scoreDiv) {
+                            scoreDiv.textContent = score;
+                        }
+                    }
+                });
 
-            // Update total score
-            document.querySelector('.total-score-display').textContent = `Total Score: ${scores.total_score}`;
+                // Update enemy team total score
+                const enemyTotalDiv = document.querySelector('.team.red-team .total-score-display');
+                if (enemyTotalDiv) {
+                    enemyTotalDiv.textContent = `Total Score: ${scores.enemy_scores.total_score}`;
+                }
+            }
         }
     </script>
 </body>

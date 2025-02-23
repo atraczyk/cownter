@@ -54,24 +54,22 @@ def update_team():
 
     teams[team][slot] = hero
 
-    # Calculate scores
+    # Calculate scores and suggestions
     current_scores = None
     suggestions = None
-    if any(teams['enemy']):  # If there are any enemy heroes
+
+    # Calculate current scores if there are any enemy heroes
+    if any(teams['enemy']):
         enemy_heroes = [h for h in teams['enemy'] if h]
-        # Calculate scores for current picks
         current_heroes = [h for h in teams['counter'] if h]
         if current_heroes:
-            # Get all counter suggestions
             all_counters = suggest_counter_team(counter_data, enemy_heroes)
-            # Calculate scores for current heroes
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
-                # Find this hero in the suggestions
                 score = 0
                 for role_counters in all_counters.values():
-                    if not isinstance(role_counters, list):  # Skip total_score
+                    if not isinstance(role_counters, list):
                         continue
                     for counter_hero, counter_score in role_counters:
                         if counter_hero == hero:
@@ -85,7 +83,7 @@ def update_team():
                 'heroes': hero_scores
             }
 
-        # Calculate counter suggestions if enemy team is complete
+        # Calculate suggestions only if enemy team is complete
         if team == 'enemy' and all(h is not None for h in teams['enemy']):
             suggestions = suggest_counter_team(counter_data, enemy_heroes)
 
@@ -121,7 +119,6 @@ def restore_teams():
 
     # Calculate current scores if applicable
     current_scores = None
-    suggestions = None
     if any(teams['enemy']):
         enemy_heroes = [h for h in teams['enemy'] if h]
         current_heroes = [h for h in teams['counter'] if h]
@@ -149,6 +146,65 @@ def restore_teams():
     return jsonify({
         'teams': teams,
         'current_scores': current_scores
+    })
+
+@app.route('/api/current_scores', methods=['GET'])
+def get_current_scores():
+    """Get counter scores for current team composition."""
+    current_scores = None
+    enemy_scores = None
+
+    if any(teams['enemy']):
+        enemy_heroes = [h for h in teams['enemy'] if h]
+
+        # Calculate current team scores
+        current_heroes = [h for h in teams['counter'] if h]
+        if current_heroes:
+            all_counters = suggest_counter_team(counter_data, enemy_heroes)
+            hero_scores = []
+            total_score = 0
+            for hero in current_heroes:
+                score = 0
+                for role_counters in all_counters.values():
+                    if not isinstance(role_counters, list):
+                        continue
+                    for counter_hero, counter_score in role_counters:
+                        if counter_hero == hero:
+                            score = counter_score
+                            break
+                hero_scores.append((hero, score))
+                total_score += score
+
+            current_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
+
+        # Calculate enemy team scores
+        if enemy_heroes:
+            all_counters = suggest_counter_team(counter_data, current_heroes if current_heroes else [])
+            hero_scores = []
+            total_score = 0
+            for hero in enemy_heroes:
+                score = 0
+                for role_counters in all_counters.values():
+                    if not isinstance(role_counters, list):
+                        continue
+                    for counter_hero, counter_score in role_counters:
+                        if counter_hero == hero:
+                            score = counter_score
+                            break
+                hero_scores.append((hero, score))
+                total_score += score
+
+            enemy_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
+
+    return jsonify({
+        'current_scores': current_scores,
+        'enemy_scores': enemy_scores
     })
 
 def start_server(port: int = 5000, debug: bool = False):
