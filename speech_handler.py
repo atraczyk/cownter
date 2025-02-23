@@ -1,8 +1,9 @@
 """Speech recognition module for converting speech to text and text to speech."""
 
+from typing import Optional, List
+
 import speech_recognition as sr
 import pyttsx3
-
 
 class SpeechHandler:
     """Handles speech recognition and text-to-speech conversion."""
@@ -11,6 +12,7 @@ class SpeechHandler:
         """Initialize speech recognition and text-to-speech engines."""
         self.recognizer = sr.Recognizer()
         self.ambient_duration = 0.2
+        self.timeout = 5  # Timeout for waiting for speech
 
         self.speech_engine = pyttsx3.init()
         # Initialize text-to-speech engine to use Zira voice
@@ -19,7 +21,6 @@ class SpeechHandler:
             if "Zira" in voice.name:
                 self.speech_engine.setProperty('voice', voice.id)
                 break
-
 
     def speak(self, text):
         """
@@ -31,9 +32,12 @@ class SpeechHandler:
         self.speech_engine.say(text)
         self.speech_engine.runAndWait()
 
-    def listen(self):
+    def listen(self, timeout: Optional[float] = None) -> Optional[str]:
         """
         Listen for and recognize speech input.
+
+        Args:
+            timeout: How long to wait for speech input
 
         Returns:
             str: Recognized text, or None if recognition failed
@@ -46,8 +50,9 @@ class SpeechHandler:
                     duration=self.ambient_duration
                 )
 
-                # Listen for user input
-                audio = self.recognizer.listen(mic)
+                print(f"Listening... (timeout: {timeout or self.timeout} seconds)")
+                # Listen for user input with timeout
+                audio = self.recognizer.listen(mic, timeout=timeout or self.timeout)
 
                 # Convert speech to text
                 recognized_text = self.recognizer.recognize_google(audio).lower()
@@ -56,10 +61,51 @@ class SpeechHandler:
         except sr.RequestError as error:
             print(f"Speech recognition request failed: {error}")
             return None
-
+        except sr.WaitTimeoutError:
+            print("No speech detected within timeout period")
+            return None
         except sr.UnknownValueError:
             # Ignore unrecognized speech
             return None
+
+    def listen_for_team(self) -> Optional[List[str]]:
+        """
+        Listen for team composition incrementally.
+        Starts with 'red team' and collects heroes one by one.
+        Times out if no hero is recognized within 3 seconds.
+
+        example: "red team, orisa, soldier76, torbjorn, juno, mercy"
+
+        Returns:
+            List[str]: List of 5 hero names if successful, None otherwise
+        """
+        # Wait for "red team" command
+        text = self.listen()
+        if not text or not text.startswith("red team"):
+            print("Please start by saying 'red team'")
+            return None
+
+        heroes = []
+        hero_timeout = 3  # Seconds to wait for next hero
+
+        print("Now listing heroes one by one...")
+        while len(heroes) < 5:
+            text = self.listen(timeout=hero_timeout)
+            if not text:
+                if heroes:  # Only show timeout message if we've started collecting heroes
+                    print(f"\nTimeout after {len(heroes)} heroes. Please try again.")
+                return None
+
+            # Add the first word as hero name (ignore additional words)
+            hero = text.split()[0]
+            heroes.append(hero)
+            print(f"Hero {len(heroes)}: {hero}")
+
+            if len(heroes) < 5:
+                print(f"Say hero {len(heroes) + 1}...")
+
+        print(f"\nRecognized team: {', '.join(heroes)}")
+        return heroes
 
     def process_speech(self):
         """Process one iteration of speech recognition and response."""

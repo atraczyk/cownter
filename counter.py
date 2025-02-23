@@ -12,8 +12,28 @@ import argparse
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from speech_handler import SpeechHandler
 
 logging.basicConfig(level=logging.INFO)
+
+def levenshtein(s1, s2):
+    """Calculate the Levenshtein distance between two strings."""
+    if len(s1) < len(s2):
+        return levenshtein(s2, s1)
+    if not s2:
+        return len(s1)
+
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1
+            deletions = current_row[j] + 1
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+
+    return previous_row[-1]
 
 def normalize_hero_name(name):
     """
@@ -325,8 +345,8 @@ def suggest_counter_team(hero_data, enemy_team):
                 role_counters[role].append((hero, score))
 
     # Sort counters by score within each role
-    for role in role_counters:
-        role_counters[role].sort(key=lambda x: x[1], reverse=True)
+    for role, counters in role_counters.items():
+        counters.sort(key=lambda x: x[1], reverse=True)
 
     # Select top counters for each role
     suggestions = {
@@ -344,6 +364,12 @@ def suggest_counter_team(hero_data, enemy_team):
 
     return suggestions
 
+def get_closest_match(hero, hero_list):
+    """
+    Get the closest match for a hero name from a list of heroes.
+    """
+    return min(hero_list, key=lambda x: levenshtein(hero, x))
+
 def main():
     """Main function to execute the counter data fetching and analysis."""
     parser = argparse.ArgumentParser()
@@ -351,6 +377,7 @@ def main():
     parser.add_argument('--list-heroes', action='store_true', help='List all available heroes')
     parser.add_argument('--heroes', help='Comma-separated list of 1 or 5 heroes to check counters for')
     parser.add_argument('--open', action='store_true', help='Allow non-role-lock team compositions')
+    parser.add_argument('--listen', action='store_true', help='Listen for voice input of enemy team composition')
     args = parser.parse_args()
 
     counter_data = fetch_counter_data(force_update=args.update)
@@ -363,6 +390,26 @@ def main():
         print("\nAvailable Heroes (normalized):")
         for hero in heroes:
             print("- " + hero)
+        return
+
+    if args.listen:
+        handler = SpeechHandler()
+        print("Say 'red team' followed by 5 hero names...")
+        heroes = handler.listen_for_team()
+
+        # Find the closest match for each hero in the counter data
+        # This will have to be fuzzy matching because of speech recognition errors
+        for i, hero in enumerate(heroes):
+            closest_match = get_closest_match(hero, counter_data.keys())
+            heroes[i] = closest_match
+
+        print("Using team: " + ", ".join(heroes))
+
+        if heroes:
+            if not validate_team_composition(heroes, counter_data, args.open):
+                return
+            normalized_heroes = [normalize_hero_name(h) for h in heroes]
+            suggest_counter_team(counter_data, normalized_heroes)
         return
 
     if args.heroes:
