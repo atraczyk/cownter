@@ -135,12 +135,6 @@ def infer_hero_roles(counter_data):
 
     # Due to missing counter data for some heroes, we need to supply some heroes with roles
     # manually. The rest will be inferred from the counter data.
-    # - hazard
-    # - illari
-    # - junkerqueen
-    # - juno
-    # - mercy
-    # - venture
     manually_assigned_roles = {
         'hazard': 'tank',
         'illari': 'support',
@@ -301,6 +295,55 @@ def validate_team_composition(hero_list, hero_data, open_queue=False):
 
     return True
 
+def suggest_counter_team(hero_data, enemy_team):
+    """
+    Suggest an optimal counter team composition based on role-lock rules.
+
+    Args:
+        hero_data: Hero data dictionary
+        enemy_team: List of normalized enemy hero names
+
+    Returns:
+        dict: Suggested counter picks for each role
+    """
+    # Count how many times each hero appears as a counter
+    counter_scores = {}
+    for enemy in enemy_team:
+        enemy_info = hero_data[enemy]
+        for counter_type in ['tank_counters', 'dps_counters', 'support_counters']:
+            for counter in enemy_info['counters'][counter_type]:
+                if counter not in counter_scores:
+                    counter_scores[counter] = 0
+                counter_scores[counter] += 1
+
+    # Group available counters by role
+    role_counters = {'tank': [], 'dps': [], 'support': []}
+    for hero, score in counter_scores.items():
+        if hero in hero_data:  # Only consider heroes we know about
+            role = hero_data[hero]['role']
+            if role in role_counters:
+                role_counters[role].append((hero, score))
+
+    # Sort counters by score within each role
+    for role in role_counters:
+        role_counters[role].sort(key=lambda x: x[1], reverse=True)
+
+    # Select top counters for each role
+    suggestions = {
+        'tank': role_counters['tank'][:1],  # Top tank
+        'dps': role_counters['dps'][:2],    # Top 2 DPS
+        'support': role_counters['support'][:2]  # Top 2 supports
+    }
+
+    # Print suggestions
+    print("\nSuggested counter picks:")
+    for role, counters in suggestions.items():
+        print(f"\n{role.upper()}:")
+        for hero, score in counters:
+            print(f"- {hero} (counters {score} enemies)")
+
+    return suggestions
+
 def main():
     """Main function to execute the counter data fetching and analysis."""
     parser = argparse.ArgumentParser()
@@ -326,7 +369,14 @@ def main():
         hero_list = [h.strip() for h in args.heroes.split(',')]
         if not validate_team_composition(hero_list, counter_data, args.open):
             return
-        show_counters_for_heroes(counter_data, hero_list)
+
+        # For single hero, show detailed counters
+        if len(hero_list) == 1:
+            show_counters_for_heroes(counter_data, hero_list)
+        # For full team, only show counter suggestions
+        elif len(hero_list) == 5:
+            normalized_heroes = [normalize_hero_name(h) for h in hero_list]
+            suggest_counter_team(counter_data, normalized_heroes)
         return
 
     # Create and display the counter matrix
