@@ -65,6 +65,21 @@ def get_heroes_with_roles():
         for hero in counter_data.keys()
     })
 
+@app.route('/api/clear_teams', methods=['POST'])
+def clear_teams():
+    """Clear all team selections."""
+    teams['enemy'] = [None] * 5
+    teams['counter'] = [None] * 5
+    return jsonify({'teams': teams})
+
+@app.route('/api/restore_teams', methods=['POST'])
+def restore_teams():
+    """Restore saved team state."""
+    saved_teams = request.json
+    teams['enemy'] = saved_teams['enemy']
+    teams['counter'] = saved_teams['counter']
+    return jsonify({'teams': teams})
+
 def start_server(port: int = 5000, debug: bool = False):
     """Start the Flask server."""
     app.run(port=port, debug=debug)
