@@ -908,9 +908,12 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Update current team scores immediately
-                    if (data.current_scores) {
-                        updateTeamScores(data.current_scores);
+                    // Update team scores immediately
+                    if (data.current_scores || data.enemy_scores) {
+                        updateTeamScores({
+                            current_scores: data.current_scores,
+                            enemy_scores: data.enemy_scores
+                        });
                     }
 
                     // Check if enemy team is complete and request suggestions
