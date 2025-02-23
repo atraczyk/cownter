@@ -478,48 +478,59 @@ def get_team_by_voice(handler: SpeechHandler, counter_data: dict) -> Optional[Li
     """
     Get team composition using voice input.
     """
-    def validate_hero(text: str) -> Optional[str]:
-        """Validate and normalize a hero name from voice input."""
+    def validate_hero(text: str) -> List[str]:
+        """
+        Validate and normalize hero names from voice input.
+        Returns list of valid hero names.
+        """
         if not text:
+            return []
+
+        # Split input into potential hero names
+        potential_heroes = text.split()
+        validated_heroes = []
+
+        for hero in potential_heroes:
+            # Find closest match
+            closest_match = get_closest_match(hero, counter_data.keys())
+            print(f"Heard '{hero}', matched to '{closest_match}'")
+            validated_heroes.append(closest_match)
+
+        return validated_heroes
+
+    heroes = []
+    while len(heroes) < 5:
+        result = handler.listen_for_item(
+            prompt="Next hero" if not heroes else None,
+            timeout=3,
+            retries=2
+        )
+
+        if not result:
+            if get_speech_confirmation(handler, "Would you like to try again?"):
+                heroes = []  # Reset and start over
+                continue
             return None
 
-        # Get first word as potential hero name
-        hero = text.split()[0]
-
-        # Find closest match
-        closest_match = get_closest_match(hero, counter_data.keys())
-        print(f"Heard '{hero}', matched to '{closest_match}'")
-
-        return closest_match
-
-    while True:
-        heroes = []
-        for i in range(5):
-            result = handler.listen_for_item(
-                prompt="Next hero" if i == 0 else None,
-                timeout=3,
-                retries=2
-            )
-
-            if not result:
-                if get_speech_confirmation(handler, "Would you like to try again?"):
-                    heroes = []  # Reset and start over
-                    break
-                return None
-
-            hero = validate_hero(result)
-            if hero:
-                heroes.append(hero)
-                print(f"Hero {len(heroes)}/5: {hero}")
+        # Get all valid heroes from this utterance
+        new_heroes = validate_hero(result)
+        if new_heroes:
+            # Add heroes until we have 5
+            for hero in new_heroes:
                 if len(heroes) < 5:
-                    print("Say next hero...")
-            else:
-                handler.play_sound(False)
-                continue
+                    heroes.append(hero)
+                    print(f"Hero {len(heroes)}/5: {hero}")
+                else:
+                    print(f"Ignoring extra hero: {hero}")
 
-        if len(heroes) == 5:
-            print("\nUsing team: " + ", ".join(heroes))
-            return heroes
+            if len(heroes) < 5:
+                print("Say next hero...")
+        else:
+            handler.play_sound(False)
+            continue
+
+    print("\nUsing team: " + ", ".join(heroes))
+    return heroes
 
 def main():
     """Main function to execute the counter data fetching and analysis."""
