@@ -285,6 +285,78 @@
             text-align: right;
             min-width: 40px;  /* Match grid column width */
         }
+
+        /* Hero selector widget styles */
+        .hero-selector {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            width: 200px;
+            max-height: 90vh;  /* Limit height */
+            overflow-y: auto;  /* Add scrolling if needed */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            transition: top 0.3s ease-out;
+            z-index: 100;
+            display: none;  /* Hidden by default on mobile */
+        }
+
+        .role-section {
+            margin-bottom: 15px;
+        }
+
+        .role-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .role-header .role-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .hero-icon-select {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background-size: cover;
+            background-position: center;
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .hero-icon-select:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-icon-select.dragging {
+            cursor: grabbing;
+            opacity: 0.8;
+        }
+
+        /* Show selector on desktop only */
+        @media (min-width: 1200px) {
+            .hero-selector {
+                display: block;
+            }
+
+            .main-container {
+                margin-left: 240px;  /* Make room for selector */
+            }
+        }
     </style>
 </head>
 <body>
@@ -398,6 +470,31 @@
 
         <div class="right-column">
             <!-- Future counter pick blocks will go here -->
+        </div>
+    </div>
+
+    <!-- Add this right after <body> -->
+    <div class="hero-selector">
+        <div class="role-section" data-role="tank">
+            <div class="role-header">
+                <div class="role-icon role-tank"></div>
+                <span>Tanks</span>
+            </div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="role-section" data-role="dps">
+            <div class="role-header">
+                <div class="role-icon role-dps"></div>
+                <span>Damage</span>
+            </div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="role-section" data-role="support">
+            <div class="role-header">
+                <div class="role-icon role-support"></div>
+                <span>Support</span>
+            </div>
+            <div class="hero-grid"></div>
         </div>
     </div>
 
@@ -650,6 +747,9 @@
             fetch('/api/heroes_with_roles')
                 .then(response => response.json())
                 .then(heroData => {
+                    // Populate hero selector grid
+                    populateHeroSelector(heroData);
+
                     // First populate dropdowns
                     updateDropdowns(heroData);
 
@@ -771,6 +871,87 @@
                 }
             }
         }
+
+        // Add this to the load handler after fetching heroes
+        function populateHeroSelector(heroData) {
+            Object.entries(heroData).forEach(([hero, data]) => {
+                const section = document.querySelector(`.role-section[data-role="${data.role}"] .hero-grid`);
+                if (section) {
+                    const heroIcon = document.createElement('div');
+                    heroIcon.className = 'hero-icon-select';
+                    heroIcon.style.backgroundImage = `url('${getHeroIcon(hero)}')`;
+                    heroIcon.setAttribute('data-hero', hero);
+                    heroIcon.draggable = true;
+                    section.appendChild(heroIcon);
+                }
+            });
+        }
+
+        // Add drag and drop handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const selector = document.querySelector('.hero-selector');
+
+            // Track mouse position relative to team blocks
+            document.addEventListener('mousemove', (e) => {
+                const blueTeam = document.querySelector('.blue-team');
+                const redTeam = document.querySelector('.red-team');
+                const selector = document.querySelector('.hero-selector');
+                const blueRect = blueTeam.getBoundingClientRect();
+                const redRect = redTeam.getBoundingClientRect();
+
+                // Wait for next frame to ensure selector height is calculated correctly
+                requestAnimationFrame(() => {
+                    const selectorHeight = selector.getBoundingClientRect().height;
+
+                    // Calculate vertical midpoint between the two teams
+                    const midPoint = (blueRect.bottom + redRect.top) / 2;
+
+                    if (e.clientY < midPoint) {
+                        // Align with top of blue team
+                        selector.style.top = `${blueRect.top}px`;
+                        console.log('blueRect.top:', blueRect.top);
+                    } else {
+                        // Align with bottom of red team, accounting for selector height
+                        selector.style.top = `${redRect.bottom - selectorHeight}px`;
+                        console.log('redRect.bottom:', redRect.bottom);
+                    }
+                });
+            });
+
+            // Add drag and drop functionality
+            document.querySelectorAll('.hero-icon-select').forEach(icon => {
+                icon.addEventListener('dragstart', (e) => {
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.dataset.hero);
+                });
+
+                icon.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+
+            document.querySelectorAll('.player-row').forEach(row => {
+                row.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    row.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                });
+
+                row.addEventListener('dragleave', (e) => {
+                    row.style.backgroundColor = '';
+                });
+
+                row.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    row.style.backgroundColor = '';
+                    const hero = e.dataTransfer.getData('text/plain');
+                    const select = row.querySelector('.hero-select');
+                    if (select) {
+                        select.value = hero;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
