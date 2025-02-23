@@ -463,7 +463,7 @@ def get_speech_confirmation(handler: SpeechHandler, prompt: str) -> bool:
     """
     handler.speak(prompt)
     for _ in range(2):  # Give 2 attempts to get clear yes/no
-        result = handler.listen_for_item(timeout=3)
+        result = handler.listen_for_item(timeout=3, play_sounds=False)  # Don't play sounds here
         if result:
             if 'yes' in result.lower() or 'yeah' in result.lower() or 'sure' in result.lower():
                 handler.play_sound(True)
@@ -479,40 +479,53 @@ def get_team_by_voice(handler: SpeechHandler, counter_data: dict) -> Optional[Li
     Get team composition using voice input.
     """
     def validate_hero(text: str) -> List[str]:
-        """
-        Validate and normalize hero names from voice input.
-        Returns list of valid hero names.
-        """
+        """Validate and normalize hero names from voice input."""
         if not text:
             return []
 
-        # Split input into potential hero names
         potential_heroes = text.split()
         validated_heroes = []
 
         for hero in potential_heroes:
-            # Find closest match
             closest_match = get_closest_match(hero, counter_data.keys())
             print(f"Heard '{hero}', matched to '{closest_match}'")
             validated_heroes.append(closest_match)
 
         return validated_heroes
 
+    def check_composition(heroes: List[str]) -> bool:
+        """Check if the team composition is valid and speak the result."""
+        if not validate_team_composition(heroes, counter_data, False):
+            roles = [get_hero_role(h, counter_data) for h in heroes]
+            composition = {
+                'tank': [h for h, r in zip(heroes, roles) if r == 'tank'],
+                'dps': [h for h, r in zip(heroes, roles) if r == 'dps'],
+                'support': [h for h, r in zip(heroes, roles) if r == 'support']
+            }
+
+            error_msg = (f"Error: invalid team composition. Got "
+                        f"{', '.join(composition['tank'])} tank, "
+                        f"{', '.join(composition['dps'])} dps, "
+                        f"{', '.join(composition['support'])} support")
+
+            handler.speak(error_msg)
+            return False
+        return True
+
     heroes = []
     while len(heroes) < 5:
         result = handler.listen_for_item(
-            prompt="Next hero" if not heroes else None,
+            prompt="List the enemy heroes" if not heroes else None,
             timeout=3,
             retries=2
         )
 
         if not result:
             if get_speech_confirmation(handler, "Would you like to try again?"):
-                heroes = []  # Reset and start over
+                heroes = []
                 continue
             return None
 
-        # Get all valid heroes from this utterance
         new_heroes = validate_hero(result)
         if new_heroes:
             # Add heroes until we have 5
@@ -523,7 +536,12 @@ def get_team_by_voice(handler: SpeechHandler, counter_data: dict) -> Optional[Li
                 else:
                     print(f"Ignoring extra hero: {hero}")
 
-            if len(heroes) < 5:
+            # Check composition if we have 5 heroes
+            if len(heroes) == 5:
+                if not check_composition(heroes):
+                    heroes = []  # Reset and start over
+                    continue
+            elif len(heroes) < 5:
                 print("Say next hero...")
         else:
             handler.play_sound(False)

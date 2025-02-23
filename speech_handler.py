@@ -134,7 +134,8 @@ class SpeechHandler:
         print(f"\nRecognized {item_name}s: {', '.join(items)}")
         return items
 
-    def listen_for_item(self, prompt: Optional[str] = None, timeout: float = 5, retries: int = 1) -> Optional[str]:
+    def listen_for_item(self, prompt: Optional[str] = None, timeout: float = 5,
+                       retries: int = 1, play_sounds: bool = True) -> Optional[str]:
         """
         Listen for a single item with retry support.
 
@@ -142,6 +143,7 @@ class SpeechHandler:
             prompt: Optional prompt to speak before listening
             timeout: Seconds to wait for speech
             retries: Number of retry attempts
+            play_sounds: Whether to play feedback sounds
 
         Returns:
             str: Recognized text if successful, None otherwise
@@ -152,12 +154,14 @@ class SpeechHandler:
         while retries > 0:
             text = self.listen(timeout=timeout)
             if text:
-                self.play_sound(True)
+                if play_sounds:
+                    self.play_sound(True)
                 return text
 
             retries -= 1
             if retries > 0:
-                self.play_sound(False)
+                if play_sounds:
+                    self.play_sound(False)
                 print(f"Didn't catch that. {retries} tries remaining...")
 
         return None
