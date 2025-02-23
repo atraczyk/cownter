@@ -22,6 +22,12 @@ class SpeechHandler:
                 self.speech_engine.setProperty('voice', voice.id)
                 break
 
+        # Store default speech rate
+        self.normal_rate = self.speech_engine.getProperty('rate')
+        self.feedback_rate = 300  # Faster rate for feedback sounds
+        self.success_sound = "okay"
+        self.failure_sound = "error"
+
     def speak(self, text):
         """
         Convert text to speech and speak it.
@@ -29,6 +35,7 @@ class SpeechHandler:
         Args:
             text: String to be spoken
         """
+        self.speech_engine.setProperty('rate', self.normal_rate)
         self.speech_engine.say(text)
         self.speech_engine.runAndWait()
 
@@ -75,6 +82,13 @@ class SpeechHandler:
             print(f"-: {recognized_text}")
             self.speak(recognized_text)
 
+    def play_sound(self, success: bool):
+        """Play a success or failure sound."""
+        self.speech_engine.setProperty('rate', self.feedback_rate)
+        self.speech_engine.say(self.success_sound if success else self.failure_sound)
+        self.speech_engine.runAndWait()
+        self.speech_engine.setProperty('rate', self.normal_rate)
+
     def listen_for_list(self, num_items: int, prompt: str, item_name: str = "item") -> Optional[List[str]]:
         """
         Listen for a list of items one by one.
@@ -102,12 +116,14 @@ class SpeechHandler:
                     item = text.split()[0]
                     items.append(item)
                     print(f"{item_name.title()} {len(items)}: {item}")
+                    self.play_sound(True)  # Success sound
 
                     if len(items) < num_items:
                         print(f"Say {item_name} {len(items) + 1}...")
                     break
                 else:
                     retries -= 1
+                    self.play_sound(False)  # Failure sound
                     if retries > 0:
                         print(f"Didn't catch that. {retries} tries remaining for {item_name} {len(items) + 1}...")
 
@@ -117,6 +133,34 @@ class SpeechHandler:
 
         print(f"\nRecognized {item_name}s: {', '.join(items)}")
         return items
+
+    def listen_for_item(self, prompt: Optional[str] = None, timeout: float = 5, retries: int = 1) -> Optional[str]:
+        """
+        Listen for a single item with retry support.
+
+        Args:
+            prompt: Optional prompt to speak before listening
+            timeout: Seconds to wait for speech
+            retries: Number of retry attempts
+
+        Returns:
+            str: Recognized text if successful, None otherwise
+        """
+        if prompt:
+            self.speak(prompt)
+
+        while retries > 0:
+            text = self.listen(timeout=timeout)
+            if text:
+                self.play_sound(True)
+                return text
+
+            retries -= 1
+            if retries > 0:
+                self.play_sound(False)
+                print(f"Didn't catch that. {retries} tries remaining...")
+
+        return None
 
 
 def main():

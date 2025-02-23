@@ -450,31 +450,76 @@ def print_counter_results(suggestions) -> str:
     speech_text = f"Suggested counters: {team_summary}. Total effectiveness score: {total_score}"
     return speech_text
 
+def get_speech_confirmation(handler: SpeechHandler, prompt: str) -> bool:
+    """
+    Get yes/no confirmation via speech.
+
+    Args:
+        handler: SpeechHandler instance
+        prompt: Question to ask
+
+    Returns:
+        bool: True for yes, False for no
+    """
+    handler.speak(prompt)
+    for _ in range(2):  # Give 2 attempts to get clear yes/no
+        result = handler.listen_for_item(timeout=3)
+        if result:
+            if 'yes' in result.lower() or 'yeah' in result.lower() or 'sure' in result.lower():
+                handler.play_sound(True)
+                return True
+            if 'no' in result.lower() or 'nope' in result.lower():
+                handler.play_sound(True)
+                return False
+        handler.play_sound(False)
+    return False  # Default to no if unclear
+
 def get_team_by_voice(handler: SpeechHandler, counter_data: dict) -> Optional[List[str]]:
     """
     Get team composition using voice input.
     """
+    def validate_hero(text: str) -> Optional[str]:
+        """Validate and normalize a hero name from voice input."""
+        if not text:
+            return None
+
+        # Get first word as potential hero name
+        hero = text.split()[0]
+
+        # Find closest match
+        closest_match = get_closest_match(hero, counter_data.keys())
+        print(f"Heard '{hero}', matched to '{closest_match}'")
+
+        return closest_match
+
     while True:
-        heroes = handler.listen_for_list(
-            num_items=5,
-            prompt="List the red team members",
-            item_name="hero"
-        )
+        heroes = []
+        for i in range(5):
+            result = handler.listen_for_item(
+                prompt="Next hero" if i == 0 else None,
+                timeout=3,
+                retries=2
+            )
 
-        if not heroes:
-            handler.speak("Try again?")
-            retry = input("\nWould you like to try again? (y/n): ")
-            if retry.lower() != 'y':
+            if not result:
+                if get_speech_confirmation(handler, "Would you like to try again?"):
+                    heroes = []  # Reset and start over
+                    break
                 return None
-            continue
 
-        # Find the closest match for each hero
-        for i, hero in enumerate(heroes):
-            closest_match = get_closest_match(hero, counter_data.keys())
-            heroes[i] = closest_match
+            hero = validate_hero(result)
+            if hero:
+                heroes.append(hero)
+                print(f"Hero {len(heroes)}/5: {hero}")
+                if len(heroes) < 5:
+                    print("Say next hero...")
+            else:
+                handler.play_sound(False)
+                continue
 
-        print("Using team: " + ", ".join(heroes))
-        return heroes
+        if len(heroes) == 5:
+            print("\nUsing team: " + ", ".join(heroes))
+            return heroes
 
 def main():
     """Main function to execute the counter data fetching and analysis."""
@@ -497,24 +542,6 @@ def main():
         for hero in heroes:
             print("- " + hero)
         return
-
-    if args.listen:
-        handler = SpeechHandler()
-        while True:
-            heroes = get_team_by_voice(handler, counter_data)
-
-            if not heroes:
-                retry = input("\nWould you like to try again? (y/n): ")
-                if retry.lower() != 'y':
-                    return
-                continue
-
-            if validate_team_composition(heroes, counter_data, args.open):
-                normalized_heroes = [normalize_hero_name(h) for h in heroes]
-                suggestions = suggest_counter_team(counter_data, normalized_heroes)
-                speech_text = print_counter_results(suggestions)
-                handler.speak(speech_text)
-                return
 
     if args.heroes:
         hero_list = [h.strip() for h in args.heroes.split(',')]
@@ -539,10 +566,33 @@ def main():
             print_counter_results(suggestions)
         return
 
-    # Create and display the counter matrix
-    counter_matrix = create_counter_matrix(counter_data)
-    print("\nCounter Matrix:")
-    print(counter_matrix)
+    # Default to listen mode if no other mode specified
+    if not (args.list_heroes or args.heroes) or args.listen:
+        handler = SpeechHandler()
+        while True:
+            heroes = get_team_by_voice(handler, counter_data)
+
+            if not heroes:
+                if not get_speech_confirmation(handler, "Would you like to try again?"):
+                    return
+                continue
+
+            if validate_team_composition(heroes, counter_data, args.open):
+                normalized_heroes = [normalize_hero_name(h) for h in heroes]
+                suggestions = suggest_counter_team(counter_data, normalized_heroes)
+                speech_text = print_counter_results(suggestions)
+                handler.speak(speech_text)
+
+                # Prompt for another team
+                if get_speech_confirmation(handler, "Would you like to check another team?"):
+                    continue
+                return
+
+    # Only show matrix if explicitly no other mode is active
+    if not any([args.list_heroes, args.heroes, args.listen]):
+        counter_matrix = create_counter_matrix(counter_data)
+        print("\nCounter Matrix:")
+        print(counter_matrix)
 
 if __name__ == "__main__":
     main()
