@@ -158,15 +158,38 @@
             background: linear-gradient(to bottom, #00cc6610, #00cc6620);
             border: 1px solid #00cc6630;
             border-radius: 8px;
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 15px;
-            max-width: 400px;  /* Match the width of team blocks */
+            max-width: 400px;
         }
 
+        /* Update suggestion block header styles */
+        .suggestion-block .team-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .suggestion-block .team-header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00cc66;
+        }
+
+        /* Update empty slot styles */
+        .suggestion-block .empty-slot {
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            height: 54px;
+            margin: 4px 0;
+        }
+
+        /* Update player row height to be consistent */
         .suggestion-block .player-row {
-            grid-template-columns: 30px 30px auto 40px;  /* More compact grid */
-            padding: 8px;  /* Reduce padding */
-            gap: 8px;  /* Reduce gap */
+            grid-template-columns: 30px 30px auto 40px;
+            height: 54px;  /* Match empty slot height */
+            box-sizing: border-box;  /* Include padding in height */
         }
 
         .suggestion-block .role-icon,
@@ -388,6 +411,34 @@
         .player-row.drop-hover * {
             cursor: copy;
         }
+
+        /* Style the select options with icons */
+        .select-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px;
+        }
+
+        .select-option .hero-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Style the select element */
+        select.hero-select {
+            padding: 4px;
+            font-family: inherit;
+        }
+
+        select.hero-select option {
+            padding: 8px;
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -568,7 +619,7 @@
 
                 // Get heroes that are already selected in this team for this role
                 const selectedHeroes = Array.from(document.querySelectorAll(`.hero-select[data-team="${team}"][data-role="${role}"]`))
-                    .filter(otherSelect => otherSelect.dataset.slot !== currentSlot)  // Exclude current slot
+                    .filter(otherSelect => otherSelect.dataset.slot !== currentSlot)
                     .map(select => select.value)
                     .filter(Boolean);
 
@@ -583,11 +634,14 @@
                     select.remove(1);
                 }
 
-                // Add filtered heroes to dropdown
+                // Add filtered heroes to dropdown with icons
                 filteredHeroes.forEach(hero => {
                     const option = document.createElement('option');
                     option.value = hero;
-                    option.textContent = hero;
+                    option.innerHTML = `<div class="select-option">
+                        <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
+                        <span>${hero}</span>
+                    </div>`;
                     select.appendChild(option);
                 });
 
@@ -667,16 +721,25 @@
             const content = document.createElement('div');
             content.className = 'suggestion-block';
 
-            // Add header
+            // Add header container
+            const headerContainer = document.createElement('div');
+            headerContainer.className = 'team-header-container';
+
             const header = document.createElement('div');
             header.className = 'team-header';
             header.textContent = 'SUGGESTED PICKS';
-            content.appendChild(header);
+
+            headerContainer.appendChild(header);
+            content.appendChild(headerContainer);
+
+            // Track how many slots we've filled for each role
+            const slotCounts = { tank: 0, dps: 0, support: 0 };
+            const maxSlots = { tank: 1, dps: 2, support: 2 };
 
             // Add player rows for each role
-            ['tank', 'dps', 'support'].forEach((role, index) => {
+            ['tank', 'dps', 'support'].forEach(role => {
                 if (suggestions[role]) {
-                    suggestions[role].forEach((heroData, subIndex) => {
+                    suggestions[role].forEach((heroData) => {
                         const [hero, heroScore] = heroData;
                         const row = document.createElement('div');
                         row.className = 'player-row';
@@ -687,17 +750,25 @@
                             <div class="score">${heroScore}</div>
                         `;
                         content.appendChild(row);
+                        slotCounts[role]++;
                     });
+                }
+
+                // Add empty slots to match team block layout
+                while (slotCounts[role] < maxSlots[role]) {
+                    const emptySlot = document.createElement('div');
+                    emptySlot.className = 'empty-slot';
+                    content.appendChild(emptySlot);
+                    slotCounts[role]++;
                 }
             });
 
-            // Calculate total score from all hero scores
+            // Add total score
             const totalScore = ['tank', 'dps', 'support'].reduce((total, role) => {
                 if (!suggestions[role]) return total;
                 return total + suggestions[role].reduce((roleTotal, [_, score]) => roleTotal + score, 0);
             }, 0);
 
-            // Add total score at the bottom
             const score = document.createElement('div');
             score.className = 'total-score-display';
             score.setAttribute('data-score', totalScore);
