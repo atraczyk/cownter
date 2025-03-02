@@ -835,15 +835,18 @@
             console.log('Received suggestions:', suggestions);  // Debug log
             if (!suggestions) return;
 
+            // Log all suggestion scores for comparison
+            Object.entries(suggestions).forEach(([role, heroes]) => {
+                if (Array.isArray(heroes)) {
+                    heroes.forEach(([hero, score, countered]) => {
+                        console.log(`Suggestion block - ${hero}: score=${score}, counters=${countered}`);
+                    });
+                }
+            });
+
             const rightColumn = document.querySelector('.right-column');
-
-            // Clear any existing suggestion blocks
             rightColumn.innerHTML = '';
-
-            // Create new suggestion block
             const suggestionBlock = createSuggestionBlock(suggestions);
-
-            // Add to the right column
             rightColumn.appendChild(suggestionBlock);
         }
 
@@ -1076,6 +1079,14 @@
 
         function updateTeamScores(scores) {
             console.log('updateTeamScores called with:', scores);
+
+            // Log all current team scores for comparison
+            if (scores.current_scores) {
+                console.log('Current team scores:');
+                scores.current_scores.heroes.forEach(([hero, score, countered]) => {
+                    console.log(`Current block - ${hero}: score=${score}, counters=${countered}`);
+                });
+            }
 
             // Only clear scores and countered heroes for teams that are being updated
             if (scores.current_scores) {

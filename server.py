@@ -90,20 +90,41 @@ def update_team():
         # For backward compatibility, also calculate the old scores
         current_heroes = [h for h in teams['counter'] if h]
 
-        # Calculate current team scores (old method)
+        # Calculate current team scores against enemy team
         if current_heroes:
-            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
+            # Calculate counter scores and track which enemies each hero counters
+            counter_scores = {}
+            countered_heroes = {}
+            for hero in current_heroes:
+                if hero not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'strong_against' not in hero_info:
+                    continue
+
+                score = 0
+                countered = []
+                for enemy in enemy_heroes:
+                    if enemy not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    enemy_role = counter_analyzer.data_provider.hero_data[enemy]['role']
+                    role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
+
+                    if role_category in hero_info['strong_against']:
+                        if enemy in hero_info['strong_against'][role_category]:
+                            score += 1
+                            countered.append(enemy)
+
+                counter_scores[hero] = score
+                countered_heroes[hero] = countered
+
+            # Calculate scores for current team heroes
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
-                score = 0
-                countered = []
-                for enemy_hero in enemy_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(enemy_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                score = counter_scores.get(hero, 0)
+                countered = sorted(countered_heroes.get(hero, []))
+                hero_scores.append((hero, score, countered))
                 total_score += score
 
             current_scores = {
@@ -111,7 +132,7 @@ def update_team():
                 'heroes': hero_scores
             }
 
-        # Calculate enemy team scores (old method)
+        # Calculate enemy team scores against current team
         if enemy_heroes:
             all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
             hero_scores = []
@@ -333,18 +354,39 @@ def get_current_scores():
         # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
         if current_heroes:
-            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
+            # Calculate counter scores and track which enemies each hero counters
+            counter_scores = {}
+            countered_heroes = {}
+            for hero in current_heroes:
+                if hero not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'strong_against' not in hero_info:
+                    continue
+
+                score = 0
+                countered = []
+                for enemy in enemy_heroes:
+                    if enemy not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    enemy_role = counter_analyzer.data_provider.hero_data[enemy]['role']
+                    role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
+
+                    if role_category in hero_info['strong_against']:
+                        if enemy in hero_info['strong_against'][role_category]:
+                            score += 1
+                            countered.append(enemy)
+
+                counter_scores[hero] = score
+                countered_heroes[hero] = countered
+
+            # Calculate scores for current team heroes
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
-                score = 0
-                countered = []
-                for enemy_hero in enemy_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(enemy_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                score = counter_scores.get(hero, 0)
+                countered = sorted(countered_heroes.get(hero, []))
+                hero_scores.append((hero, score, countered))
                 total_score += score
 
             current_scores = {

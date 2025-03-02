@@ -123,17 +123,29 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
     # Calculate counter scores and track which enemies each hero counters
     counter_scores = {}
     countered_heroes = {}
-    for enemy in enemy_team:
-        if enemy not in hero_data:
+
+    # For each potential counter hero
+    for hero in hero_data:
+        if 'strong_against' not in hero_data[hero]:
             continue
-        enemy_info = hero_data[enemy]
-        for role, heroes in enemy_info['strong_against'].items():
-            for counter in heroes:
-                if counter not in counter_scores:
-                    counter_scores[counter] = 0
-                    countered_heroes[counter] = []
-                counter_scores[counter] += 1
-                countered_heroes[counter].append(enemy)
+
+        score = 0
+        countered = []
+        # Check if this hero counters any enemy heroes
+        for enemy in enemy_team:
+            if enemy not in hero_data:
+                continue
+            enemy_role = hero_data[enemy]['role']
+            role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
+
+            if role_category in hero_data[hero]['strong_against']:
+                if enemy in hero_data[hero]['strong_against'][role_category]:
+                    score += 1
+                    countered.append(enemy)
+
+        if score > 0:
+            counter_scores[hero] = score
+            countered_heroes[hero] = countered
 
     # Group heroes by role
     role_heroes = {'tank': [], 'damage': [], 'support': []}
