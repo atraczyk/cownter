@@ -63,7 +63,7 @@
             background-position: center;
         }
         .role-tank { background-image: url('/resources/roles/tank.svg'); }
-        .role-dps { background-image: url('/resources/roles/dps.svg'); }
+        .role-damage { background-image: url('/resources/roles/damage.svg'); }
         .role-support { background-image: url('/resources/roles/support.svg'); }
         .hero-icon {
             width: 30px;
@@ -460,18 +460,18 @@
                         <div class="current-score"></div>
                     </div>
                     <div class="player-row">
-                        <div class="role-icon role-dps"></div>
+                        <div class="role-icon role-damage"></div>
                         <div class="hero-icon"></div>
-                        <select class="hero-select" data-team="counter" data-slot="1" data-role="dps">
-                            <option value="">Select DPS 1</option>
+                        <select class="hero-select" data-team="counter" data-slot="1" data-role="damage">
+                            <option value="">Select Damage 1</option>
                         </select>
                         <div class="current-score"></div>
                     </div>
                     <div class="player-row">
-                        <div class="role-icon role-dps"></div>
+                        <div class="role-icon role-damage"></div>
                         <div class="hero-icon"></div>
-                        <select class="hero-select" data-team="counter" data-slot="2" data-role="dps">
-                            <option value="">Select DPS 2</option>
+                        <select class="hero-select" data-team="counter" data-slot="2" data-role="damage">
+                            <option value="">Select Damage 2</option>
                         </select>
                         <div class="current-score"></div>
                     </div>
@@ -514,18 +514,18 @@
                         <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
-                        <div class="role-icon role-dps"></div>
+                        <div class="role-icon role-damage"></div>
                         <div class="hero-icon"></div>
-                        <select class="hero-select" data-team="enemy" data-slot="1" data-role="dps">
-                            <option value="">Select DPS 1</option>
+                        <select class="hero-select" data-team="enemy" data-slot="1" data-role="damage">
+                            <option value="">Select Damage 1</option>
                         </select>
                         <div class="enemy-score"></div>
                     </div>
                     <div class="player-row">
-                        <div class="role-icon role-dps"></div>
+                        <div class="role-icon role-damage"></div>
                         <div class="hero-icon"></div>
-                        <select class="hero-select" data-team="enemy" data-slot="2" data-role="dps">
-                            <option value="">Select DPS 2</option>
+                        <select class="hero-select" data-team="enemy" data-slot="2" data-role="damage">
+                            <option value="">Select Damage 2</option>
                         </select>
                         <div class="enemy-score"></div>
                     </div>
@@ -564,9 +564,9 @@
             </div>
             <div class="hero-grid"></div>
         </div>
-        <div class="role-section" data-role="dps">
+        <div class="role-section" data-role="damage">
             <div class="role-header">
-                <div class="role-icon role-dps"></div>
+                <div class="role-icon role-damage"></div>
                 <span>Damage</span>
             </div>
             <div class="hero-grid"></div>
@@ -733,11 +733,11 @@
             content.appendChild(headerContainer);
 
             // Track how many slots we've filled for each role
-            const slotCounts = { tank: 0, dps: 0, support: 0 };
-            const maxSlots = { tank: 1, dps: 2, support: 2 };
+            const slotCounts = { tank: 0, damage: 0, support: 0 };
+            const maxSlots = { tank: 1, damage: 2, support: 2 };
 
             // Add player rows for each role
-            ['tank', 'dps', 'support'].forEach(role => {
+            ['tank', 'damage', 'support'].forEach(role => {
                 if (suggestions[role]) {
                     suggestions[role].forEach((heroData) => {
                         const [hero, heroScore] = heroData;
@@ -764,7 +764,7 @@
             });
 
             // Add total score
-            const totalScore = ['tank', 'dps', 'support'].reduce((total, role) => {
+            const totalScore = ['tank', 'damage', 'support'].reduce((total, role) => {
                 if (!suggestions[role]) return total;
                 return total + suggestions[role].reduce((roleTotal, [_, score]) => roleTotal + score, 0);
             }, 0);

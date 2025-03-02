@@ -1,10 +1,17 @@
 """Web server for Overwatch 2 counter picker."""
 
 from flask import Flask, render_template, jsonify, request, send_from_directory
-from counter import fetch_counter_data, get_closest_match, suggest_counter_team
+from counter_analyzer import HeroDataProvider, TeamValidator, CounterAnalyzer
 
 app = Flask(__name__)
-counter_data = fetch_counter_data()
+
+# Initialize our classes
+data_provider = HeroDataProvider()
+team_validator = TeamValidator(data_provider)
+counter_analyzer = CounterAnalyzer(data_provider)
+
+# Ensure data is loaded
+data_provider.load_data()
 
 # Team state storage
 teams = {
@@ -25,12 +32,12 @@ def index():
 @app.route('/api/heroes')
 def get_heroes():
     """Get list of all heroes."""
-    return jsonify(list(counter_data.keys()))
+    return jsonify(data_provider.get_hero_list())
 
 @app.route('/api/match/<hero>')
 def match_hero(hero):
     """Find closest match for hero name."""
-    match = get_closest_match(hero, counter_data.keys())
+    match = team_validator.match_hero_names([hero])[0]
     return jsonify({'match': match})
 
 def is_duplicate_hero(hero, team_heroes, current_slot):
@@ -65,7 +72,7 @@ def update_team():
 
         # Calculate current team scores
         if current_heroes:
-            all_counters = suggest_counter_team(counter_data, enemy_heroes)
+            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
@@ -87,7 +94,7 @@ def update_team():
 
         # Calculate enemy team scores
         if enemy_heroes:
-            all_counters = suggest_counter_team(counter_data, current_heroes if current_heroes else [])
+            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
             hero_scores = []
             total_score = 0
             for hero in enemy_heroes:
@@ -109,7 +116,7 @@ def update_team():
 
         # Calculate suggestions if enemy team is complete
         if team == 'enemy' and all(h is not None for h in teams['enemy']):
-            suggestions = suggest_counter_team(counter_data, enemy_heroes)
+            suggestions = counter_analyzer.suggest_counters(enemy_heroes)
 
     return jsonify({
         'teams': teams,
@@ -121,11 +128,12 @@ def update_team():
 @app.route('/api/heroes_with_roles')
 def get_heroes_with_roles():
     """Get list of all heroes with their roles."""
+    hero_data = data_provider.hero_data
     return jsonify({
         hero: {
-            'role': counter_data[hero]['role']
+            'role': hero_data[hero]['role']
         }
-        for hero in counter_data.keys()
+        for hero in hero_data.keys()
     })
 
 @app.route('/api/clear_team', methods=['POST'])
@@ -143,7 +151,7 @@ def clear_team():
     current_heroes = [h for h in teams['counter'] if h]
 
     if enemy_heroes and current_heroes:
-        all_counters = suggest_counter_team(counter_data, enemy_heroes)
+        all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
         total_score = 0
         for hero in current_heroes:
@@ -155,8 +163,13 @@ def clear_team():
                     if counter_hero == hero:
                         score = counter_score
                         break
-                hero_scores.append((hero, score))
-                total_score += score
+            hero_scores.append((hero, score))
+            total_score += score
+
+        current_scores = {
+            'total_score': total_score,
+            'heroes': hero_scores
+        }
 
     return jsonify({
         'teams': teams,
@@ -180,7 +193,7 @@ def restore_teams():
 
     if enemy_heroes and current_heroes:  # Need both teams to calculate scores
         # Calculate current team scores against enemy team
-        all_counters = suggest_counter_team(counter_data, enemy_heroes)
+        all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
         total_score = 0
         for hero in current_heroes:
@@ -201,7 +214,7 @@ def restore_teams():
         }
 
         # Calculate enemy team scores against current team
-        all_counters = suggest_counter_team(counter_data, current_heroes)
+        all_counters = counter_analyzer.suggest_counters(current_heroes)
         hero_scores = []
         total_score = 0
         for hero in enemy_heroes:
@@ -238,7 +251,7 @@ def get_current_scores():
 
     if enemy_heroes and current_heroes:  # Need both teams to calculate scores
         # Calculate current team scores against enemy team
-        all_counters = suggest_counter_team(counter_data, enemy_heroes)
+        all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
         total_score = 0
         for hero in current_heroes:
@@ -259,7 +272,7 @@ def get_current_scores():
         }
 
         # Calculate enemy team scores against current team
-        all_counters = suggest_counter_team(counter_data, current_heroes)
+        all_counters = counter_analyzer.suggest_counters(current_heroes)
         hero_scores = []
         total_score = 0
         for hero in enemy_heroes:
@@ -284,6 +297,6 @@ def get_current_scores():
         'enemy_scores': enemy_scores
     })
 
-def start_server(port: int = 5000, debug: bool = False):
+def start(port: int = 5000, debug: bool = False):
     """Start the Flask server."""
     app.run(port=port, debug=debug)

@@ -22,3 +22,6 @@ Thumbs.db
 *.spec
 build/
 dist/
+
+# internet images and whatnot
+community-data/
