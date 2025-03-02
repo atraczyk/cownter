@@ -65,12 +65,32 @@ def update_team():
     current_scores = None
     enemy_scores = None
     suggestions = None
+    team_stats = None
+    enemy_stats = None
 
     if any(teams['enemy']):
         enemy_heroes = [h for h in teams['enemy'] if h]
+
+        # Convert counter team to dictionary format for compute_team_stats
+        current_team = {}
+        for i, hero in enumerate(teams['counter']):
+            if hero:
+                if i == 0:
+                    slot_name = "tank_1"
+                elif i == 1 or i == 2:
+                    slot_name = f"damage_{i}"
+                else:
+                    slot_name = f"support_{i-2}"
+                current_team[slot_name] = hero
+
+        # Calculate team stats using new methods
+        team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
+        enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+
+        # For backward compatibility, also calculate the old scores
         current_heroes = [h for h in teams['counter'] if h]
 
-        # Calculate current team scores
+        # Calculate current team scores (old method)
         if current_heroes:
             all_counters = counter_analyzer.suggest_counters(enemy_heroes)
             hero_scores = []
@@ -92,7 +112,7 @@ def update_team():
                 'heroes': hero_scores
             }
 
-        # Calculate enemy team scores
+        # Calculate enemy team scores (old method)
         if enemy_heroes:
             all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
             hero_scores = []
@@ -122,7 +142,9 @@ def update_team():
         'teams': teams,
         'suggestions': suggestions,
         'current_scores': current_scores,
-        'enemy_scores': enemy_scores
+        'enemy_scores': enemy_scores,
+        'team_stats': team_stats,
+        'enemy_stats': enemy_stats
     })
 
 @app.route('/api/heroes_with_roles')
@@ -146,11 +168,30 @@ def clear_team():
     # Calculate scores if applicable
     current_scores = None
     enemy_scores = None
+    team_stats = None
+    enemy_stats = None
 
     enemy_heroes = [h for h in teams['enemy'] if h]
     current_heroes = [h for h in teams['counter'] if h]
 
     if enemy_heroes and current_heroes:
+        # Convert counter team to dictionary format for compute_team_stats
+        current_team = {}
+        for i, hero in enumerate(teams['counter']):
+            if hero:
+                if i == 0:
+                    slot_name = "tank_1"
+                elif i == 1 or i == 2:
+                    slot_name = f"damage_{i}"
+                else:
+                    slot_name = f"support_{i-2}"
+                current_team[slot_name] = hero
+
+        # Calculate team stats using new methods
+        team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
+        enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+
+        # For backward compatibility, also calculate the old scores
         all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
         total_score = 0
@@ -174,7 +215,9 @@ def clear_team():
     return jsonify({
         'teams': teams,
         'current_scores': current_scores,
-        'enemy_scores': enemy_scores
+        'enemy_scores': enemy_scores,
+        'team_stats': team_stats,
+        'enemy_stats': enemy_stats
     })
 
 @app.route('/api/restore_teams', methods=['POST'])
@@ -187,11 +230,30 @@ def restore_teams():
     # Calculate scores if applicable
     current_scores = None
     enemy_scores = None
+    team_stats = None
+    enemy_stats = None
 
     enemy_heroes = [h for h in teams['enemy'] if h]
     current_heroes = [h for h in teams['counter'] if h]
 
     if enemy_heroes and current_heroes:  # Need both teams to calculate scores
+        # Convert counter team to dictionary format for compute_team_stats
+        current_team = {}
+        for i, hero in enumerate(teams['counter']):
+            if hero:
+                if i == 0:
+                    slot_name = "tank_1"
+                elif i == 1 or i == 2:
+                    slot_name = f"damage_{i}"
+                else:
+                    slot_name = f"support_{i-2}"
+                current_team[slot_name] = hero
+
+        # Calculate team stats using new methods
+        team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
+        enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+
+        # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
         all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
@@ -237,7 +299,9 @@ def restore_teams():
     return jsonify({
         'teams': teams,
         'current_scores': current_scores,
-        'enemy_scores': enemy_scores
+        'enemy_scores': enemy_scores,
+        'team_stats': team_stats,
+        'enemy_stats': enemy_stats
     })
 
 @app.route('/api/current_scores', methods=['GET'])
@@ -245,11 +309,30 @@ def get_current_scores():
     """Get counter scores for current team composition."""
     current_scores = None
     enemy_scores = None
+    team_stats = None
+    enemy_stats = None
 
     enemy_heroes = [h for h in teams['enemy'] if h]
     current_heroes = [h for h in teams['counter'] if h]
 
     if enemy_heroes and current_heroes:  # Need both teams to calculate scores
+        # Convert counter team to dictionary format for compute_team_stats
+        current_team = {}
+        for i, hero in enumerate(teams['counter']):
+            if hero:
+                if i == 0:
+                    slot_name = "tank_1"
+                elif i == 1 or i == 2:
+                    slot_name = f"damage_{i}"
+                else:
+                    slot_name = f"support_{i-2}"
+                current_team[slot_name] = hero
+
+        # Calculate team stats using new methods
+        team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
+        enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+
+        # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
         all_counters = counter_analyzer.suggest_counters(enemy_heroes)
         hero_scores = []
@@ -294,7 +377,9 @@ def get_current_scores():
 
     return jsonify({
         'current_scores': current_scores,
-        'enemy_scores': enemy_scores
+        'enemy_scores': enemy_scores,
+        'team_stats': team_stats,
+        'enemy_stats': enemy_stats
     })
 
 def start(port: int = 5000, debug: bool = False):

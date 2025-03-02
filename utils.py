@@ -119,9 +119,12 @@ def validate_team_composition(hero_list: List[str], hero_data: Dict[str, Any], o
     return True
 
 def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Dict[str, Any]:
-    """Suggest an optimal counter team composition."""
+    """Suggest an optimal counter team composition with synergy consideration."""
+    # Calculate counter scores
     counter_scores = {}
     for enemy in enemy_team:
+        if enemy not in hero_data:
+            continue
         enemy_info = hero_data[enemy]
         for role, heroes in enemy_info['strong_against'].items():
             for counter in heroes:
@@ -129,19 +132,80 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
                     counter_scores[counter] = 0
                 counter_scores[counter] += 1
 
-    role_counters = {'tank': [], 'damage': [], 'support': []}
+    # Group heroes by role
+    role_heroes = {'tank': [], 'damage': [], 'support': []}
     for hero, score in counter_scores.items():
         if hero in hero_data:
             role = hero_data[hero]['role']
-            if role in role_counters:
-                role_counters[role].append((hero, score))
+            if role in role_heroes:
+                role_heroes[role].append((hero, score))
 
-    for role, counters in role_counters.items():
-        counters.sort(key=lambda x: x[1], reverse=True)
+    # Sort heroes by counter score within each role
+    for role, heroes in role_heroes.items():
+        heroes.sort(key=lambda x: x[1], reverse=True)
 
+    # Select top candidates for each role
+    top_candidates = {
+        'tank': role_heroes['tank'][:3],  # Consider top 3 tanks
+        'damage': role_heroes['damage'][:5],  # Consider top 5 damage
+        'support': role_heroes['support'][:5]  # Consider top 5 supports
+    }
+
+    # Calculate synergy scores for all possible team combinations
+    best_team = {'tank': [], 'damage': [], 'support': []}
+    best_score = 0
+
+    # Start with the top tank
+    for tank, tank_score in top_candidates['tank']:
+        # Try different damage combinations
+        for i, (damage1, damage1_score) in enumerate(top_candidates['damage']):
+            for j, (damage2, damage2_score) in enumerate(top_candidates['damage'][i+1:], i+1):
+                # Try different support combinations
+                for k, (support1, support1_score) in enumerate(top_candidates['support']):
+                    for l, (support2, support2_score) in enumerate(top_candidates['support'][k+1:], k+1):
+                        # Calculate counter score
+                        counter_score = tank_score + damage1_score + damage2_score + support1_score + support2_score
+
+                        # Calculate synergy score
+                        synergy_score = 0
+                        team = [tank, damage1, damage2, support1, support2]
+
+                        for i, hero1 in enumerate(team):
+                            if hero1 not in hero_data or 'synergizes_with' not in hero_data[hero1]:
+                                continue
+
+                            for role, allies in hero_data[hero1]['synergizes_with'].items():
+                                for hero2 in team[i+1:]:  # Only check heroes after this one to avoid double counting
+                                    if hero2 in allies:
+                                        synergy_score += 0.5  # +0.5 for each synergy
+
+                        # Calculate total score (counter score + synergy bonus)
+                        total_score = counter_score + synergy_score
+
+                        # Update best team if this one is better
+                        if total_score > best_score:
+                            best_score = total_score
+                            best_team = {
+                                'tank': [(tank, tank_score)],
+                                'damage': [(damage1, damage1_score), (damage2, damage2_score)],
+                                'support': [(support1, support1_score), (support2, support2_score)]
+                            }
+
+    # If we couldn't find a good team with synergy, fall back to the original method
+    if best_score == 0:
+        return {
+            'total_score': sum(score for role, heroes in role_heroes.items()
+                              for _, score in heroes[:2 if role != 'tank' else 1]),
+            'tank': role_heroes['tank'][:1],
+            'damage': role_heroes['damage'][:2],
+            'support': role_heroes['support'][:2]
+        }
+
+    # Return the best team with total score
     return {
-        'total_score': sum(score for role, counters in role_counters.items() for _, score in counters),
-        'tank': role_counters['tank'][:1],
-        'damage': role_counters['damage'][:2],
-        'support': role_counters['support'][:2]
+        'total_score': best_score,
+        'synergy_bonus': best_score - sum(score for role, heroes in best_team.items() for _, score in heroes),
+        'tank': best_team['tank'],
+        'damage': best_team['damage'],
+        'support': best_team['support']
     }

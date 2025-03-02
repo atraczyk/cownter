@@ -30,6 +30,7 @@ def main():
     parser.add_argument('--serve', action='store_true', help='Start web interface')
     parser.add_argument('--port', type=int, default=5000, help='Port for web interface')
     parser.add_argument('--debug', action='store_true', help='Enable debug mode for web interface')
+    parser.add_argument('--stats', action='store_true', help='Show detailed team stats including synergies')
     args = parser.parse_args()
 
     # Initialize our classes
@@ -78,6 +79,40 @@ def main():
             suggestions = counter_analyzer.suggest_counters(normalized_heroes)
             result, _ = formatter.format_counter_suggestions(suggestions)
             print(result)
+
+            # Show detailed team stats if requested
+            if args.stats:
+                # Convert team to dictionary format for compute_team_stats
+                current_team = {}
+                for i, hero in enumerate(normalized_heroes):
+                    if i == 0:
+                        slot_name = "tank_1"
+                    elif i == 1 or i == 2:
+                        slot_name = f"damage_{i}"
+                    else:
+                        slot_name = f"support_{i-2}"
+                    current_team[slot_name] = hero
+
+                # Create a sample counter team from suggestions
+                counter_team = []
+                for role, heroes in suggestions.items():
+                    if role not in ['total_score', 'synergy_bonus']:
+                        for hero, _ in heroes:
+                            counter_team.append(hero)
+
+                # Calculate and display team stats
+                team_stats = counter_analyzer.compute_team_stats(current_team, counter_team)
+                print("\nDetailed Team Stats:")
+                print(formatter.format_team_stats(team_stats))
+
+                # Calculate and display enemy stats
+                enemy_stats = counter_analyzer.compute_enemy_stats(current_team, counter_team)
+                print("\nEnemy Team Stats:")
+                print(f"Total Counter Score: {enemy_stats['total_counter_score']}\n")
+                for slot, stats in enemy_stats['team'].items():
+                    print(f"{slot.upper()} - {stats['hero']} ({stats['role']}):")
+                    print(f"  Strong Against: {', '.join(stats['strong_against'])}")
+                    print(f"  Counter Score: {stats['counter_score']}\n")
         return
 
     if not (args.list_heroes or args.heroes) or args.listen:
