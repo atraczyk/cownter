@@ -202,7 +202,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 120px;  /* Give enough space for score and icons */
+            min-width: 160px;  /* Increased to accommodate more icons */
             justify-content: flex-end;
         }
 
@@ -216,7 +216,11 @@
 
         .suggestion-block .countered-heroes {
             display: flex;
+            flex-wrap: wrap;  /* Allow wrapping to next line */
             margin-left: 8px;
+            max-width: 120px;  /* Limit width to force wrapping */
+            row-gap: 4px;  /* Gap between rows */
+            justify-content: flex-end;  /* Align icons to the right */
         }
 
         .suggestion-block .countered-hero-icon {
@@ -225,13 +229,14 @@
             border-radius: 3px;
             background-size: cover;
             background-position: center;
-            margin-left: -10px;  /* Create overlapping effect */
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            margin-left: -10px;  /* Create overlapping effect */
         }
 
-        .suggestion-block .countered-hero-icon:first-child {
-            margin-left: 0;
+        .suggestion-block .countered-hero-icon:first-child,
+        .suggestion-block .countered-hero-icon:nth-child(5) {
+            margin-left: 0;  /* Reset margin for first icon in each row */
         }
 
         .suggestion-block .total-score-display::after {
@@ -486,7 +491,11 @@
 
         .countered-heroes {
             display: flex;
+            flex-wrap: wrap;  /* Allow wrapping to next line */
             margin-left: 8px;
+            max-width: 120px;  /* Limit width to force wrapping */
+            row-gap: 4px;  /* Gap between rows */
+            justify-content: flex-end;  /* Align icons to the right */
         }
 
         .countered-hero-icon {
@@ -495,13 +504,14 @@
             border-radius: 3px;
             background-size: cover;
             background-position: center;
-            margin-left: -10px;  /* Create overlapping effect */
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            margin-left: -10px;  /* Create overlapping effect */
         }
 
-        .countered-hero-icon:first-child {
-            margin-left: 0;
+        .countered-hero-icon:first-child,
+        .countered-hero-icon:nth-child(5) {
+            margin-left: 0;  /* Reset margin for first icon in each row */
         }
 
         /* Update current and enemy score styles */
@@ -873,7 +883,6 @@
                         row.className = 'player-row';
 
                         const counteredHeroesHTML = (counteredHeroes || [])
-                            .slice(0, 3)
                             .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                             .join('');
 
@@ -1068,10 +1077,24 @@
         function updateTeamScores(scores) {
             console.log('updateTeamScores called with:', scores);
 
-            // Clear all scores and countered heroes
-            document.querySelectorAll('.current-score, .enemy-score').forEach(div => div.textContent = '');
-            document.querySelectorAll('.countered-heroes').forEach(div => div.innerHTML = '');
-            document.querySelectorAll('.total-score-display').forEach(div => div.textContent = '');
+            // Only clear scores and countered heroes for teams that are being updated
+            if (scores.current_scores) {
+                document.querySelectorAll('.hero-select[data-team="counter"]').forEach(select => {
+                    const row = select.closest('.player-row');
+                    row.querySelector('.current-score').textContent = '';
+                    row.querySelector('.countered-heroes').innerHTML = '';
+                });
+                document.querySelector('.team.blue-team .total-score-display').textContent = '';
+            }
+
+            if (scores.enemy_scores) {
+                document.querySelectorAll('.hero-select[data-team="enemy"]').forEach(select => {
+                    const row = select.closest('.player-row');
+                    row.querySelector('.enemy-score').textContent = '';
+                    row.querySelector('.countered-heroes').innerHTML = '';
+                });
+                document.querySelector('.team.red-team .total-score-display').textContent = '';
+            }
 
             if (!scores) return;
 
@@ -1094,7 +1117,6 @@
                         }
                         if (counteredDiv && counteredHeroes) {
                             counteredDiv.innerHTML = counteredHeroes
-                                .slice(0, 3) // Show max 3 countered heroes
                                 .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                                 .join('');
                         }
@@ -1127,7 +1149,6 @@
                         }
                         if (counteredDiv && counteredHeroes) {
                             counteredDiv.innerHTML = counteredHeroes
-                                .slice(0, 3) // Show max 3 countered heroes
                                 .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                                 .join('');
                         }
