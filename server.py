@@ -47,124 +47,295 @@ def is_duplicate_hero(hero, team_heroes, current_slot):
 @app.route('/api/update_team', methods=['POST'])
 def update_team():
     """Update team composition and get counter suggestions."""
-    data = request.json
-    team = data['team']
-    slot = int(data['slot'])
-    hero = data['hero'] if data['hero'] else None
+    try:
+        # Add request logging
+        app.logger.info(f"Received update_team request with data: {request.json}")
 
-    # Check for duplicate hero
-    if hero and is_duplicate_hero(hero, teams[team], slot):
-        return jsonify({
-            'error': 'This hero is already selected!',
-            'teams': teams
-        })
+        data = request.json
+        if not data:
+            app.logger.warning("No JSON data received in update_team request")
+            return jsonify({
+                'error': 'No JSON data received',
+                'teams': teams
+            }), 400
 
-    teams[team][slot] = hero
+        team = data.get('team')
+        if not team or team not in teams:
+            app.logger.warning(f"Invalid team specified in update_team request: {team}")
+            return jsonify({
+                'error': 'Invalid team specified',
+                'teams': teams
+            }), 400
 
-    # Calculate scores and suggestions
-    current_scores = None
-    enemy_scores = None
-    suggestions = None
-    team_stats = None
-    enemy_stats = None
+        try:
+            slot = int(data.get('slot', -1))
+            if slot < 0 or slot >= len(teams[team]):
+                app.logger.warning(f"Invalid slot specified in update_team request: {slot}")
+                return jsonify({
+                    'error': 'Invalid slot specified',
+                    'teams': teams
+                }), 400
+        except (ValueError, TypeError) as e:
+            app.logger.warning(f"Invalid slot value in update_team request: {data.get('slot')}, error: {str(e)}")
+            return jsonify({
+                'error': 'Invalid slot value',
+                'teams': teams
+            }), 400
 
-    if any(teams['enemy']):
-        enemy_heroes = [h for h in teams['enemy'] if h]
+        hero = data.get('hero')
+        app.logger.info(f"Processing update for team: {team}, slot: {slot}, hero: {hero}")
 
-        # Convert counter team to dictionary format for compute_team_stats
-        current_team = {}
-        for i, hero in enumerate(teams['counter']):
-            if hero:
-                if i == 0:
-                    slot_name = "tank_1"
-                elif i == 1 or i == 2:
-                    slot_name = f"damage_{i}"
-                else:
-                    slot_name = f"support_{i-2}"
-                current_team[slot_name] = hero
+        # Check for duplicate hero
+        if hero and is_duplicate_hero(hero, teams[team], slot):
+            app.logger.warning(f"Duplicate hero selection attempted: {hero}")
+            return jsonify({
+                'error': 'This hero is already selected!',
+                'teams': teams
+            })
 
-        # Calculate team stats using new methods
-        team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
-        enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+        # Store previous state for logging
+        previous_hero = teams[team][slot]
+        teams[team][slot] = hero
+        app.logger.info(f"Updated {team} team slot {slot} from {previous_hero} to {hero}")
 
-        # For backward compatibility, also calculate the old scores
-        current_heroes = [h for h in teams['counter'] if h]
+        # Calculate scores and suggestions
+        current_scores = None
+        enemy_scores = None
+        suggestions = None
+        team_stats = None
+        enemy_stats = None
 
-        # Calculate current team scores against enemy team
-        if current_heroes:
-            # Calculate counter scores and track which enemies each hero counters
-            counter_scores = {}
-            countered_heroes = {}
-            for hero in current_heroes:
-                if hero not in counter_analyzer.data_provider.hero_data:
-                    continue
-                hero_info = counter_analyzer.data_provider.hero_data[hero]
-                if 'strong_against' not in hero_info:
-                    continue
+        if any(teams['enemy']):
+            enemy_heroes = [h for h in teams['enemy'] if h]
 
-                score = 0
-                countered = []
-                for enemy in enemy_heroes:
-                    if enemy not in counter_analyzer.data_provider.hero_data:
+            # Convert counter team to dictionary format for compute_team_stats
+            current_team = {}
+            for i, hero in enumerate(teams['counter']):
+                if hero:
+                    if i == 0:
+                        slot_name = "tank_1"
+                    elif i == 1 or i == 2:
+                        slot_name = f"damage_{i}"
+                    else:
+                        slot_name = f"support_{i-2}"
+                    current_team[slot_name] = hero
+
+            # Calculate team stats using new methods
+            team_stats = counter_analyzer.compute_team_stats(current_team, enemy_heroes)
+            enemy_stats = counter_analyzer.compute_enemy_stats(current_team, enemy_heroes)
+
+            # For backward compatibility, also calculate the old scores
+            current_heroes = [h for h in teams['counter'] if h]
+
+            # Calculate current team scores against enemy team
+            if current_heroes:
+                # Calculate counter scores and track which enemies each hero counters
+                counter_scores = {}
+                countered_heroes = {}
+                synergy_scores = {}
+                synergizing_heroes = {}
+
+                # First calculate counter scores
+                for hero in current_heroes:
+                    if hero not in counter_analyzer.data_provider.hero_data:
                         continue
-                    enemy_role = counter_analyzer.data_provider.hero_data[enemy]['role']
-                    role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
+                    hero_info = counter_analyzer.data_provider.hero_data[hero]
+                    if 'strong_against' not in hero_info:
+                        continue
 
-                    if role_category in hero_info['strong_against']:
-                        if enemy in hero_info['strong_against'][role_category]:
-                            score += 1
-                            countered.append(enemy)
+                    score = 0
+                    countered = []
+                    for enemy in enemy_heroes:
+                        if enemy not in counter_analyzer.data_provider.hero_data:
+                            continue
+                        enemy_role = counter_analyzer.data_provider.hero_data[enemy]['role']
+                        role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
 
-                counter_scores[hero] = score
-                countered_heroes[hero] = countered
+                        if role_category in hero_info['strong_against']:
+                            if enemy in hero_info['strong_against'][role_category]:
+                                score += 1
+                                countered.append(enemy)
 
-            # Calculate scores for current team heroes
-            hero_scores = []
-            total_score = 0
-            for hero in current_heroes:
-                score = counter_scores.get(hero, 0)
-                countered = sorted(countered_heroes.get(hero, []))
-                hero_scores.append((hero, score, countered))
-                total_score += score
+                    counter_scores[hero] = score
+                    countered_heroes[hero] = countered
 
-            current_scores = {
-                'total_score': total_score,
-                'heroes': hero_scores
-            }
+                # Then calculate synergy scores
+                for i, hero1 in enumerate(current_heroes):
+                    if hero1 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                    if 'synergizes_with' not in hero1_info:
+                        continue
 
-        # Calculate enemy team scores against current team
-        if enemy_heroes:
-            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
-            hero_scores = []
-            total_score = 0
-            for hero in enemy_heroes:
-                score = 0
-                countered = []
-                for current_hero in current_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(current_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
-                total_score += score
+                    synergy_score = 0
+                    synergizes = []
+                    for hero2 in current_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                        if hero2 not in counter_analyzer.data_provider.hero_data:
+                            continue
+                        hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                        role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
 
-            enemy_scores = {
-                'total_score': total_score,
-                'heroes': hero_scores
-            }
+                        if role_category in hero1_info['synergizes_with']:
+                            if hero2 in hero1_info['synergizes_with'][role_category]:
+                                synergy_score += 0.5
+                                synergizes.append(hero2)
+                                # Add the synergy score and hero to hero2's data as well
+                                if hero2 not in synergy_scores:
+                                    synergy_scores[hero2] = 0
+                                    synergizing_heroes[hero2] = []
+                                synergy_scores[hero2] += 0.5
+                                synergizing_heroes[hero2].append(hero1)
 
-        # Calculate suggestions if enemy team is complete
-        if team == 'enemy' and all(h is not None for h in teams['enemy']):
-            suggestions = counter_analyzer.suggest_counters(enemy_heroes)
+                    if hero1 not in synergy_scores:
+                        synergy_scores[hero1] = 0
+                        synergizing_heroes[hero1] = []
+                    synergy_scores[hero1] += synergy_score
+                    synergizing_heroes[hero1].extend(synergizes)
 
-    return jsonify({
-        'teams': teams,
-        'suggestions': suggestions,
-        'current_scores': current_scores,
-        'enemy_scores': enemy_scores,
-        'team_stats': team_stats,
-        'enemy_stats': enemy_stats
-    })
+                # Calculate scores for current team heroes
+                hero_scores = []
+                total_score = 0
+                for hero in current_heroes:
+                    counter_score = counter_scores.get(hero, 0)
+                    synergy_score = synergy_scores.get(hero, 0)
+                    total_hero_score = counter_score + synergy_score
+                    countered = sorted(countered_heroes.get(hero, []))
+                    synergizes = sorted(synergizing_heroes.get(hero, []))
+                    hero_scores.append((hero, total_hero_score, countered, synergizes))
+                    total_score += total_hero_score
+
+                current_scores = {
+                    'total_score': total_score,
+                    'heroes': hero_scores
+                }
+
+            # Calculate enemy team scores against current team
+            if enemy_heroes:
+                # Calculate counter scores and track which enemies each hero counters
+                counter_scores = {}
+                countered_heroes = {}
+                synergy_scores = {}
+                synergizing_heroes = {}
+
+                # First calculate counter scores
+                for hero in enemy_heroes:
+                    if hero not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero_info = counter_analyzer.data_provider.hero_data[hero]
+                    if 'strong_against' not in hero_info:
+                        continue
+
+                    score = 0
+                    countered = []
+                    for current_hero in current_heroes:
+                        if current_hero not in counter_analyzer.data_provider.hero_data:
+                            continue
+                        current_role = counter_analyzer.data_provider.hero_data[current_hero]['role']
+                        role_category = current_role + "s" if current_role != "damage" else current_role
+
+                        if role_category in hero_info['strong_against']:
+                            if current_hero in hero_info['strong_against'][role_category]:
+                                score += 1
+                                countered.append(current_hero)
+
+                    counter_scores[hero] = score
+                    countered_heroes[hero] = countered
+
+                # Then calculate synergy scores
+                for i, hero1 in enumerate(enemy_heroes):
+                    if hero1 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                    if 'synergizes_with' not in hero1_info:
+                        continue
+
+                    synergy_score = 0
+                    synergizes = []
+                    for hero2 in enemy_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                        if hero2 not in counter_analyzer.data_provider.hero_data:
+                            continue
+                        hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                        role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
+
+                        if role_category in hero1_info['synergizes_with']:
+                            if hero2 in hero1_info['synergizes_with'][role_category]:
+                                synergy_score += 0.5
+                                synergizes.append(hero2)
+                                # Add the synergy score and hero to hero2's data as well
+                                if hero2 not in synergy_scores:
+                                    synergy_scores[hero2] = 0
+                                    synergizing_heroes[hero2] = []
+                                synergy_scores[hero2] += 0.5
+                                synergizing_heroes[hero2].append(hero1)
+
+                    if hero1 not in synergy_scores:
+                        synergy_scores[hero1] = 0
+                        synergizing_heroes[hero1] = []
+                    synergy_scores[hero1] += synergy_score
+                    synergizing_heroes[hero1].extend(synergizes)
+
+                # Calculate scores for enemy team heroes
+                hero_scores = []
+                total_score = 0
+                for hero in enemy_heroes:
+                    counter_score = counter_scores.get(hero, 0)
+                    synergy_score = synergy_scores.get(hero, 0)
+                    total_hero_score = counter_score + synergy_score
+                    countered = sorted(countered_heroes.get(hero, []))
+                    synergizes = sorted(synergizing_heroes.get(hero, []))
+                    hero_scores.append((hero, total_hero_score, countered, synergizes))
+                    total_score += total_hero_score
+
+                enemy_scores = {
+                    'total_score': total_score,
+                    'heroes': hero_scores
+                }
+
+            # Calculate suggestions if enemy team is complete
+            if team == 'enemy' and all(h is not None for h in teams['enemy']):
+                suggestions = counter_analyzer.suggest_counters(enemy_heroes)
+                # Add synergy information to suggestions
+                for role, heroes in suggestions.items():
+                    if isinstance(heroes, list):
+                        for i, hero_data in enumerate(heroes):
+                            # Handle both 3-tuple and 4-tuple formats
+                            if len(hero_data) == 3:
+                                hero, score, countered = hero_data
+                                synergizes = []
+                            else:
+                                hero, score, countered, synergizes = hero_data
+
+                            # Calculate synergies with other suggested heroes
+                            if hero in counter_analyzer.data_provider.hero_data:
+                                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                                if 'synergizes_with' in hero_info:
+                                    for other_role, other_heroes in suggestions.items():
+                                        if isinstance(other_heroes, list) and other_role != role:
+                                            for other_hero_data in other_heroes:
+                                                other_hero = other_hero_data[0]  # Get hero name from tuple
+                                                if other_hero != hero:
+                                                    other_role_category = other_role + "s" if other_role != "damage" else other_role
+                                                    if other_role_category in hero_info['synergizes_with']:
+                                                        if other_hero in hero_info['synergizes_with'][other_role_category]:
+                                                            synergizes.append(other_hero)
+                            suggestions[role][i] = (hero, score, countered, sorted(synergizes))
+
+        return jsonify({
+            'teams': teams,
+            'suggestions': suggestions,
+            'current_scores': current_scores,
+            'enemy_scores': enemy_scores,
+            'team_stats': team_stats,
+            'enemy_stats': enemy_stats
+        })
+    except Exception as e:
+        import traceback
+        error_tb = traceback.format_exc()
+        app.logger.error(f"Error in update_team: {str(e)}\nTraceback:\n{error_tb}")
+        return jsonify({
+            'error': f'Internal server error occurred: {str(e)}',
+            'teams': teams
+        }), 500
 
 @app.route('/api/heroes_with_roles')
 def get_heroes_with_roles():
@@ -275,19 +446,80 @@ def restore_teams():
         # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
         if current_heroes:
-            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
+            # Calculate counter scores and track which enemies each hero counters
+            counter_scores = {}
+            countered_heroes = {}
+            synergy_scores = {}
+            synergizing_heroes = {}
+
+            # First calculate counter scores
+            for hero in current_heroes:
+                if hero not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'strong_against' not in hero_info:
+                    continue
+
+                score = 0
+                countered = []
+                for enemy in enemy_heroes:
+                    if enemy not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    enemy_role = counter_analyzer.data_provider.hero_data[enemy]['role']
+                    role_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
+
+                    if role_category in hero_info['strong_against']:
+                        if enemy in hero_info['strong_against'][role_category]:
+                            score += 1
+                            countered.append(enemy)
+
+                counter_scores[hero] = score
+                countered_heroes[hero] = countered
+
+            # Then calculate synergy scores
+            for i, hero1 in enumerate(current_heroes):
+                if hero1 not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                if 'synergizes_with' not in hero1_info:
+                    continue
+
+                synergy_score = 0
+                synergizes = []
+                for hero2 in current_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                    if hero2 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                    role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
+
+                    if role_category in hero1_info['synergizes_with']:
+                        if hero2 in hero1_info['synergizes_with'][role_category]:
+                            synergy_score += 0.5
+                            synergizes.append(hero2)
+                            # Add the synergy score and hero to hero2's data as well
+                            if hero2 not in synergy_scores:
+                                synergy_scores[hero2] = 0
+                                synergizing_heroes[hero2] = []
+                            synergy_scores[hero2] += 0.5
+                            synergizing_heroes[hero2].append(hero1)
+
+                if hero1 not in synergy_scores:
+                    synergy_scores[hero1] = 0
+                    synergizing_heroes[hero1] = []
+                synergy_scores[hero1] += synergy_score
+                synergizing_heroes[hero1].extend(synergizes)
+
+            # Calculate scores for current team heroes
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
-                score = 0
-                countered = []
-                for enemy_hero in enemy_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(enemy_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
-                total_score += score
+                counter_score = counter_scores.get(hero, 0)
+                synergy_score = synergy_scores.get(hero, 0)
+                total_hero_score = counter_score + synergy_score
+                countered = sorted(countered_heroes.get(hero, []))
+                synergizes = sorted(synergizing_heroes.get(hero, []))
+                hero_scores.append((hero, total_hero_score, countered, synergizes))
+                total_score += total_hero_score
 
             current_scores = {
                 'total_score': total_score,
@@ -296,19 +528,80 @@ def restore_teams():
 
         # Calculate enemy team scores against current team
         if enemy_heroes:
-            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
-            hero_scores = []
-            total_score = 0
+            # Calculate counter scores and track which enemies each hero counters
+            counter_scores = {}
+            countered_heroes = {}
+            synergy_scores = {}
+            synergizing_heroes = {}
+
+            # First calculate counter scores
             for hero in enemy_heroes:
+                if hero not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'strong_against' not in hero_info:
+                    continue
+
                 score = 0
                 countered = []
                 for current_hero in current_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(current_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
-                total_score += score
+                    if current_hero not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    current_role = counter_analyzer.data_provider.hero_data[current_hero]['role']
+                    role_category = current_role + "s" if current_role != "damage" else current_role
+
+                    if role_category in hero_info['strong_against']:
+                        if current_hero in hero_info['strong_against'][role_category]:
+                            score += 1
+                            countered.append(current_hero)
+
+                counter_scores[hero] = score
+                countered_heroes[hero] = countered
+
+            # Then calculate synergy scores
+            for i, hero1 in enumerate(enemy_heroes):
+                if hero1 not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                if 'synergizes_with' not in hero1_info:
+                    continue
+
+                synergy_score = 0
+                synergizes = []
+                for hero2 in enemy_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                    if hero2 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                    role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
+
+                    if role_category in hero1_info['synergizes_with']:
+                        if hero2 in hero1_info['synergizes_with'][role_category]:
+                            synergy_score += 0.5
+                            synergizes.append(hero2)
+                            # Add the synergy score and hero to hero2's data as well
+                            if hero2 not in synergy_scores:
+                                synergy_scores[hero2] = 0
+                                synergizing_heroes[hero2] = []
+                            synergy_scores[hero2] += 0.5
+                            synergizing_heroes[hero2].append(hero1)
+
+                if hero1 not in synergy_scores:
+                    synergy_scores[hero1] = 0
+                    synergizing_heroes[hero1] = []
+                synergy_scores[hero1] += synergy_score
+                synergizing_heroes[hero1].extend(synergizes)
+
+            # Calculate scores for enemy team heroes
+            hero_scores = []
+            total_score = 0
+            for hero in enemy_heroes:
+                counter_score = counter_scores.get(hero, 0)
+                synergy_score = synergy_scores.get(hero, 0)
+                total_hero_score = counter_score + synergy_score
+                countered = sorted(countered_heroes.get(hero, []))
+                synergizes = sorted(synergizing_heroes.get(hero, []))
+                hero_scores.append((hero, total_hero_score, countered, synergizes))
+                total_score += total_hero_score
 
             enemy_scores = {
                 'total_score': total_score,
@@ -357,6 +650,10 @@ def get_current_scores():
             # Calculate counter scores and track which enemies each hero counters
             counter_scores = {}
             countered_heroes = {}
+            synergy_scores = {}
+            synergizing_heroes = {}
+
+            # First calculate counter scores
             for hero in current_heroes:
                 if hero not in counter_analyzer.data_provider.hero_data:
                     continue
@@ -380,14 +677,50 @@ def get_current_scores():
                 counter_scores[hero] = score
                 countered_heroes[hero] = countered
 
+            # Then calculate synergy scores
+            for i, hero1 in enumerate(current_heroes):
+                if hero1 not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                if 'synergizes_with' not in hero1_info:
+                    continue
+
+                synergy_score = 0
+                synergizes = []
+                for hero2 in current_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                    if hero2 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                    role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
+
+                    if role_category in hero1_info['synergizes_with']:
+                        if hero2 in hero1_info['synergizes_with'][role_category]:
+                            synergy_score += 0.5
+                            synergizes.append(hero2)
+                            # Add the synergy score and hero to hero2's data as well
+                            if hero2 not in synergy_scores:
+                                synergy_scores[hero2] = 0
+                                synergizing_heroes[hero2] = []
+                            synergy_scores[hero2] += 0.5
+                            synergizing_heroes[hero2].append(hero1)
+
+                if hero1 not in synergy_scores:
+                    synergy_scores[hero1] = 0
+                    synergizing_heroes[hero1] = []
+                synergy_scores[hero1] += synergy_score
+                synergizing_heroes[hero1].extend(synergizes)
+
             # Calculate scores for current team heroes
             hero_scores = []
             total_score = 0
             for hero in current_heroes:
-                score = counter_scores.get(hero, 0)
+                counter_score = counter_scores.get(hero, 0)
+                synergy_score = synergy_scores.get(hero, 0)
+                total_hero_score = counter_score + synergy_score
                 countered = sorted(countered_heroes.get(hero, []))
-                hero_scores.append((hero, score, countered))
-                total_score += score
+                synergizes = sorted(synergizing_heroes.get(hero, []))
+                hero_scores.append((hero, total_hero_score, countered, synergizes))
+                total_score += total_hero_score
 
             current_scores = {
                 'total_score': total_score,
@@ -396,19 +729,80 @@ def get_current_scores():
 
         # Calculate enemy team scores against current team
         if enemy_heroes:
-            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
-            hero_scores = []
-            total_score = 0
+            # Calculate counter scores and track which enemies each hero counters
+            counter_scores = {}
+            countered_heroes = {}
+            synergy_scores = {}
+            synergizing_heroes = {}
+
+            # First calculate counter scores
             for hero in enemy_heroes:
+                if hero not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'strong_against' not in hero_info:
+                    continue
+
                 score = 0
                 countered = []
                 for current_hero in current_heroes:
-                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
-                    if counter_score > 0:
-                        score += counter_score
-                        countered.append(current_hero)
-                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
-                total_score += score
+                    if current_hero not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    current_role = counter_analyzer.data_provider.hero_data[current_hero]['role']
+                    role_category = current_role + "s" if current_role != "damage" else current_role
+
+                    if role_category in hero_info['strong_against']:
+                        if current_hero in hero_info['strong_against'][role_category]:
+                            score += 1
+                            countered.append(current_hero)
+
+                counter_scores[hero] = score
+                countered_heroes[hero] = countered
+
+            # Then calculate synergy scores
+            for i, hero1 in enumerate(enemy_heroes):
+                if hero1 not in counter_analyzer.data_provider.hero_data:
+                    continue
+                hero1_info = counter_analyzer.data_provider.hero_data[hero1]
+                if 'synergizes_with' not in hero1_info:
+                    continue
+
+                synergy_score = 0
+                synergizes = []
+                for hero2 in enemy_heroes[i+1:]:  # Only check heroes after this one to avoid double counting
+                    if hero2 not in counter_analyzer.data_provider.hero_data:
+                        continue
+                    hero2_role = counter_analyzer.data_provider.hero_data[hero2]['role']
+                    role_category = hero2_role + "s" if hero2_role != "damage" else hero2_role
+
+                    if role_category in hero1_info['synergizes_with']:
+                        if hero2 in hero1_info['synergizes_with'][role_category]:
+                            synergy_score += 0.5
+                            synergizes.append(hero2)
+                            # Add the synergy score and hero to hero2's data as well
+                            if hero2 not in synergy_scores:
+                                synergy_scores[hero2] = 0
+                                synergizing_heroes[hero2] = []
+                            synergy_scores[hero2] += 0.5
+                            synergizing_heroes[hero2].append(hero1)
+
+                if hero1 not in synergy_scores:
+                    synergy_scores[hero1] = 0
+                    synergizing_heroes[hero1] = []
+                synergy_scores[hero1] += synergy_score
+                synergizing_heroes[hero1].extend(synergizes)
+
+            # Calculate scores for enemy team heroes
+            hero_scores = []
+            total_score = 0
+            for hero in enemy_heroes:
+                counter_score = counter_scores.get(hero, 0)
+                synergy_score = synergy_scores.get(hero, 0)
+                total_hero_score = counter_score + synergy_score
+                countered = sorted(countered_heroes.get(hero, []))
+                synergizes = sorted(synergizing_heroes.get(hero, []))
+                hero_scores.append((hero, total_hero_score, countered, synergizes))
+                total_score += total_hero_score
 
             enemy_scores = {
                 'total_score': total_score,

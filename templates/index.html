@@ -177,66 +177,33 @@
             color: #00cc66;
         }
 
-        /* Update empty slot styles */
-        .suggestion-block .empty-slot {
-            background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 4px;
-            height: 54px;
-            margin: 4px 0;
-        }
-
-        /* Update player row height to be consistent */
+        /* Update player row styles to match team blocks */
         .suggestion-block .player-row {
-            grid-template-columns: 30px 30px auto auto;  /* Changed last column to auto for score section */
-            height: 54px;  /* Match empty slot height */
-            box-sizing: border-box;  /* Include padding in height */
+            display: grid;
+            grid-template-columns: 40px 40px 1fr auto;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            margin: 4px 0;
+            align-items: center;
+            gap: 10px;
         }
 
-        .suggestion-block .role-icon,
-        .suggestion-block .hero-icon {
-            width: 24px;  /* Slightly smaller icons */
-            height: 24px;
-        }
-
+        /* Update score section to match team blocks */
         .suggestion-block .score-section {
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 160px;  /* Increased to accommodate more icons */
+            min-width: 160px;
             justify-content: flex-end;
         }
 
         .suggestion-block .score {
-            color: #00cc66;  /* Green for suggestions */
+            color: #00cc66;
             font-size: 14px;
             font-weight: bold;
             text-align: right;
-            min-width: 20px;  /* Ensure space for score */
-        }
-
-        .suggestion-block .countered-heroes {
-            display: flex;
-            flex-wrap: wrap;  /* Allow wrapping to next line */
-            margin-left: 8px;
-            max-width: 120px;  /* Limit width to force wrapping */
-            row-gap: 4px;  /* Gap between rows */
-            justify-content: flex-end;  /* Align icons to the right */
-        }
-
-        .suggestion-block .countered-hero-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            background-size: cover;
-            background-position: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            margin-left: -10px;  /* Create overlapping effect */
-        }
-
-        .suggestion-block .countered-hero-icon:first-child,
-        .suggestion-block .countered-hero-icon:nth-child(5) {
-            margin-left: 0;  /* Reset margin for first icon in each row */
+            min-width: 20px;
         }
 
         .suggestion-block .total-score-display::after {
@@ -480,51 +447,62 @@
             align-items: center;
         }
 
-        /* Add styles for the score section with countered heroes */
+        /* Update the score section layout to ensure proper alignment */
         .score-section {
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 120px;  /* Give enough space for score and icons */
+            min-width: 160px;
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .countered-heroes,
+        .synergizing-heroes {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 8px;
+            max-width: 120px;
+            row-gap: 4px;
+            gap: 4px;
             justify-content: flex-end;
         }
 
-        .countered-heroes {
-            display: flex;
-            flex-wrap: wrap;  /* Allow wrapping to next line */
-            margin-left: 8px;
-            max-width: 120px;  /* Limit width to force wrapping */
-            row-gap: 4px;  /* Gap between rows */
-            justify-content: flex-end;  /* Align icons to the right */
+        /* Make empty synergizing-heroes completely collapse */
+        .synergizing-heroes:empty {
+            display: none;
+            margin: 0;
+            padding: 0;
+            width: 0;
+            max-width: 0;
+            flex-basis: 0;
         }
 
-        .countered-hero-icon {
+        .countered-hero-icon,
+        .synergizing-hero-icon {
             width: 20px;
             height: 20px;
             border-radius: 3px;
             background-size: cover;
             background-position: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            margin-left: -10px;  /* Create overlapping effect */
+            margin-left: -10px;
+        }
+
+        .countered-hero-icon {
+            border: 1px solid rgb(255, 255, 255);
+            box-shadow: -1px 0px 4px rgba(108, 68, 78, 0.62);
+        }
+
+        .synergizing-hero-icon {
+            border: 1px solid rgb(179, 255, 179);
+            box-shadow: -1px 0px 4px rgba(68, 108, 78, 0.62);
         }
 
         .countered-hero-icon:first-child,
-        .countered-hero-icon:nth-child(5) {
-            margin-left: 0;  /* Reset margin for first icon in each row */
-        }
-
-        /* Update current and enemy score styles */
-        .current-score, .enemy-score {
-            color: #0066cc;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: right;
-            min-width: 30px;  /* Ensure space for score */
-        }
-
-        .enemy-score {
-            color: #cc0000;
+        .countered-hero-icon:nth-child(5),
+        .synergizing-hero-icon:first-child,
+        .synergizing-hero-icon:nth-child(5) {
+            margin-left: 0;
         }
     </style>
 </head>
@@ -547,6 +525,7 @@
                         <div class="score-section">
                             <div class="current-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -558,6 +537,7 @@
                         <div class="score-section">
                             <div class="current-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -569,6 +549,7 @@
                         <div class="score-section">
                             <div class="current-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -580,6 +561,7 @@
                         <div class="score-section">
                             <div class="current-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -591,6 +573,7 @@
                         <div class="score-section">
                             <div class="current-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="total-score-display"></div>
@@ -616,6 +599,7 @@
                         <div class="score-section">
                             <div class="enemy-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -627,6 +611,7 @@
                         <div class="score-section">
                             <div class="enemy-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -638,6 +623,7 @@
                         <div class="score-section">
                             <div class="enemy-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -649,6 +635,7 @@
                         <div class="score-section">
                             <div class="enemy-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="player-row">
@@ -660,6 +647,7 @@
                         <div class="score-section">
                             <div class="enemy-score"></div>
                             <div class="countered-heroes"></div>
+                            <div class="synergizing-heroes"></div>
                         </div>
                     </div>
                     <div class="total-score-display"></div>
@@ -791,24 +779,40 @@
                         hero: hero
                     })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            console.error('Server error:', data);  // Add error logging
+                            throw new Error(data.error || `Server error: ${response.status}`);
+                        });
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.error) {
+                        console.error('Data error:', data.error);  // Add error logging
                         alert(data.error);
                         e.target.value = '';
                         updateHeroIcon(e.target);
                         return;
                     }
+                    console.log('Update successful:', data);  // Add success logging
                     // Save the updated teams
                     saveTeams(data.teams);
 
                     // Get current scores
-                    fetch('/api/current_scores')
-                        .then(response => response.json())
+                    return fetch('/api/current_scores')
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(data => {
+                                    console.error('Scores error:', data);  // Add error logging
+                                    throw new Error(data.error || 'Error fetching scores');
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            console.log('Current scores response:', data);  // Debug log
-                            console.log('Current scores:', data.current_scores);  // Debug log
-                            console.log('Enemy scores:', data.enemy_scores);  // Debug log
+                            console.log('Current scores response:', data);
                             updateTeamScores({
                                 current_scores: data.current_scores,
                                 enemy_scores: data.enemy_scores
@@ -816,17 +820,14 @@
                         })
                         .catch(error => {
                             console.error('Error fetching scores:', error);
+                            alert('Error updating scores: ' + error.message);
                         });
-
-                    // Update all dropdowns to reflect new selection
-                    fetch('/api/heroes_with_roles')
-                        .then(response => response.json())
-                        .then(heroData => updateDropdowns(heroData));
-
-                    // Update suggestions only if enemy team was changed
-                    if (team === 'enemy') {
-                        updateCounterSuggestions(data.suggestions);
-                    }
+                })
+                .catch(error => {
+                    console.error('Error updating team:', error);
+                    alert('Error updating team: ' + error.message);
+                    e.target.value = '';
+                    updateHeroIcon(e.target);
                 });
             });
         });
@@ -879,8 +880,8 @@
                 if (suggestions[role]) {
                     suggestions[role].forEach((heroData) => {
                         console.log(`Processing hero data for ${role}:`, heroData);  // Debug log
-                        const [hero, heroScore, counteredHeroes] = heroData;
-                        console.log(`Extracted data - hero: ${hero}, score: ${heroScore}, countered: `, counteredHeroes);  // Debug log
+                        const [hero, heroScore, counteredHeroes, synergizingHeroes] = heroData;
+                        console.log(`Extracted data - hero: ${hero}, score: ${heroScore}, countered: `, counteredHeroes, 'synergizes:', synergizingHeroes);  // Debug log
 
                         const row = document.createElement('div');
                         row.className = 'player-row';
@@ -889,7 +890,9 @@
                             .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                             .join('');
 
-                        console.log('Generated countered heroes HTML:', counteredHeroesHTML);  // Debug log
+                        const synergizingHeroesHTML = (synergizingHeroes || [])
+                            .map(hero => `<div class="synergizing-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                            .join('');
 
                         row.innerHTML = `
                             <div class="role-icon role-${role}"></div>
@@ -897,9 +900,8 @@
                             <div style="font-weight: bold;">${hero}</div>
                             <div class="score-section">
                                 <div class="score">${heroScore}</div>
-                                <div class="countered-heroes">
-                                    ${counteredHeroesHTML}
-                                </div>
+                                <div class="countered-heroes">${counteredHeroesHTML}</div>
+                                <div class="synergizing-heroes">${synergizingHeroesHTML}</div>
                             </div>
                         `;
                         content.appendChild(row);
@@ -1083,8 +1085,8 @@
             // Log all current team scores for comparison
             if (scores.current_scores) {
                 console.log('Current team scores:');
-                scores.current_scores.heroes.forEach(([hero, score, countered]) => {
-                    console.log(`Current block - ${hero}: score=${score}, counters=${countered}`);
+                scores.current_scores.heroes.forEach(([hero, score, counteredHeroes, synergizingHeroes]) => {
+                    console.log(`Current block - ${hero}: score=${score}, counters=${counteredHeroes}, synergizes=${synergizingHeroes}`);
                 });
             }
 
@@ -1094,6 +1096,7 @@
                     const row = select.closest('.player-row');
                     row.querySelector('.current-score').textContent = '';
                     row.querySelector('.countered-heroes').innerHTML = '';
+                    row.querySelector('.synergizing-heroes').innerHTML = '';
                 });
                 document.querySelector('.team.blue-team .total-score-display').textContent = '';
             }
@@ -1103,6 +1106,7 @@
                     const row = select.closest('.player-row');
                     row.querySelector('.enemy-score').textContent = '';
                     row.querySelector('.countered-heroes').innerHTML = '';
+                    row.querySelector('.synergizing-heroes').innerHTML = '';
                 });
                 document.querySelector('.team.red-team .total-score-display').textContent = '';
             }
@@ -1112,7 +1116,7 @@
             // Update current team scores
             if (scores.current_scores) {
                 console.log('Updating current scores:', scores.current_scores);
-                scores.current_scores.heroes.forEach(([hero, score, counteredHeroes]) => {
+                scores.current_scores.heroes.forEach(([hero, score, counteredHeroes, synergizingHeroes]) => {
                     console.log(`Looking for current hero ${hero} with score ${score}`);
                     // Get all selects and find the one with matching hero name (case-insensitive)
                     const selects = document.querySelectorAll('.hero-select[data-team="counter"]');
@@ -1122,6 +1126,7 @@
                         const row = select.closest('.player-row');
                         const scoreDiv = row.querySelector('.current-score');
                         const counteredDiv = row.querySelector('.countered-heroes');
+                        const synergizingDiv = row.querySelector('.synergizing-heroes');
                         console.log('Found current score div:', scoreDiv);
                         if (scoreDiv) {
                             scoreDiv.textContent = score;
@@ -1129,6 +1134,11 @@
                         if (counteredDiv && counteredHeroes) {
                             counteredDiv.innerHTML = counteredHeroes
                                 .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                                .join('');
+                        }
+                        if (synergizingDiv && synergizingHeroes) {
+                            synergizingDiv.innerHTML = synergizingHeroes
+                                .map(hero => `<div class="synergizing-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                                 .join('');
                         }
                     }
@@ -1144,7 +1154,7 @@
             // Update enemy team scores
             if (scores.enemy_scores) {
                 console.log('Updating enemy scores:', scores.enemy_scores);
-                scores.enemy_scores.heroes.forEach(([hero, score, counteredHeroes]) => {
+                scores.enemy_scores.heroes.forEach(([hero, score, counteredHeroes, synergizingHeroes]) => {
                     console.log(`Looking for enemy hero ${hero} with score ${score}`);
                     // Get all selects and find the one with matching hero name (case-insensitive)
                     const selects = document.querySelectorAll('.hero-select[data-team="enemy"]');
@@ -1154,6 +1164,7 @@
                         const row = select.closest('.player-row');
                         const scoreDiv = row.querySelector('.enemy-score');
                         const counteredDiv = row.querySelector('.countered-heroes');
+                        const synergizingDiv = row.querySelector('.synergizing-heroes');
                         console.log('Found enemy score div:', scoreDiv);
                         if (scoreDiv) {
                             scoreDiv.textContent = score;
@@ -1161,6 +1172,11 @@
                         if (counteredDiv && counteredHeroes) {
                             counteredDiv.innerHTML = counteredHeroes
                                 .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                                .join('');
+                        }
+                        if (synergizingDiv && synergizingHeroes) {
+                            synergizingDiv.innerHTML = synergizingHeroes
+                                .map(hero => `<div class="synergizing-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                                 .join('');
                         }
                     }
@@ -1269,6 +1285,77 @@
 
         // Update mousemove handler
         document.addEventListener('mousemove', updateSelectorPosition);
+
+        function updateHeroSelect(select, hero) {
+            select.value = hero || '';
+            updateHeroIcon(select);
+            // Request updated scores and suggestions
+            fetch('/api/update_team', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    team: select.dataset.team,
+                    slot: parseInt(select.dataset.slot),
+                    hero: hero
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    alert(data.error);
+                    select.value = '';
+                    updateHeroIcon(select);
+                    return;
+                }
+
+                // Save updated teams
+                saveTeams(data.teams);
+
+                // Update team scores immediately
+                if (data.current_scores || data.enemy_scores) {
+                    updateTeamScores({
+                        current_scores: data.current_scores,
+                        enemy_scores: data.enemy_scores
+                    });
+                }
+
+                // Update suggestions if enemy team is complete
+                if (data.suggestions) {
+                    updateCounterSuggestions(data.suggestions);
+                } else if (data.teams.enemy.every(hero => hero !== null)) {
+                    // If enemy team is complete but we don't have suggestions, request them
+                    fetch('/api/update_team', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            team: 'enemy',
+                            slot: 0,
+                            hero: data.teams.enemy[0]
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(suggestionData => {
+                        if (suggestionData && suggestionData.suggestions) {
+                            updateCounterSuggestions(suggestionData.suggestions);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching suggestions:', error);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the team.');
+                select.value = '';
+                updateHeroIcon(select);
+            });
+        }
     </script>
 </body>
 </html>
