@@ -266,6 +266,38 @@ class CounterAnalyzer:
 
         return enemy_stats
 
+    def get_counter_score(self, hero1: str, hero2: str) -> float:
+        """
+        Calculate how well hero1 counters hero2.
+
+        Args:
+            hero1: Name of the first hero
+            hero2: Name of the second hero
+
+        Returns:
+            Counter score (1.0 if hero1 counters hero2, 0.0 otherwise)
+        """
+        hero_data = self.data_provider.hero_data
+
+        # Normalize hero names
+        hero1 = normalize_hero_name(hero1)
+        hero2 = normalize_hero_name(hero2)
+
+        # Check if both heroes exist in data
+        if hero1 not in hero_data or hero2 not in hero_data:
+            return 0.0
+
+        # Get hero2's role category
+        role2 = hero_data[hero2]["role"]
+        role_category = role2 + "s" if role2 != "damage" else role2
+
+        # Check if hero1 counters hero2
+        if "strong_against" in hero_data[hero1] and role_category in hero_data[hero1]["strong_against"]:
+            if hero2 in hero_data[hero1]["strong_against"][role_category]:
+                return 1.0
+
+        return 0.0
+
 
 class CounterResultFormatter:
     """Formats counter analysis results for display."""

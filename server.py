@@ -97,14 +97,13 @@ def update_team():
             total_score = 0
             for hero in current_heroes:
                 score = 0
-                for role_counters in all_counters.values():
-                    if not isinstance(role_counters, list):
-                        continue
-                    for counter_hero, counter_score in role_counters:
-                        if counter_hero == hero:
-                            score = counter_score
-                            break
-                hero_scores.append((hero, score))
+                countered = []
+                for enemy_hero in enemy_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(enemy_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
                 total_score += score
 
             current_scores = {
@@ -119,14 +118,13 @@ def update_team():
             total_score = 0
             for hero in enemy_heroes:
                 score = 0
-                for role_counters in all_counters.values():
-                    if not isinstance(role_counters, list):
-                        continue
-                    for counter_hero, counter_score in role_counters:
-                        if counter_hero == hero:
-                            score = counter_score
-                            break
-                hero_scores.append((hero, score))
+                countered = []
+                for current_hero in current_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(current_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
                 total_score += score
 
             enemy_scores = {
@@ -255,46 +253,46 @@ def restore_teams():
 
         # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
-        all_counters = counter_analyzer.suggest_counters(enemy_heroes)
-        hero_scores = []
-        total_score = 0
-        for hero in current_heroes:
-            score = 0
-            for role_counters in all_counters.values():
-                if not isinstance(role_counters, list):
-                    continue
-                for counter_hero, counter_score in role_counters:
-                    if counter_hero == hero:
-                        score = counter_score
-                        break
-            hero_scores.append((hero, score))
-            total_score += score
+        if current_heroes:
+            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
+            hero_scores = []
+            total_score = 0
+            for hero in current_heroes:
+                score = 0
+                countered = []
+                for enemy_hero in enemy_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(enemy_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                total_score += score
 
-        current_scores = {
-            'total_score': total_score,
-            'heroes': hero_scores
-        }
+            current_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
 
         # Calculate enemy team scores against current team
-        all_counters = counter_analyzer.suggest_counters(current_heroes)
-        hero_scores = []
-        total_score = 0
-        for hero in enemy_heroes:
-            score = 0
-            for role_counters in all_counters.values():
-                if not isinstance(role_counters, list):
-                    continue
-                for counter_hero, counter_score in role_counters:
-                    if counter_hero == hero:
-                        score = counter_score
-                        break
-            hero_scores.append((hero, score))
-            total_score += score
+        if enemy_heroes:
+            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
+            hero_scores = []
+            total_score = 0
+            for hero in enemy_heroes:
+                score = 0
+                countered = []
+                for current_hero in current_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(current_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                total_score += score
 
-        enemy_scores = {
-            'total_score': total_score,
-            'heroes': hero_scores
-        }
+            enemy_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
 
     return jsonify({
         'teams': teams,
@@ -334,46 +332,46 @@ def get_current_scores():
 
         # For backward compatibility, also calculate the old scores
         # Calculate current team scores against enemy team
-        all_counters = counter_analyzer.suggest_counters(enemy_heroes)
-        hero_scores = []
-        total_score = 0
-        for hero in current_heroes:
-            score = 0
-            for role_counters in all_counters.values():
-                if not isinstance(role_counters, list):
-                    continue
-                for counter_hero, counter_score in role_counters:
-                    if counter_hero == hero:
-                        score = counter_score
-                        break
-            hero_scores.append((hero, score))
-            total_score += score
+        if current_heroes:
+            all_counters = counter_analyzer.suggest_counters(enemy_heroes)
+            hero_scores = []
+            total_score = 0
+            for hero in current_heroes:
+                score = 0
+                countered = []
+                for enemy_hero in enemy_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, enemy_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(enemy_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                total_score += score
 
-        current_scores = {
-            'total_score': total_score,
-            'heroes': hero_scores
-        }
+            current_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
 
         # Calculate enemy team scores against current team
-        all_counters = counter_analyzer.suggest_counters(current_heroes)
-        hero_scores = []
-        total_score = 0
-        for hero in enemy_heroes:
-            score = 0
-            for role_counters in all_counters.values():
-                if not isinstance(role_counters, list):
-                    continue
-                for counter_hero, counter_score in role_counters:
-                    if counter_hero == hero:
-                        score = counter_score
-                        break
-            hero_scores.append((hero, score))
-            total_score += score
+        if enemy_heroes:
+            all_counters = counter_analyzer.suggest_counters(current_heroes if current_heroes else [])
+            hero_scores = []
+            total_score = 0
+            for hero in enemy_heroes:
+                score = 0
+                countered = []
+                for current_hero in current_heroes:
+                    counter_score = counter_analyzer.get_counter_score(hero, current_hero)
+                    if counter_score > 0:
+                        score += counter_score
+                        countered.append(current_hero)
+                hero_scores.append((hero, score, sorted(countered, key=lambda h: counter_analyzer.get_counter_score(hero, h), reverse=True)))
+                total_score += score
 
-        enemy_scores = {
-            'total_score': total_score,
-            'heroes': hero_scores
-        }
+            enemy_scores = {
+                'total_score': total_score,
+                'heroes': hero_scores
+            }
 
     return jsonify({
         'current_scores': current_scores,

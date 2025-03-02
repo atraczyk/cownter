@@ -44,7 +44,7 @@
         }
         .player-row {
             display: grid;
-            grid-template-columns: 40px 40px 1fr 40px;  /* Change auto to 1fr for select, fixed width for score */
+            grid-template-columns: 40px 40px 1fr auto;  /* Changed last column to auto for score section */
             padding: 12px;
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 4px;
@@ -187,7 +187,7 @@
 
         /* Update player row height to be consistent */
         .suggestion-block .player-row {
-            grid-template-columns: 30px 30px auto 40px;
+            grid-template-columns: 30px 30px auto auto;  /* Changed last column to auto for score section */
             height: 54px;  /* Match empty slot height */
             box-sizing: border-box;  /* Include padding in height */
         }
@@ -198,9 +198,44 @@
             height: 24px;
         }
 
+        .suggestion-block .score-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;  /* Give enough space for score and icons */
+            justify-content: flex-end;
+        }
+
         .suggestion-block .score {
-            text-align: right;
+            color: #00cc66;  /* Green for suggestions */
             font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            min-width: 20px;  /* Ensure space for score */
+        }
+
+        .suggestion-block .countered-heroes {
+            display: flex;
+            margin-left: 8px;
+        }
+
+        .suggestion-block .countered-hero-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: center;
+            margin-left: -10px;  /* Create overlapping effect */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-block .countered-hero-icon:first-child {
+            margin-left: 0;
+        }
+
+        .suggestion-block .total-score-display::after {
+            color: #00cc66;
         }
 
         /* Update right column layout */
@@ -439,6 +474,48 @@
             display: flex;
             align-items: center;
         }
+
+        /* Add styles for the score section with countered heroes */
+        .score-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;  /* Give enough space for score and icons */
+            justify-content: flex-end;
+        }
+
+        .countered-heroes {
+            display: flex;
+            margin-left: 8px;
+        }
+
+        .countered-hero-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: center;
+            margin-left: -10px;  /* Create overlapping effect */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .countered-hero-icon:first-child {
+            margin-left: 0;
+        }
+
+        /* Update current and enemy score styles */
+        .current-score, .enemy-score {
+            color: #0066cc;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            min-width: 30px;  /* Ensure space for score */
+        }
+
+        .enemy-score {
+            color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -457,7 +534,10 @@
                         <select class="hero-select" data-team="counter" data-slot="0" data-role="tank">
                             <option value="">Select Tank</option>
                         </select>
-                        <div class="current-score"></div>
+                        <div class="score-section">
+                            <div class="current-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-damage"></div>
@@ -465,7 +545,10 @@
                         <select class="hero-select" data-team="counter" data-slot="1" data-role="damage">
                             <option value="">Select Damage 1</option>
                         </select>
-                        <div class="current-score"></div>
+                        <div class="score-section">
+                            <div class="current-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-damage"></div>
@@ -473,7 +556,10 @@
                         <select class="hero-select" data-team="counter" data-slot="2" data-role="damage">
                             <option value="">Select Damage 2</option>
                         </select>
-                        <div class="current-score"></div>
+                        <div class="score-section">
+                            <div class="current-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -481,7 +567,10 @@
                         <select class="hero-select" data-team="counter" data-slot="3" data-role="support">
                             <option value="">Select Support 1</option>
                         </select>
-                        <div class="current-score"></div>
+                        <div class="score-section">
+                            <div class="current-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -489,7 +578,10 @@
                         <select class="hero-select" data-team="counter" data-slot="4" data-role="support">
                             <option value="">Select Support 2</option>
                         </select>
-                        <div class="current-score"></div>
+                        <div class="score-section">
+                            <div class="current-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="total-score-display"></div>
                 </div>
@@ -511,7 +603,10 @@
                         <select class="hero-select" data-team="enemy" data-slot="0" data-role="tank">
                             <option value="">Select Tank</option>
                         </select>
-                        <div class="enemy-score"></div>
+                        <div class="score-section">
+                            <div class="enemy-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-damage"></div>
@@ -519,7 +614,10 @@
                         <select class="hero-select" data-team="enemy" data-slot="1" data-role="damage">
                             <option value="">Select Damage 1</option>
                         </select>
-                        <div class="enemy-score"></div>
+                        <div class="score-section">
+                            <div class="enemy-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-damage"></div>
@@ -527,7 +625,10 @@
                         <select class="hero-select" data-team="enemy" data-slot="2" data-role="damage">
                             <option value="">Select Damage 2</option>
                         </select>
-                        <div class="enemy-score"></div>
+                        <div class="score-section">
+                            <div class="enemy-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -535,7 +636,10 @@
                         <select class="hero-select" data-team="enemy" data-slot="3" data-role="support">
                             <option value="">Select Support 1</option>
                         </select>
-                        <div class="enemy-score"></div>
+                        <div class="score-section">
+                            <div class="enemy-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="player-row">
                         <div class="role-icon role-support"></div>
@@ -543,7 +647,10 @@
                         <select class="hero-select" data-team="enemy" data-slot="4" data-role="support">
                             <option value="">Select Support 2</option>
                         </select>
-                        <div class="enemy-score"></div>
+                        <div class="score-section">
+                            <div class="enemy-score"></div>
+                            <div class="countered-heroes"></div>
+                        </div>
                     </div>
                     <div class="total-score-display"></div>
                 </div>
@@ -714,7 +821,25 @@
             });
         });
 
+        function updateCounterSuggestions(suggestions) {
+            console.log('Received suggestions:', suggestions);  // Debug log
+            if (!suggestions) return;
+
+            const rightColumn = document.querySelector('.right-column');
+
+            // Clear any existing suggestion blocks
+            rightColumn.innerHTML = '';
+
+            // Create new suggestion block
+            const suggestionBlock = createSuggestionBlock(suggestions);
+
+            // Add to the right column
+            rightColumn.appendChild(suggestionBlock);
+        }
+
         function createSuggestionBlock(suggestions) {
+            console.log('Creating suggestion block with:', suggestions);  // Debug log
+
             const block = document.createElement('div');
             block.className = 'scoreboard';
 
@@ -740,14 +865,30 @@
             ['tank', 'damage', 'support'].forEach(role => {
                 if (suggestions[role]) {
                     suggestions[role].forEach((heroData) => {
-                        const [hero, heroScore] = heroData;
+                        console.log(`Processing hero data for ${role}:`, heroData);  // Debug log
+                        const [hero, heroScore, counteredHeroes] = heroData;
+                        console.log(`Extracted data - hero: ${hero}, score: ${heroScore}, countered: `, counteredHeroes);  // Debug log
+
                         const row = document.createElement('div');
                         row.className = 'player-row';
+
+                        const counteredHeroesHTML = (counteredHeroes || [])
+                            .slice(0, 3)
+                            .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                            .join('');
+
+                        console.log('Generated countered heroes HTML:', counteredHeroesHTML);  // Debug log
+
                         row.innerHTML = `
                             <div class="role-icon role-${role}"></div>
                             <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
                             <div style="font-weight: bold;">${hero}</div>
-                            <div class="score">${heroScore}</div>
+                            <div class="score-section">
+                                <div class="score">${heroScore}</div>
+                                <div class="countered-heroes">
+                                    ${counteredHeroesHTML}
+                                </div>
+                            </div>
                         `;
                         content.appendChild(row);
                         slotCounts[role]++;
@@ -776,21 +917,6 @@
 
             block.appendChild(content);
             return block;
-        }
-
-        function updateCounterSuggestions(suggestions) {
-            if (!suggestions) return;
-
-            const rightColumn = document.querySelector('.right-column');
-
-            // Clear any existing suggestion blocks
-            rightColumn.innerHTML = '';
-
-            // Create new suggestion block
-            const suggestionBlock = createSuggestionBlock(suggestions);
-
-            // Add to the right column
-            rightColumn.appendChild(suggestionBlock);
         }
 
         // Add these functions to the script section
@@ -942,8 +1068,9 @@
         function updateTeamScores(scores) {
             console.log('updateTeamScores called with:', scores);
 
-            // Clear all scores
+            // Clear all scores and countered heroes
             document.querySelectorAll('.current-score, .enemy-score').forEach(div => div.textContent = '');
+            document.querySelectorAll('.countered-heroes').forEach(div => div.innerHTML = '');
             document.querySelectorAll('.total-score-display').forEach(div => div.textContent = '');
 
             if (!scores) return;
@@ -951,7 +1078,7 @@
             // Update current team scores
             if (scores.current_scores) {
                 console.log('Updating current scores:', scores.current_scores);
-                scores.current_scores.heroes.forEach(([hero, score]) => {
+                scores.current_scores.heroes.forEach(([hero, score, counteredHeroes]) => {
                     console.log(`Looking for current hero ${hero} with score ${score}`);
                     // Get all selects and find the one with matching hero name (case-insensitive)
                     const selects = document.querySelectorAll('.hero-select[data-team="counter"]');
@@ -960,9 +1087,16 @@
                     if (select) {
                         const row = select.closest('.player-row');
                         const scoreDiv = row.querySelector('.current-score');
+                        const counteredDiv = row.querySelector('.countered-heroes');
                         console.log('Found current score div:', scoreDiv);
                         if (scoreDiv) {
                             scoreDiv.textContent = score;
+                        }
+                        if (counteredDiv && counteredHeroes) {
+                            counteredDiv.innerHTML = counteredHeroes
+                                .slice(0, 3) // Show max 3 countered heroes
+                                .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                                .join('');
                         }
                     }
                 });
@@ -977,7 +1111,7 @@
             // Update enemy team scores
             if (scores.enemy_scores) {
                 console.log('Updating enemy scores:', scores.enemy_scores);
-                scores.enemy_scores.heroes.forEach(([hero, score]) => {
+                scores.enemy_scores.heroes.forEach(([hero, score, counteredHeroes]) => {
                     console.log(`Looking for enemy hero ${hero} with score ${score}`);
                     // Get all selects and find the one with matching hero name (case-insensitive)
                     const selects = document.querySelectorAll('.hero-select[data-team="enemy"]');
@@ -986,9 +1120,16 @@
                     if (select) {
                         const row = select.closest('.player-row');
                         const scoreDiv = row.querySelector('.enemy-score');
+                        const counteredDiv = row.querySelector('.countered-heroes');
                         console.log('Found enemy score div:', scoreDiv);
                         if (scoreDiv) {
                             scoreDiv.textContent = score;
+                        }
+                        if (counteredDiv && counteredHeroes) {
+                            counteredDiv.innerHTML = counteredHeroes
+                                .slice(0, 3) // Show max 3 countered heroes
+                                .map(hero => `<div class="countered-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
+                                .join('');
                         }
                     }
                 });

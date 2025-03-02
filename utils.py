@@ -120,8 +120,9 @@ def validate_team_composition(hero_list: List[str], hero_data: Dict[str, Any], o
 
 def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Dict[str, Any]:
     """Suggest an optimal counter team composition with synergy consideration."""
-    # Calculate counter scores
+    # Calculate counter scores and track which enemies each hero counters
     counter_scores = {}
+    countered_heroes = {}
     for enemy in enemy_team:
         if enemy not in hero_data:
             continue
@@ -130,7 +131,9 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
             for counter in heroes:
                 if counter not in counter_scores:
                     counter_scores[counter] = 0
+                    countered_heroes[counter] = []
                 counter_scores[counter] += 1
+                countered_heroes[counter].append(enemy)
 
     # Group heroes by role
     role_heroes = {'tank': [], 'damage': [], 'support': []}
@@ -138,7 +141,7 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
         if hero in hero_data:
             role = hero_data[hero]['role']
             if role in role_heroes:
-                role_heroes[role].append((hero, score))
+                role_heroes[role].append((hero, score, countered_heroes[hero]))
 
     # Sort heroes by counter score within each role
     for role, heroes in role_heroes.items():
@@ -156,13 +159,13 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
     best_score = 0
 
     # Start with the top tank
-    for tank, tank_score in top_candidates['tank']:
+    for tank, tank_score, tank_countered in top_candidates['tank']:
         # Try different damage combinations
-        for i, (damage1, damage1_score) in enumerate(top_candidates['damage']):
-            for j, (damage2, damage2_score) in enumerate(top_candidates['damage'][i+1:], i+1):
+        for i, (damage1, damage1_score, damage1_countered) in enumerate(top_candidates['damage']):
+            for j, (damage2, damage2_score, damage2_countered) in enumerate(top_candidates['damage'][i+1:], i+1):
                 # Try different support combinations
-                for k, (support1, support1_score) in enumerate(top_candidates['support']):
-                    for l, (support2, support2_score) in enumerate(top_candidates['support'][k+1:], k+1):
+                for k, (support1, support1_score, support1_countered) in enumerate(top_candidates['support']):
+                    for l, (support2, support2_score, support2_countered) in enumerate(top_candidates['support'][k+1:], k+1):
                         # Calculate counter score
                         counter_score = tank_score + damage1_score + damage2_score + support1_score + support2_score
 
@@ -186,16 +189,16 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
                         if total_score > best_score:
                             best_score = total_score
                             best_team = {
-                                'tank': [(tank, tank_score)],
-                                'damage': [(damage1, damage1_score), (damage2, damage2_score)],
-                                'support': [(support1, support1_score), (support2, support2_score)]
+                                'tank': [(tank, tank_score, tank_countered)],
+                                'damage': [(damage1, damage1_score, damage1_countered), (damage2, damage2_score, damage2_countered)],
+                                'support': [(support1, support1_score, support1_countered), (support2, support2_score, support2_countered)]
                             }
 
     # If we couldn't find a good team with synergy, fall back to the original method
     if best_score == 0:
         return {
             'total_score': sum(score for role, heroes in role_heroes.items()
-                              for _, score in heroes[:2 if role != 'tank' else 1]),
+                              for _, score, _ in heroes[:2 if role != 'tank' else 1]),
             'tank': role_heroes['tank'][:1],
             'damage': role_heroes['damage'][:2],
             'support': role_heroes['support'][:2]
@@ -204,7 +207,7 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
     # Return the best team with total score
     return {
         'total_score': best_score,
-        'synergy_bonus': best_score - sum(score for role, heroes in best_team.items() for _, score in heroes),
+        'synergy_bonus': best_score - sum(score for role, heroes in best_team.items() for _, score, _ in heroes),
         'tank': best_team['tank'],
         'damage': best_team['damage'],
         'support': best_team['support']
