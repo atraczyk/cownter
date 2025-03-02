@@ -489,7 +489,7 @@
         }
 
         .countered-hero-icon {
-            border: 1px solid rgb(255, 255, 255);
+            border: 1px solid rgb(255, 121, 121);
             box-shadow: -1px 0px 4px rgba(108, 68, 78, 0.62);
         }
 
@@ -880,8 +880,8 @@
                 if (suggestions[role]) {
                     suggestions[role].forEach((heroData) => {
                         console.log(`Processing hero data for ${role}:`, heroData);  // Debug log
-                        const [hero, heroScore, counteredHeroes, synergizingHeroes] = heroData;
-                        console.log(`Extracted data - hero: ${hero}, score: ${heroScore}, countered: `, counteredHeroes, 'synergizes:', synergizingHeroes);  // Debug log
+                        const [hero, counterScore, counteredHeroes, synergizingHeroes] = heroData;
+                        console.log(`Extracted data - hero: ${hero}, counter: ${counterScore}, countered: `, counteredHeroes, 'synergizes:', synergizingHeroes);  // Debug log
 
                         const row = document.createElement('div');
                         row.className = 'player-row';
@@ -894,12 +894,16 @@
                             .map(hero => `<div class="synergizing-hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>`)
                             .join('');
 
+                        // Calculate total score (need to add synergy bonuses)
+                        const synergyBonus = (synergizingHeroes || []).length * 0.5;
+                        const totalScore = counterScore + synergyBonus;
+
                         row.innerHTML = `
                             <div class="role-icon role-${role}"></div>
                             <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
                             <div style="font-weight: bold;">${hero}</div>
                             <div class="score-section">
-                                <div class="score">${heroScore}</div>
+                                <div class="score">${totalScore}</div>
                                 <div class="countered-heroes">${counteredHeroesHTML}</div>
                                 <div class="synergizing-heroes">${synergizingHeroesHTML}</div>
                             </div>
@@ -918,10 +922,14 @@
                 }
             });
 
-            // Add total score
+            // Calculate total score (need to add synergy bonuses)
             const totalScore = ['tank', 'damage', 'support'].reduce((total, role) => {
                 if (!suggestions[role]) return total;
-                return total + suggestions[role].reduce((roleTotal, [_, score]) => roleTotal + score, 0);
+                return total + suggestions[role].reduce((roleTotal, [hero, counterScore, _countered, synergizingHeroes]) => {
+                    // Add counter score and synergy bonus (0.5 per synergy)
+                    const synergyBonus = (synergizingHeroes || []).length * 0.5;
+                    return roleTotal + counterScore + synergyBonus;
+                }, 0);
             }, 0);
 
             const score = document.createElement('div');
