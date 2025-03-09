@@ -3,10 +3,10 @@ Overwatch 2 counter analyzer module.
 Provides classes for analyzing hero counter relationships and suggesting optimal team compositions.
 """
 
-import logging
-import pandas as pd
-from typing import List, Dict, Any, Optional, Tuple
 from collections import defaultdict
+from typing import List, Dict, Any, Tuple
+
+import pandas as pd
 
 from utils import (
     normalize_hero_name,
@@ -43,7 +43,8 @@ class HeroDataProvider:
                 # Map singular role to plural category
                 role_category = role + "s" if role != "damage" else role
 
-                for role_target, strong_targets in data["strong_against"].items():
+                # (role_target, strong_targets)
+                for _, strong_targets in data["strong_against"].items():
                     for target in strong_targets:
                         if target in self._hero_data:
                             weak_against[target][role_category].append(hero)
@@ -122,14 +123,19 @@ class CounterAnalyzer:
         matrix = pd.DataFrame(0, index=heroes, columns=heroes)
 
         for hero, info in hero_data.items():
-            for role, counters in info['strong_against'].items():
+            # (role, counters)
+            for _, counters in info['strong_against'].items():
                 for counter in counters:
                     if counter in matrix.columns:
                         matrix.loc[hero, counter] = 1
 
         return matrix
 
-    def compute_team_stats(self, current_team: Dict[str, str], enemy_team: List[str]) -> Dict[str, Any]:
+    def compute_team_stats(
+        self,
+        current_team: Dict[str, str],
+        enemy_team: List[str]
+    ) -> Dict[str, Any]:
         """
         Compute team stats for current team against enemy team.
 
@@ -141,7 +147,7 @@ class CounterAnalyzer:
             Dictionary with team stats including counter and synergy scores
         """
         hero_data = self.data_provider.hero_data
-        weak_against_data = self.data_provider.weak_against_data
+        # For now, we don't use self.data_provider.weak_against_data
 
         team_stats = {
             "total_counter_score": 0,
@@ -150,7 +156,9 @@ class CounterAnalyzer:
         }
 
         # Filter out None values and normalize hero names
-        current_heroes = {slot: normalize_hero_name(hero) for slot, hero in current_team.items() if hero}
+        current_heroes = {
+            slot: normalize_hero_name(hero) for slot, hero in current_team.items() if hero
+        }
         enemy_heroes = [normalize_hero_name(hero) for hero in enemy_team if hero]
 
         # Skip if either team is empty
@@ -175,14 +183,16 @@ class CounterAnalyzer:
                     # Map the enemy role to the correct category in strong_against
                     enemy_category = enemy_role + "s" if enemy_role != "damage" else enemy_role
 
-                    if "strong_against" in hero_data[hero] and enemy_category in hero_data[hero]["strong_against"]:
+                    if ("strong_against" in hero_data[hero] and
+                            enemy_category in hero_data[hero]["strong_against"]):
                         if enemy in hero_data[hero]["strong_against"][enemy_category]:
                             strong_against.append(enemy)
                             counter_score += 1  # +1 for each enemy countered
 
             # Calculate synergy stats
             if "synergizes_with" in hero_data[hero]:
-                for category, allies in hero_data[hero]["synergizes_with"].items():
+                # (category, allies)
+                for _, allies in hero_data[hero]["synergizes_with"].items():
                     for ally in allies:
                         if ally in current_heroes.values():  # Check if ally is in the same team
                             synergizes_with.append(ally)
@@ -204,7 +214,11 @@ class CounterAnalyzer:
 
         return team_stats
 
-    def compute_enemy_stats(self, current_team: Dict[str, str], enemy_team: List[str]) -> Dict[str, Any]:
+    def compute_enemy_stats(
+        self,
+        current_team: Dict[str, str],
+        enemy_team: List[str]
+    ) -> Dict[str, Any]:
         """
         Compute stats for enemy team against current team.
 
@@ -216,7 +230,6 @@ class CounterAnalyzer:
             Dictionary with enemy team stats
         """
         hero_data = self.data_provider.hero_data
-        weak_against_data = self.data_provider.weak_against_data
 
         enemy_stats = {
             "total_counter_score": 0,
@@ -224,7 +237,9 @@ class CounterAnalyzer:
         }
 
         # Filter out None values and normalize hero names
-        current_heroes = {slot: normalize_hero_name(hero) for slot, hero in current_team.items() if hero}
+        current_heroes = {
+            slot: normalize_hero_name(hero) for slot, hero in current_team.items() if hero
+        }
         enemy_heroes = [normalize_hero_name(hero) for hero in enemy_team if hero]
 
         # Skip if either team is empty
@@ -247,7 +262,8 @@ class CounterAnalyzer:
                     # Map the ally role to the correct category in strong_against
                     ally_category = ally_role + "s" if ally_role != "damage" else ally_role
 
-                    if "strong_against" in hero_data[enemy] and ally_category in hero_data[enemy]["strong_against"]:
+                    if ("strong_against" in hero_data[enemy] and
+                            ally_category in hero_data[enemy]["strong_against"]):
                         if ally in hero_data[enemy]["strong_against"][ally_category]:
                             strong_against.append(ally)
                             counter_score += 1  # +1 for each ally countered
@@ -292,7 +308,8 @@ class CounterAnalyzer:
         role_category = role2 + "s" if role2 != "damage" else role2
 
         # Check if hero1 counters hero2
-        if "strong_against" in hero_data[hero1] and role_category in hero_data[hero1]["strong_against"]:
+        if ("strong_against" in hero_data[hero1] and
+                role_category in hero_data[hero1]["strong_against"]):
             if hero2 in hero_data[hero1]["strong_against"][role_category]:
                 return 1.0
 
@@ -302,7 +319,12 @@ class CounterAnalyzer:
 class CounterResultFormatter:
     """Formats counter analysis results for display."""
 
-    def format_hero_counters(self, hero: str, counters: Dict[str, List[str]], role: str) -> str:
+    def format_hero_counters(
+        self,
+        hero: str,
+        counters: Dict[str, List[str]],
+        role: str
+    ) -> str:
         """Format counters for a specific hero."""
         result = f"\nCounters for {hero} ({role}):\n"
         result += f"\tTank\t: {', '.join(counters['tanks'])}\n"
@@ -335,7 +357,8 @@ class CounterResultFormatter:
         team_summary = ", ".join(counters)
         result += f"\nSuggested team: {team_summary}"
 
-        speech_text = f"Suggested counters: {team_summary}. Total effectiveness score: {total_score}"
+        speech_text = (f"Suggested counters: {team_summary}. "
+                     f"Total effectiveness score: {total_score}")
         if synergy_bonus > 0:
             speech_text += f", including {synergy_bonus:.1f} points from hero synergies"
 
@@ -343,7 +366,7 @@ class CounterResultFormatter:
 
     def format_team_stats(self, team_stats: Dict[str, Any]) -> str:
         """Format team stats for display."""
-        result = f"\nTeam Stats:\n"
+        result = "\nTeam Stats:\n"
         result += f"Total Counter Score: {team_stats['total_counter_score']}\n"
         result += f"Total Synergy Score: {team_stats['total_synergy_score']}\n\n"
 
