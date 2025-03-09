@@ -8,7 +8,7 @@ from typing import List, Dict, Any, Tuple
 
 import pandas as pd
 
-from utils import (
+from src.utils.utils import (
     normalize_hero_name,
     get_closest_match,
     load_hero_data,
@@ -19,32 +19,55 @@ from utils import (
 class HeroDataProvider:
     """Responsible for loading and providing access to hero data."""
 
-    def __init__(self, data_path: str = 'hero_data.json'):
-        """Initialize with path to hero data file."""
+    def __init__(self, data_path: str = 'src/core/hero_data.json', test_data: Dict[str, Any] = None):
+        """
+        Initialize with path to hero data file.
+
+        Args:
+            data_path: Path to the hero data JSON file
+            test_data: Optional test data to use instead of loading from file (for testing)
+        """
         self.data_path = data_path
-        self._hero_data = None
+        self._hero_data = test_data
         self._weak_against_data = None
+
+        # If test data was provided, compute weak_against relationships
+        if self._hero_data:
+            self._weak_against_data = self._infer_weak_against()
 
     def load_data(self) -> bool:
         """Load hero data from file."""
+        # If we already have data (e.g., from test_data), don't load from file
+        if self._hero_data is not None:
+            return True
+
+        # Load data from file
         self._hero_data = load_hero_data()
+
+        # Check if data was loaded successfully
         if self._hero_data:
             self._weak_against_data = self._infer_weak_against()
             return True
+
         return False
 
     def _infer_weak_against(self) -> Dict[str, Dict[str, List[str]]]:
         """Infer weak_against relationships from strong_against data."""
-        weak_against = defaultdict(lambda: {"tanks": [], "damage": [], "supports": []})
+        weak_against = defaultdict(lambda: {"tanks": [], "damage": [], "support": []})
 
         for hero, data in self._hero_data.items():
             if "strong_against" in data:
                 role = data["role"]
-                # Map singular role to plural category
-                role_category = role + "s" if role != "damage" else role
+                # Map singular role to plural category for tanks and support
+                if role == "tank":
+                    role_category = "tanks"
+                elif role == "support":
+                    role_category = "support"  # Keep as "support" to match our weak_against structure
+                else:
+                    role_category = role  # "damage" stays as "damage"
 
                 # (role_target, strong_targets)
-                for _, strong_targets in data["strong_against"].items():
+                for target_role, strong_targets in data["strong_against"].items():
                     for target in strong_targets:
                         if target in self._hero_data:
                             weak_against[target][role_category].append(hero)
@@ -329,7 +352,7 @@ class CounterResultFormatter:
         result = f"\nCounters for {hero} ({role}):\n"
         result += f"\tTank\t: {', '.join(counters['tanks'])}\n"
         result += f"\tDamage\t: {', '.join(counters['damage'])}\n"
-        result += f"\tSupport\t: {', '.join(counters['supports'])}"
+        result += f"\tSupport\t: {', '.join(counters['support'])}"
         return result
 
     def format_counter_suggestions(self, suggestions: Dict[str, Any]) -> Tuple[str, str]:

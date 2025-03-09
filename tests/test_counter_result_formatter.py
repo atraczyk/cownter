@@ -3,8 +3,13 @@ Tests for the CounterResultFormatter class in counter_analyzer.py
 """
 
 import unittest
+import sys
+import os
 
-from counter_analyzer import CounterResultFormatter
+# Add the parent directory to the path so we can import modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.core.counter_analyzer import CounterResultFormatter
 
 
 class TestCounterResultFormatter(unittest.TestCase):

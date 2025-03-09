@@ -3,8 +3,8 @@ Module for handling voice input for team composition in Overwatch 2.
 """
 
 from typing import Optional, List, Dict, Any
-from speech_handler import SpeechHandler
-from utils import normalize_hero_name, get_closest_match
+from src.voice.speech_handler import SpeechHandler
+from src.utils.utils import normalize_hero_name, get_closest_match
 
 class TeamVoiceHandler:
     """Handles voice input for team composition."""

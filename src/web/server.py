@@ -1,10 +1,13 @@
 """Web server for Overwatch 2 counter picker."""
 
 from flask import Flask, render_template, jsonify, request, send_from_directory
-from counter_analyzer import HeroDataProvider, TeamValidator, CounterAnalyzer
 import os
 
-app = Flask(__name__)
+from src.core.counter_analyzer import HeroDataProvider, TeamValidator, CounterAnalyzer
+
+# Create Flask app with correct template and static folder paths
+template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../templates'))
+app = Flask(__name__, template_folder=template_dir)
 
 # Initialize our classes
 data_provider = HeroDataProvider()
@@ -23,22 +26,26 @@ teams = {
 @app.route('/resources/<path:filename>')
 def serve_resource(filename):
     """Serve resource files."""
-    return send_from_directory('resources', filename)
+    resources_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources'))
+    return send_from_directory(resources_dir, filename)
 
 @app.route('/resources/css/<path:filename>')
 def serve_css(filename):
     """Serve CSS files."""
-    return send_from_directory(os.path.join('resources', 'css'), filename)
+    css_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/css'))
+    return send_from_directory(css_dir, filename)
 
 @app.route('/resources/js/<path:filename>')
 def serve_js(filename):
     """Serve JavaScript files."""
-    return send_from_directory(os.path.join('resources', 'js'), filename)
+    js_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/js'))
+    return send_from_directory(js_dir, filename)
 
 @app.route('/resources/roles/<path:filename>')
 def serve_roles(filename):
     """Serve role icon files."""
-    return send_from_directory(os.path.join('resources', 'roles'), filename)
+    roles_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/roles'))
+    return send_from_directory(roles_dir, filename)
 
 @app.route('/')
 def index():

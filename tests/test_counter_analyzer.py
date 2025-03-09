@@ -4,10 +4,15 @@ Tests for the CounterAnalyzer class in counter_analyzer.py
 
 import unittest
 from unittest.mock import patch, MagicMock
+import sys
+import os
+
+# Add the parent directory to the path so we can import modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import pandas as pd
 
-from counter_analyzer import CounterAnalyzer, HeroDataProvider
+from src.core.counter_analyzer import CounterAnalyzer, HeroDataProvider
 
 
 class TestCounterAnalyzer(unittest.TestCase):
@@ -144,11 +149,10 @@ class TestCounterAnalyzer(unittest.TestCase):
 
         self.analyzer = CounterAnalyzer(self.mock_provider)
 
-    @patch('counter_analyzer.suggest_counter_team')
-    def test_suggest_counters(self, mock_suggest):
+    def test_suggest_counters(self):
         """Test suggesting counters for an enemy team."""
-        # Set up the mock to return a specific value
-        mock_suggest.return_value = {
+        # Create a mock return value
+        mock_return = {
             "tank": [("zarya", 5.0)],
             "damage": [("soldier76", 4.0), ("cassidy", 3.0)],
             "support": [("ana", 3.5), ("lucio", 2.5)],
@@ -156,21 +160,19 @@ class TestCounterAnalyzer(unittest.TestCase):
             "synergy_bonus": 0.0
         }
 
-        # Test with an enemy team
+        # Create a test enemy team
         enemy_team = ["reinhardt", "genji", "tracer", "mercy", "lucio"]
-        result = self.analyzer.suggest_counters(enemy_team)
 
-        # Verify suggest_counter_team was called with the right arguments
-        mock_suggest.assert_called_once_with(self.mock_provider.hero_data, enemy_team)
+        # Mock the suggest_counter_team function directly in the module where it's imported from
+        with patch('src.core.counter_analyzer.suggest_counter_team', return_value=mock_return) as mock_suggest:
+            # Call the method under test
+            result = self.analyzer.suggest_counters(enemy_team)
 
-        # Check the result
-        self.assertEqual(result, {
-            "tank": [("zarya", 5.0)],
-            "damage": [("soldier76", 4.0), ("cassidy", 3.0)],
-            "support": [("ana", 3.5), ("lucio", 2.5)],
-            "total_score": 18.0,
-            "synergy_bonus": 0.0
-        })
+            # Verify suggest_counter_team was called with the right arguments
+            mock_suggest.assert_called_once_with(self.mock_provider.hero_data, enemy_team)
+
+            # Verify the result is what we expect
+            self.assertEqual(result, mock_return)
 
     def test_show_hero_counters(self):
         """Test showing counters for a single hero."""

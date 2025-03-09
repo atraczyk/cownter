@@ -6,6 +6,7 @@ import json
 import logging
 import unicodedata
 from typing import List, Dict, Any
+import os
 
 def levenshtein(s1: str, s2: str) -> int:
     """Calculate the Levenshtein distance between two strings."""
@@ -84,7 +85,9 @@ def get_closest_match(hero: str, hero_list: List[str]) -> str:
 def load_hero_data() -> Dict[str, Any]:
     """Load hero data from the JSON file."""
     try:
-        with open('hero_data.json', 'r', encoding='utf-8') as f:
+        # Use absolute path to the hero_data.json file
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src/core/hero_data.json'))
+        with open(file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except (json.JSONDecodeError, FileNotFoundError) as e:
         logging.error("Error loading hero_data.json: %s", str(e))

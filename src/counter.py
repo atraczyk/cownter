@@ -5,15 +5,15 @@ Uses hero_data.json for hero counter relationships and team composition analysis
 
 import logging
 import argparse
-import server
 
-from counter_analyzer import (
+from src.web import server
+from src.core.counter_analyzer import (
     HeroDataProvider,
     TeamValidator,
     CounterAnalyzer,
     CounterResultFormatter
 )
-from utils import normalize_hero_name
+from src.utils.utils import normalize_hero_name
 
 # Allow non-top-level imports
 # pylint: disable=import-outside-toplevel
@@ -116,8 +116,8 @@ def main():
         return
 
     if not (args.list_heroes or args.heroes) or args.listen:
-        from speech_handler import SpeechHandler
-        from voice_handler import TeamVoiceHandler
+        from src.voice.speech_handler import SpeechHandler
+        from src.voice.voice_handler import TeamVoiceHandler
         speech_handler = SpeechHandler()
         voice_handler = TeamVoiceHandler(data_provider.hero_data, speech_handler)
 

@@ -10,6 +10,27 @@ A tool to analyze Overwatch 2 hero counter relationships and suggest optimal tea
 - Voice input support for enemy team composition
 - Web interface
 
+## Project Structure
+
+```
+ow2-counters/
+├── main.py                 # Main entry point
+├── src/                    # Source code
+│   ├── core/               # Core functionality
+│   │   ├── counter_analyzer.py
+│   │   └── hero_data.json
+│   ├── web/                # Web server
+│   │   └── server.py
+│   ├── voice/              # Voice recognition
+│   │   ├── speech_handler.py
+│   │   └── voice_handler.py
+│   └── utils/              # Utility functions
+│       └── utils.py
+├── resources/              # Static resources (images, CSS, JS)
+├── templates/              # HTML templates
+└── tests/                  # Test suite
+```
+
 ## Requirements
 
 - Python 3.10+
@@ -38,29 +59,29 @@ pip install -r requirements.txt
 
 ```bash
 # Show counters for a single hero
-python counter.py --heroes reinhardt
+python main.py --heroes reinhardt
 
 # Suggest counters for an enemy team
-python counter.py --heroes "reinhardt,genji,tracer,mercy,lucio"
+python main.py --heroes "reinhardt,genji,tracer,mercy,lucio"
 
 # Show detailed team stats
-python counter.py --heroes "reinhardt,genji,tracer,mercy,lucio" --stats
+python main.py --heroes "reinhardt,genji,tracer,mercy,lucio" --stats
 
 # List all available heroes
-python counter.py --list-heroes
+python main.py --list-heroes
 
 # Use voice input
-python counter.py --listen
+python main.py --listen
 ```
 
 ### Web Interface
 
 ```bash
 # Start web interface
-python counter.py --serve
+python main.py --serve
 
 # Start web interface on specific port
-python counter.py --serve --port 8080
+python main.py --serve --port 8080
 ```
 
 ## Testing
@@ -76,15 +97,15 @@ python tests/run_with_coverage.py
 ```
 
 Current test coverage:
-- counter_analyzer.py: 91%
-- utils.py: 54%
+- src/core/counter_analyzer.py: 91%
+- src/utils/utils.py: 54%
 
 For more details on testing, see [tests/README.md](tests/README.md).
 
 ## Building Executable
 
 ```bash
-pyinstaller --onefile --icon=ow2.ico --name="compinator" counter.py
+pyinstaller --onefile --icon=ow2.ico --name="compinator" main.py
 ```
 
 ## Resource Management
@@ -92,7 +113,7 @@ pyinstaller --onefile --icon=ow2.ico --name="compinator" counter.py
 To download hero icons from the official Overwatch website:
 
 ```bash
-python resource_grabber.py
+python tools/resource_grabber.py
 ```
 
 
