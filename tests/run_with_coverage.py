@@ -18,6 +18,9 @@ if __name__ == "__main__":
     )
     cov.start()
 
+    # Import the modules to be tested to ensure they are covered
+    from src import counter  # Import counter.py for coverage
+
     # Use unittest discover to find and run all tests
     test_loader = unittest.TestLoader()
     test_suite = test_loader.discover(os.path.dirname(__file__), pattern="test_*.py")
@@ -37,7 +40,7 @@ if __name__ == "__main__":
         # Generate HTML report
         cov.html_report(directory="coverage_html")
         print("\nHTML coverage report generated in coverage_html directory")
-    except Exception as e:
+    except (coverage.CoverageException, IOError) as e:
         print(f"Error generating coverage report: {e}")
 
     # Exit with non-zero code if tests failed
