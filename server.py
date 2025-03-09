@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from counter_analyzer import HeroDataProvider, TeamValidator, CounterAnalyzer
+import os
 
 app = Flask(__name__)
 
@@ -23,6 +24,21 @@ teams = {
 def serve_resource(filename):
     """Serve resource files."""
     return send_from_directory('resources', filename)
+
+@app.route('/resources/css/<path:filename>')
+def serve_css(filename):
+    """Serve CSS files."""
+    return send_from_directory(os.path.join('resources', 'css'), filename)
+
+@app.route('/resources/js/<path:filename>')
+def serve_js(filename):
+    """Serve JavaScript files."""
+    return send_from_directory(os.path.join('resources', 'js'), filename)
+
+@app.route('/resources/roles/<path:filename>')
+def serve_roles(filename):
+    """Serve role icon files."""
+    return send_from_directory(os.path.join('resources', 'roles'), filename)
 
 @app.route('/')
 def index():
