@@ -57,9 +57,9 @@ body {
     background-size: cover;
     background-position: center;
 }
-.role-tank { background-image: url('/resources/roles/tank.svg'); }
-.role-damage { background-image: url('/resources/roles/damage.svg'); }
-.role-support { background-image: url('/resources/roles/support.svg'); }
+.role-tank { background-image: url('/resources/images/roles/tank.svg'); }
+.role-damage { background-image: url('/resources/images/roles/damage.svg'); }
+.role-support { background-image: url('/resources/images/roles/support.svg'); }
 .hero-icon {
     width: 30px;
     height: 30px;

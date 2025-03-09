@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 URL = "https://overwatch.blizzard.com/en-us/heroes"
 
 # Create a folder to store the images
-OUTPUT_FOLDER = "resources"
+OUTPUT_FOLDER = "resources/images/icons"
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def load_hero_data():

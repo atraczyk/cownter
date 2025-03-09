@@ -9,7 +9,7 @@
  */
 function getHeroIcon(hero) {
     if (!hero) return '';
-    return `/resources/icon-${hero.toLowerCase()}.png`;
+    return `/resources/images/icons/icon-${hero.toLowerCase()}.png`;
 }
 
 /**

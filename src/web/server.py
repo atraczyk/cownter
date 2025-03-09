@@ -41,11 +41,17 @@ def serve_js(filename):
     js_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/js'))
     return send_from_directory(js_dir, filename)
 
-@app.route('/resources/roles/<path:filename>')
+@app.route('/resources/images/roles/<path:filename>')
 def serve_roles(filename):
     """Serve role icon files."""
-    roles_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/roles'))
+    roles_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/images/roles'))
     return send_from_directory(roles_dir, filename)
+
+@app.route('/resources/images/icons/<path:filename>')
+def serve_icons(filename):
+    """Serve hero icon files."""
+    icons_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../resources/images/icons'))
+    return send_from_directory(icons_dir, filename)
 
 @app.route('/')
 def index():
