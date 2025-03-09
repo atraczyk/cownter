@@ -23,5 +23,7 @@ Thumbs.db
 build/
 dist/
 
-# internet images and whatnot
-community-data/
+# Coverage
+.coverage
+coverage_html/
+htmlcov/

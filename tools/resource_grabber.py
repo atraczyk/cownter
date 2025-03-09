@@ -1,8 +1,12 @@
+"""
+Script to download hero icons from the official Overwatch website.
+"""
+
 import os
 import json
+from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
 
 # URL of the official Overwatch heroes page
 URL = "https://overwatch.blizzard.com/en-us/heroes"
@@ -13,7 +17,7 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def load_hero_data():
     """Load hero data from JSON file."""
-    with open('hero_data.json', 'r') as f:
+    with open('hero_data.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def is_valid_image_url(url: str) -> bool:
@@ -34,7 +38,7 @@ def get_hero_icons():
     print(f"Looking for icons for {len(hero_names)} heroes")
 
     # Get page content
-    response = requests.get(URL)
+    response = requests.get(URL, timeout=30)
     soup = BeautifulSoup(response.text, "html.parser")
 
     # Find all hero cards
@@ -78,7 +82,7 @@ def get_hero_icons():
 
         try:
             # Download and save the image
-            response = requests.get(img_url)
+            response = requests.get(img_url, timeout=30)
             response.raise_for_status()
 
             with open(img_path, "wb") as f:
@@ -98,6 +102,7 @@ def get_hero_icons():
     print(f"\nDownload complete! Found {len(found_heroes)} of {len(hero_names)} hero icons")
 
 def main():
+    """Main function to execute the script."""
     get_hero_icons()
 
 if __name__ == "__main__":

@@ -36,10 +36,7 @@ python tests/run_with_coverage.py
 
 This will generate a coverage report in the terminal and an HTML report in the `coverage_html` directory.
 
-Current coverage:
-- counter_analyzer.py: 91%
-- utils.py: 54%
-- Other files: Not yet covered
+> Note: The `coverage_html` directory is not versioned in Git as it contains generated files. Each developer should run the coverage tool locally to generate their own reports.
 
 The tests cover the following functionality:
 
