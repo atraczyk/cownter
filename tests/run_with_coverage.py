@@ -14,15 +14,9 @@ if __name__ == "__main__":
     # Start coverage
     cov = coverage.Coverage(
         source=["src"],
-        omit=["tests/*", "*.venv*", "*site-packages*"]
+        omit=["tests/*", "*.venv*", "*site-packages*", "*/__init__.py", "*\\__init__.py"]
     )
     cov.start()
-
-    # Import the modules to be tested to ensure they are covered
-    from src.core import counter_analyzer
-    from src.utils import utils
-    from src.web import server
-    from src.voice import speech_handler, voice_handler
 
     # Use unittest discover to find and run all tests
     test_loader = unittest.TestLoader()
