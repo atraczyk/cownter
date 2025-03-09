@@ -325,9 +325,12 @@ class CounterResultFormatter:
         for role, heroes in suggestions.items():
             if role not in ['total_score', 'synergy_bonus']:
                 result += f"\n{role.upper()}:\n"
-                for hero, score in heroes:
-                    result += f"- {hero} (counters {score} enemies)\n"
-                    counters.append(hero)
+                for hero_data in heroes:
+                    # Handle both (hero, score) and (hero, score, countered) formats
+                    if len(hero_data) >= 2:
+                        hero, score = hero_data[0], hero_data[1]
+                        result += f"- {hero} (counters {score} enemies)\n"
+                        counters.append(hero)
 
         team_summary = ", ".join(counters)
         result += f"\nSuggested team: {team_summary}"

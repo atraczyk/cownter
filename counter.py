@@ -132,6 +132,7 @@ def main():
                 normalized_heroes = team_validator.normalize_team(heroes)
                 suggestions = counter_analyzer.suggest_counters(normalized_heroes)
                 _, speech_text = formatter.format_counter_suggestions(suggestions)
+                print(speech_text)
                 speech_handler.speak(speech_text)
 
                 if voice_handler.get_speech_confirmation("Would you like to check another team?"):
