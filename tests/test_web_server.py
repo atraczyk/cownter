@@ -322,6 +322,28 @@ class TestWebServer(unittest.TestCase):
             self.assertIsNone(data['context']['side'])
             self.assertEqual(data['map_fit'], {})
 
+    def test_update_team_adopts_page_teams(self):
+        """Test /api/update_team trusts the page's teams over stale server state."""
+        stale = {'enemy': [None] * 5, 'counter': [None, 'pharah', None, None, None]}
+        page = {'enemy': [None] * 5, 'counter': [None, None, 'pharah', None, None]}
+        with patch('src.web.server.teams', stale):
+            response = self.client.post('/api/update_team',
+                                        json={'team': 'counter', 'slot': 2, 'hero': 'pharah', 'teams': page})
+            data = json.loads(response.data)
+            self.assertNotIn('error', data)
+            self.assertEqual(data['teams']['counter'], [None, None, 'pharah', None, None])
+
+    def test_update_team_ignores_malformed_page_teams(self):
+        """Test /api/update_team keeps its state when the page sends unknown heroes or bad slots."""
+        stored = {'enemy': [None] * 5, 'counter': ['reinhardt', None, None, None, None]}
+        with patch('src.web.server.teams', stored):
+            for bad in ({'enemy': [None] * 5, 'counter': ['nobody', None, None, None, None]},
+                        {'enemy': [None] * 4, 'counter': [None] * 5}):
+                response = self.client.post('/api/update_team',
+                                            json={'team': 'counter', 'slot': 1, 'hero': 'genji', 'teams': bad})
+                data = json.loads(response.data)
+                self.assertEqual(data['teams']['counter'][0], 'reinhardt')
+
     def test_server_start(self):
         """Test the server start function."""
         with patch('flask.Flask.run') as mock_run:

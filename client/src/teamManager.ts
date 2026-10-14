@@ -20,6 +20,25 @@ function teamLabel(team: TeamName): string {
   return team === 'enemy' ? 'enemy' : 'your';
 }
 
+export function showStatus(message: string | null): void {
+  const status = document.querySelector('.load-error');
+  if (!status) return;
+  status.textContent = message ?? '';
+  status.toggleAttribute('hidden', !message);
+}
+
+export function pageTeams(): TeamsState {
+  const teams = EMPTY_TEAMS();
+  document.querySelectorAll<HTMLSelectElement>('.hero-select').forEach((select) => {
+    const team = select.dataset.team as TeamName;
+    const slot = Number(select.dataset.slot);
+    if (teams[team] && slot >= 0 && slot < teams[team].length) teams[team][slot] = select.value || null;
+  });
+  return teams;
+}
+
+let heroRoles: HeroesWithRoles | null = null;
+
 export const TeamManager = {
   saveTeams(teams: TeamsState): void {
     localStorage.setItem('ow2_teams', JSON.stringify(teams));
@@ -44,6 +63,7 @@ export const TeamManager = {
       updateHeroIcon(select);
     });
     if (team === 'enemy') SuggestionManager.clear();
+    this.updateDropdowns();
     notifyViewChange();
 
     API.clearTeam(team)
@@ -59,7 +79,9 @@ export const TeamManager = {
       });
   },
 
-  updateDropdowns(heroData: HeroesWithRoles): void {
+  updateDropdowns(heroData: HeroesWithRoles | null = heroRoles): void {
+    if (!heroData) return;
+    heroRoles = heroData;
     document.querySelectorAll<HTMLSelectElement>('.hero-select').forEach((select) => {
       const role = select.dataset.role;
       const team = select.dataset.team;
@@ -98,19 +120,24 @@ export const TeamManager = {
         const hero = select.value;
 
         updateHeroIcon(select);
+        this.updateDropdowns();
         notifyViewChange();
+        const teams = pageTeams();
+        this.saveTeams(teams);
 
-        API.updateTeam(team, slot, hero)
+        API.updateTeam(team, slot, hero, teams)
           .then((data) => {
+            showStatus(null);
             if (data.error) {
               alert(data.error);
               select.value = '';
               updateHeroIcon(select);
+              this.updateDropdowns();
+              this.saveTeams(pageTeams());
               notifyViewChange();
               return;
             }
 
-            this.saveTeams(data.teams);
 
             if (team === 'enemy') {
               if (data.suggestions) {
@@ -129,11 +156,7 @@ export const TeamManager = {
           })
           .catch((error: unknown) => {
             console.error('Error updating team:', error);
-            const message = error instanceof Error ? error.message : String(error);
-            alert(`Could not update the team: ${message}`);
-            select.value = '';
-            updateHeroIcon(select);
-            notifyViewChange();
+            showStatus('Could not reach the counter API, so scores are out of date. Your picks are kept; change any slot to retry.');
           });
       });
     });
@@ -151,6 +174,7 @@ export const TeamManager = {
         updateHeroIcon(select);
       });
     });
+    this.updateDropdowns();
     notifyViewChange();
   },
 };

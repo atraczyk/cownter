@@ -7,7 +7,7 @@ import { MatchContextBar } from './matchContext';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
 import { renderTeamRows } from './teamRows';
-import { TeamManager } from './teamManager';
+import { showStatus, TeamManager } from './teamManager';
 import { loadContext, onViewChange, viewState } from './viewState';
 
 function bindClearButtons(): void {
@@ -56,10 +56,6 @@ bindClearButtons();
 window.addEventListener('load', () => {
   start().catch((error: unknown) => {
     console.error('Error initializing application:', error);
-    const status = document.querySelector('.load-error');
-    if (status) {
-      status.textContent = 'Could not reach the counter API. Start it with "python main.py --serve" and reload.';
-      status.removeAttribute('hidden');
-    }
+    showStatus('Could not reach the counter API. Start it with "python main.py --serve" and reload.');
   });
 });

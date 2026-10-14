@@ -1,6 +1,7 @@
 import { API } from './api';
 import { findMap, findMode, mapsForMode } from './compFit';
 import { SuggestionManager } from './suggestionManager';
+import { pageTeams, showStatus } from './teamManager';
 import type { CompData, MatchContext, Side } from './types';
 import { emptyContext, notifyViewChange, saveContext, viewState } from './viewState';
 
@@ -41,7 +42,14 @@ export const MatchContextBar = {
     this.render();
     notifyViewChange();
 
-    const response = await API.setContext(viewState.context);
+    let response;
+    try {
+      response = await API.setContext(viewState.context, pageTeams());
+      showStatus(null);
+    } catch {
+      showStatus('Could not reach the counter API, so map fit is out of date. Pick the point again to retry.');
+      return;
+    }
     viewState.mapFit = response.map_fit;
     if (response.suggestions) SuggestionManager.updateCounterSuggestions(response.suggestions);
     notifyViewChange();

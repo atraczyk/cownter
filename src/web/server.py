@@ -110,6 +110,20 @@ def match_hero(hero):
     match = team_validator.match_hero_names([hero])[0]
     return jsonify({'match': match})
 
+def adopt_client_teams(client_teams):
+    """Replace the stored teams with the page's own, so other tabs or a server restart can't desync it."""
+    if not isinstance(client_teams, dict):
+        return
+    known = data_provider.hero_data
+    for name in teams:
+        slots = client_teams.get(name)
+        if not isinstance(slots, list) or len(slots) != len(teams[name]):
+            return
+        if any(hero is not None and hero not in known for hero in slots):
+            return
+    for name in teams:
+        teams[name] = list(client_teams[name])
+
 def is_duplicate_hero(hero, team_heroes, current_slot):
     """Check if hero is already selected in another slot."""
     return hero in [h for i, h in enumerate(team_heroes) if i != current_slot and h is not None]
@@ -154,6 +168,7 @@ def update_team():
 
         hero = data.get('hero')
         app.logger.info(f"Processing update for team: {team}, slot: {slot}, hero: {hero}")
+        adopt_client_teams(data.get('teams'))
 
         # Check for duplicate hero
         if hero and is_duplicate_hero(hero, teams[team], slot):
@@ -877,6 +892,7 @@ def set_context():
             'point': data.get('point') or None,
             'side': side if side in SIDES else None,
         })
+        adopt_client_teams(data.get('teams'))
 
     enemy_heroes = [h for h in teams['enemy'] if h]
     suggestions = None

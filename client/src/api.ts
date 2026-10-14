@@ -39,8 +39,8 @@ const jsonInit = (body: unknown): RequestInit => ({
 });
 
 export const API = {
-  updateTeam(team: TeamName, slot: number, hero: string): Promise<TeamUpdateResponse> {
-    return request('/api/update_team', jsonInit({ team, slot, hero }));
+  updateTeam(team: TeamName, slot: number, hero: string, teams: TeamsState): Promise<TeamUpdateResponse> {
+    return request('/api/update_team', jsonInit({ team, slot, hero, teams }));
   },
 
   getCurrentScores(): Promise<ScoreUpdate> {
@@ -63,8 +63,8 @@ export const API = {
     return request('/api/comp_data');
   },
 
-  setContext(context: MatchContext): Promise<ContextResponse> {
+  setContext(context: MatchContext, teams: TeamsState): Promise<ContextResponse> {
     const { map, point, side } = context;
-    return request('/api/context', jsonInit({ map, point, side }));
+    return request('/api/context', jsonInit({ map, point, side, teams }));
   },
 };
