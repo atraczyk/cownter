@@ -12,6 +12,7 @@
     "start": "npm start --workspace ow2-counters-client",
     "build": "npm run build --workspace ow2-counters-client",
     "test": "npm test --workspace @ow2/core && npm test --workspace ow2-counters-client",
+    "test:e2e": "npm run test:e2e --workspace ow2-counters-client",
     "preview": "npm run preview --workspace ow2-counters-client",
     "validate-data": "node packages/core/bin/ow2.js validate-data",
     "ow2": "node packages/core/bin/ow2.js"

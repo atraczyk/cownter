@@ -2,6 +2,10 @@
 node_modules/
 client/dist/
 *.tsbuildinfo
+client/test-results/
+client/playwright-report/
+client/blob-report/
+client/playwright/.cache/
 
 # Local env
 .env

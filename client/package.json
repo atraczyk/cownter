@@ -7,12 +7,14 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@ow2/core": "*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "typescript": "^5.6.3",
     "vite": "^6.2.1",
     "vitest": "^3.0.8"
