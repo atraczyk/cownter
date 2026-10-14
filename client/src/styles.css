@@ -1,0 +1,501 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.scoreboard {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+.team {
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+}
+.team-header {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.blue-team {
+    background: linear-gradient(to bottom, #0066cc10, #0066cc20);
+    border: 1px solid #0066cc30;
+}
+.blue-team .team-header {
+    color: #0066cc;
+}
+.red-team {
+    background: linear-gradient(to bottom, #cc000010, #cc000020);
+    border: 1px solid #cc000030;
+}
+.red-team .team-header {
+    color: #cc0000;
+}
+.player-row {
+    display: grid;
+    grid-template-columns: 40px 40px 1fr auto;  /* Changed last column to auto for score section */
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    margin: 4px 0;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+.player-icon {
+    display: none;
+}
+.role-icon {
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-position: center;
+}
+.role-tank { background-image: url('/resources/images/roles/tank.svg'); }
+.role-damage { background-image: url('/resources/images/roles/damage.svg'); }
+.role-support { background-image: url('/resources/images/roles/support.svg'); }
+.hero-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+}
+.hero-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.suggestion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.score {
+    color: #666;
+    font-weight: bold;
+}
+.vs-divider {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: #888;
+}
+/* Make dropdowns look nicer */
+select {
+    width: 100%;  /* Fill available space */
+    min-width: 0;  /* Allow shrinking */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+/* Add styles for the clear button */
+.team-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.clear-teams {
+    font-size: 14px;
+    color: #666;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.clear-teams:hover {
+    background-color: #f0f0f0;
+}
+
+/* Update layout styles */
+.main-container {
+    max-width: 400px;  /* Match left column width for now */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+/* This will be used when we add suggestion blocks */
+@media (min-width: 1200px) {
+    .main-container {
+        max-width: 1400px;
+        display: grid;
+        grid-template-columns: 400px 1fr;
+    }
+
+    .left-column {
+        width: 400px;
+    }
+}
+
+/* Update suggestion block styles */
+.suggestion-block {
+    background: linear-gradient(to bottom, #00cc6610, #00cc6620);
+    border: 1px solid #00cc6630;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+/* Update suggestion block header styles */
+.suggestion-block .team-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.suggestion-block .team-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00cc66;
+}
+
+/* Update player row styles to match team blocks */
+.suggestion-block .player-row {
+    display: grid;
+    grid-template-columns: 40px 40px 1fr auto;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    margin: 4px 0;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Update score section to match team blocks */
+.suggestion-block .score-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: flex-end;
+}
+
+.suggestion-block .score {
+    color: #00cc66;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    min-width: 20px;
+}
+
+.suggestion-block .total-score-display::after {
+    color: #00cc66;
+}
+
+/* Update right column layout */
+.right-column {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Align blocks to the left */
+    gap: 15px;  /* Space between suggestion blocks */
+}
+
+/* Update media query */
+@media (min-width: 1200px) {
+    .main-container {
+        max-width: 1400px;
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 40px;  /* Increase gap between columns */
+    }
+
+    .left-column {
+        width: 400px;
+    }
+
+    .right-column {
+        padding-top: 0;
+    }
+}
+
+/* Update score display styles */
+.score-display {
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+/* Update total score styles to be more fancy */
+.total-score-display {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0 0 0;
+    text-align: right;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-score-display::before {
+    content: 'Total Score:';
+    font-weight: normal;
+    color: #888;
+}
+
+.total-score-display::after {
+    content: attr(data-score);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Update team-specific total score colors */
+.blue-team .total-score-display::after {
+    color: #0066cc;
+}
+
+.red-team .total-score-display::after {
+    color: #cc0000;
+}
+
+.suggestion-block .total-score-display::after {
+    color: #00cc66;
+}
+
+/* Remove old total-score class */
+.total-score {
+    display: none;  /* Hide old style */
+}
+
+/* Update the score colors */
+.current-score {
+    color: #0066cc;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    min-width: 40px;  /* Match grid column width */
+}
+
+.suggestion-block .score {
+    color: #00cc66;  /* Green for suggestions */
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: auto;
+    min-width: 20px;  /* Ensure space for score */
+    text-align: right;
+}
+
+/* Add enemy score styles */
+.enemy-score {
+    color: #cc0000;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    min-width: 40px;  /* Match grid column width */
+}
+
+/* Update hero selector widget styles */
+.hero-selector {
+    position: fixed;
+    left: 20px;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transition: top 0.3s ease-out;
+    z-index: 100;
+    display: none;
+    opacity: 0;
+}
+
+.role-section {
+    margin-bottom: 8px;
+}
+
+.role-section:last-child {
+    margin-bottom: 0;
+}
+
+.role-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #666;
+    padding: 0 2px;
+}
+
+.role-header .role-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);  /* Increased from 7 to 8 columns */
+    gap: 4px;  /* Reduced from 6px */
+    justify-items: center;  /* Center items in grid cells */
+}
+
+.hero-icon-select {
+    width: 32px;  /* Reduced from 38px */
+    height: 32px;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+    cursor: grab;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.hero-icon-select:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-icon-select.dragging {
+    cursor: grabbing;
+    opacity: 0.8;
+}
+
+/* Update the main container margin for the wider selector */
+@media (min-width: 1200px) {
+    .hero-selector {
+        display: block;
+    }
+
+    .main-container {
+        margin-left: 320px;  /* Increased from 240px */
+    }
+}
+
+/* Update styles for drop targets */
+.player-row {
+    transition: all 0.2s;
+}
+
+.player-row.drop-hover {
+    background-color: rgba(0, 204, 102, 0.15) !important;  /* Light green */
+    box-shadow: inset 0 0 0 1px rgba(0, 204, 102, 0.2);
+}
+
+/* Update styles for invalid drop targets */
+.invalid-drop {
+    background-color: rgba(255, 0, 0, 0.15) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 0, 0, 0.2);
+}
+
+/* Update drop target hover effect */
+.player-row.invalid-drop * {
+    cursor: not-allowed;
+}
+
+.player-row.drop-hover * {
+    cursor: copy;
+}
+
+/* Style the select options with icons */
+.select-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+}
+
+.select-option .hero-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Style the select element */
+select.hero-select {
+    padding: 4px;
+    font-family: inherit;
+}
+
+select.hero-select option {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* Update the score section layout to ensure proper alignment */
+.score-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.countered-heroes,
+.synergizing-heroes {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 8px;
+    max-width: 120px;
+    row-gap: 4px;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+/* Make empty synergizing-heroes completely collapse */
+.synergizing-heroes:empty {
+    display: none;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    max-width: 0;
+    flex-basis: 0;
+}
+
+.countered-hero-icon,
+.synergizing-hero-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+    margin-left: -10px;
+}
+
+.countered-hero-icon {
+    border: 1px solid rgb(255, 121, 121);
+    box-shadow: -1px 0px 4px rgba(108, 68, 78, 0.62);
+}
+
+.synergizing-hero-icon {
+    border: 1px solid rgb(179, 255, 179);
+    box-shadow: -1px 0px 4px rgba(68, 108, 78, 0.62);
+}
+
+.countered-hero-icon:first-child,
+.countered-hero-icon:nth-child(5),
+.synergizing-hero-icon:first-child,
+.synergizing-hero-icon:nth-child(5) {
+    margin-left: 0;
+}

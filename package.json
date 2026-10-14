@@ -1,0 +1,11 @@
+{
+  "name": "ow2-counters",
+  "private": true,
+  "workspaces": ["client"],
+  "scripts": {
+    "start": "npm start --prefix client",
+    "build": "npm run build --prefix client",
+    "test": "npm test --prefix client",
+    "preview": "npm run preview --prefix client"
+  }
+}

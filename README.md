@@ -76,13 +76,18 @@ python main.py --listen
 
 ### Web Interface
 
+The counter picker page is a TypeScript client. Flask serves the API and hero icons.
+
 ```bash
-# Start web interface
+# Start the API
 python main.py --serve
 
-# Start web interface on specific port
-python main.py --serve --port 8080
+# Install and start the TypeScript UI
+npm install
+npm start
 ```
+
+Open `http://localhost:3000`. `npm test` runs the client tests and `npm run build` typechecks and builds the page.
 
 ## Testing
 
