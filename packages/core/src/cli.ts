@@ -1,13 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
+import { auditData, auditExitCode, formatAuditReport, loadRoster } from './audit.ts';
 import {
-  archetypesSheet,
   formatCounterSuggestions,
   formatHeroCounters,
   formatValidationReport,
-  heroData,
-  heroList,
   loadCompData,
-  mapsSheet,
   matchHeroNames,
   normalizeHeroName,
   showHeroCounters,
@@ -15,23 +15,65 @@ import {
   validateRoleLock,
   validateSheets,
 } from './index.ts';
+import { scaffoldMissingHeroes, scaffoldMissingMaps } from './scaffold.ts';
+import type { ArchetypesSheet, HeroData, MapsSheet } from './types.ts';
+
+const DATA_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../data');
+
+function readJson<T>(name: string): T {
+  return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), 'utf8')) as T;
+}
+
+function sheets() {
+  return {
+    heroData: readJson<HeroData>('hero_data.json'),
+    archetypes: readJson<ArchetypesSheet>('archetypes.json'),
+    maps: readJson<MapsSheet>('maps.json'),
+    roster: loadRoster(DATA_DIR),
+  };
+}
 
 function printHelp(): void {
-  console.log(`OW2 Counter Picker
+  console.log(`Overwatch Counter Picker
 
 Usage:
   ow2 --list-heroes
   ow2 --heroes rein,genji,tracer,mercy,lucio [--open]
   ow2 validate-data
+  ow2 audit-data
+  ow2 scaffold-missing
   ow2 --help
 `);
 }
 
 async function main(argv: string[]): Promise<number> {
   if (argv[0] === 'validate-data') {
-    const errors = validateSheets(archetypesSheet, mapsSheet, heroData);
-    console.log(formatValidationReport(errors, archetypesSheet, mapsSheet));
+    const { heroData, archetypes, maps } = sheets();
+    const errors = validateSheets(archetypes, maps, heroData);
+    console.log(formatValidationReport(errors, archetypes, maps));
     return errors.length ? 1 : 0;
+  }
+
+  if (argv[0] === 'audit-data') {
+    const { heroData, archetypes, maps, roster } = sheets();
+    const findings = auditData(roster, heroData, archetypes, maps);
+    console.log(formatAuditReport(findings, roster));
+    return auditExitCode(findings);
+  }
+
+  if (argv[0] === 'scaffold-missing') {
+    const { heroData, archetypes, maps, roster } = sheets();
+    const heroes = scaffoldMissingHeroes(roster, heroData, archetypes, DATA_DIR);
+    const refreshed = sheets();
+    const mapIds = scaffoldMissingMaps(roster, refreshed.maps, DATA_DIR);
+    if (!heroes.length && !mapIds.length) {
+      console.log('Nothing to scaffold — sheets already cover the roster.');
+    } else {
+      if (heroes.length) console.log(`Scaffolded heroes: ${heroes.join(', ')}`);
+      if (mapIds.length) console.log(`Scaffolded maps: ${mapIds.join(', ')}`);
+      console.log('Re-run `ow2 audit-data` and draft counters / map comps next.');
+    }
+    return 0;
   }
 
   const { values, positionals } = parseArgs({
@@ -51,11 +93,13 @@ async function main(argv: string[]): Promise<number> {
     return 0;
   }
 
+  const { heroData } = sheets();
+  const heroesAvailable = Object.keys(heroData).sort();
+
   if (values['list-heroes']) {
-    const heroes = heroList();
     console.log('\nAvailable Heroes (normalized):');
-    for (const hero of heroes) console.log(`- ${hero}`);
-    console.log(`\nTotal heroes: ${heroes.length}`);
+    for (const hero of heroesAvailable) console.log(`- ${hero}`);
+    console.log(`\nTotal heroes: ${heroesAvailable.length}`);
     return 0;
   }
 
@@ -63,7 +107,7 @@ async function main(argv: string[]): Promise<number> {
   if (heroesArg) {
     const heroes = matchHeroNames(
       heroesArg.split(',').map((hero) => hero.trim()).filter(Boolean),
-      heroList(),
+      heroesAvailable,
     );
     console.log(`Using team: ${heroes.join(', ')}`);
 

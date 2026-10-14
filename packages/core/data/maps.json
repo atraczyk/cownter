@@ -1,168 +1,1439 @@
 {
   "sheet": "maps",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "updated": "2026-10-14",
   "status": "llm-draft",
   "notes": "Preferred comp per map point. Sided modes give separate attack and defense preferences. Weights per preference sum to 1.",
   "modes": [
-    { "id": "control",    "name": "Control",    "sided": false },
-    { "id": "escort",     "name": "Escort",     "sided": true },
-    { "id": "hybrid",     "name": "Hybrid",     "sided": true },
-    { "id": "push",       "name": "Push",       "sided": false },
-    { "id": "flashpoint", "name": "Flashpoint", "sided": false },
-    { "id": "clash",      "name": "Clash",      "sided": false }
+    {
+      "id": "control",
+      "name": "Control",
+      "sided": false
+    },
+    {
+      "id": "escort",
+      "name": "Escort",
+      "sided": true
+    },
+    {
+      "id": "hybrid",
+      "name": "Hybrid",
+      "sided": true
+    },
+    {
+      "id": "push",
+      "name": "Push",
+      "sided": false
+    },
+    {
+      "id": "flashpoint",
+      "name": "Flashpoint",
+      "sided": false
+    },
+    {
+      "id": "clash",
+      "name": "Clash",
+      "sided": false
+    }
   ],
   "maps": [
-    { "id": "antarctic_peninsula", "name": "Antarctic Peninsula", "mode": "control", "points": [
-      { "id": "icebreaker", "name": "Icebreaker", "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } },
-      { "id": "labs",       "name": "Labs",       "comp": { "dive": 0.2, "poke": 0.1, "brawl": 0.7 } },
-      { "id": "sublevel",   "name": "Sublevel",   "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } }
-    ] },
-    { "id": "busan", "name": "Busan", "mode": "control", "points": [
-      { "id": "downtown",  "name": "Downtown",  "comp": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } },
-      { "id": "sanctuary", "name": "Sanctuary", "comp": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 } },
-      { "id": "meka_base", "name": "MEKA Base", "comp": { "dive": 0.3, "poke": 0.1, "brawl": 0.6 } }
-    ] },
-    { "id": "ilios", "name": "Ilios", "mode": "control", "points": [
-      { "id": "lighthouse", "name": "Lighthouse", "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } },
-      { "id": "ruins",      "name": "Ruins",      "comp": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 } },
-      { "id": "well",       "name": "Well",       "comp": { "dive": 0.5, "poke": 0.4, "brawl": 0.1 } }
-    ] },
-    { "id": "lijiang_tower", "name": "Lijiang Tower", "mode": "control", "points": [
-      { "id": "night_market",   "name": "Night Market",   "comp": { "dive": 0.3, "poke": 0.1, "brawl": 0.6 } },
-      { "id": "garden",         "name": "Garden",         "comp": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 } },
-      { "id": "control_center", "name": "Control Center", "comp": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 } }
-    ] },
-    { "id": "nepal", "name": "Nepal", "mode": "control", "points": [
-      { "id": "village", "name": "Village", "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } },
-      { "id": "shrine",  "name": "Shrine",  "comp": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 } },
-      { "id": "sanctum", "name": "Sanctum", "comp": { "dive": 0.2, "poke": 0.1, "brawl": 0.7 } }
-    ] },
-    { "id": "oasis", "name": "Oasis", "mode": "control", "points": [
-      { "id": "city_center", "name": "City Center", "comp": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 } },
-      { "id": "gardens",     "name": "Gardens",     "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } },
-      { "id": "university",  "name": "University",  "comp": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 } }
-    ] },
-    { "id": "samoa", "name": "Samoa", "mode": "control", "points": [
-      { "id": "beach",    "name": "Beach",    "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } },
-      { "id": "downtown", "name": "Downtown", "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } },
-      { "id": "volcano",  "name": "Volcano",  "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } }
-    ] },
-
-    { "id": "circuit_royal", "name": "Circuit Royal", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.1, "poke": 0.7, "brawl": 0.2 }, "defense": { "dive": 0.1, "poke": 0.8, "brawl": 0.1 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 }, "defense": { "dive": 0.2, "poke": 0.6, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.2, "poke": 0.3, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } }
-    ] },
-    { "id": "dorado", "name": "Dorado", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 }, "defense": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-    { "id": "havana", "name": "Havana", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.2, "poke": 0.6, "brawl": 0.2 }, "defense": { "dive": 0.1, "poke": 0.7, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.2, "poke": 0.4, "brawl": 0.4 }, "defense": { "dive": 0.2, "poke": 0.6, "brawl": 0.2 } } }
-    ] },
-    { "id": "junkertown", "name": "Junkertown", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.2, "poke": 0.6, "brawl": 0.2 }, "defense": { "dive": 0.1, "poke": 0.7, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.2, "poke": 0.3, "brawl": 0.5 }, "defense": { "dive": 0.2, "poke": 0.5, "brawl": 0.3 } } }
-    ] },
-    { "id": "rialto", "name": "Rialto", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.2, "poke": 0.3, "brawl": 0.5 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 }, "defense": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } }
-    ] },
-    { "id": "route_66", "name": "Route 66", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 }, "defense": { "dive": 0.2, "poke": 0.6, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 }, "defense": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } }
-    ] },
-    { "id": "shambali_monastery", "name": "Shambali Monastery", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 }, "defense": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-    { "id": "watchpoint_gibraltar", "name": "Watchpoint: Gibraltar", "mode": "escort", "points": [
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 }, "defense": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Second checkpoint", "comp": { "attack": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 }, "defense": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } } },
-      { "id": "checkpoint_3", "name": "Final stretch",     "comp": { "attack": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 }, "defense": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } } }
-    ] },
-
-    { "id": "blizzard_world", "name": "Blizzard World", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.2, "poke": 0.4, "brawl": 0.4 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } },
-      { "id": "checkpoint_2", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-    { "id": "eichenwalde", "name": "Eichenwalde", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.1, "poke": 0.2, "brawl": 0.7 }, "defense": { "dive": 0.1, "poke": 0.5, "brawl": 0.4 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 }, "defense": { "dive": 0.2, "poke": 0.3, "brawl": 0.5 } } },
-      { "id": "checkpoint_2", "name": "Castle",            "comp": { "attack": { "dive": 0.1, "poke": 0.1, "brawl": 0.8 }, "defense": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 } } }
-    ] },
-    { "id": "hollywood", "name": "Hollywood", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.2, "poke": 0.5, "brawl": 0.3 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } },
-      { "id": "checkpoint_2", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-    { "id": "kings_row", "name": "King's Row", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.2, "poke": 0.1, "brawl": 0.7 }, "defense": { "dive": 0.2, "poke": 0.3, "brawl": 0.5 } } },
-      { "id": "checkpoint_1", "name": "Streets",           "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } },
-      { "id": "checkpoint_2", "name": "Factory",           "comp": { "attack": { "dive": 0.2, "poke": 0.1, "brawl": 0.7 }, "defense": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 } } }
-    ] },
-    { "id": "midtown", "name": "Midtown", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } },
-      { "id": "checkpoint_2", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-    { "id": "numbani", "name": "Numbani", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 }, "defense": { "dive": 0.3, "poke": 0.5, "brawl": 0.2 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 }, "defense": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 } } },
-      { "id": "checkpoint_2", "name": "Final stretch",     "comp": { "attack": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 }, "defense": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } } }
-    ] },
-    { "id": "paraiso", "name": "Paraíso", "mode": "hybrid", "points": [
-      { "id": "point_a",      "name": "Point A capture",   "comp": { "attack": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 }, "defense": { "dive": 0.3, "poke": 0.4, "brawl": 0.3 } } },
-      { "id": "checkpoint_1", "name": "First checkpoint",  "comp": { "attack": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 }, "defense": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } } },
-      { "id": "checkpoint_2", "name": "Final stretch",     "comp": { "attack": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 }, "defense": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } } }
-    ] },
-
-    { "id": "colosseo", "name": "Colosseo", "mode": "push", "points": [
-      { "id": "center",     "name": "Center fight",  "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } },
-      { "id": "deep_push",  "name": "Deep push",     "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } }
-    ] },
-    { "id": "esperanca", "name": "Esperança", "mode": "push", "points": [
-      { "id": "center",     "name": "Center fight",  "comp": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } },
-      { "id": "deep_push",  "name": "Deep push",     "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } }
-    ] },
-    { "id": "new_queen_street", "name": "New Queen Street", "mode": "push", "points": [
-      { "id": "center",     "name": "Center fight",  "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } },
-      { "id": "deep_push",  "name": "Deep push",     "comp": { "dive": 0.2, "poke": 0.2, "brawl": 0.6 } }
-    ] },
-    { "id": "runasapi", "name": "Runasapi", "mode": "push", "points": [
-      { "id": "center",     "name": "Center fight",  "comp": { "dive": 0.4, "poke": 0.4, "brawl": 0.2 } },
-      { "id": "deep_push",  "name": "Deep push",     "comp": { "dive": 0.3, "poke": 0.3, "brawl": 0.4 } }
-    ] },
-
-    { "id": "aatlis", "name": "Aatlis", "mode": "flashpoint", "points": [
-      { "id": "first_point",  "name": "First point",  "comp": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 } },
-      { "id": "later_points", "name": "Later points", "comp": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 } }
-    ] },
-    { "id": "new_junk_city", "name": "New Junk City", "mode": "flashpoint", "points": [
-      { "id": "first_point",  "name": "First point",  "comp": { "dive": 0.6, "poke": 0.2, "brawl": 0.2 } },
-      { "id": "later_points", "name": "Later points", "comp": { "dive": 0.5, "poke": 0.3, "brawl": 0.2 } }
-    ] },
-    { "id": "suravasa", "name": "Suravasa", "mode": "flashpoint", "points": [
-      { "id": "first_point",  "name": "First point",  "comp": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 } },
-      { "id": "later_points", "name": "Later points", "comp": { "dive": 0.4, "poke": 0.2, "brawl": 0.4 } }
-    ] },
-
-    { "id": "hanaoka", "name": "Hanaoka", "mode": "clash", "points": [
-      { "id": "middle", "name": "Middle point", "comp": { "dive": 0.5, "poke": 0.2, "brawl": 0.3 } },
-      { "id": "outer",  "name": "Outer points", "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } }
-    ] },
-    { "id": "throne_of_anubis", "name": "Throne of Anubis", "mode": "clash", "points": [
-      { "id": "middle", "name": "Middle point", "comp": { "dive": 0.4, "poke": 0.3, "brawl": 0.3 } },
-      { "id": "outer",  "name": "Outer points", "comp": { "dive": 0.3, "poke": 0.2, "brawl": 0.5 } }
-    ] }
+    {
+      "id": "aatlis",
+      "name": "Aatlis",
+      "mode": "flashpoint",
+      "points": [
+        {
+          "id": "first_point",
+          "name": "First point",
+          "comp": {
+            "dive": 0.6,
+            "poke": 0.2,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "later_points",
+          "name": "Later points",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.2,
+            "brawl": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "antarctic_peninsula",
+      "name": "Antarctic Peninsula",
+      "mode": "control",
+      "points": [
+        {
+          "id": "icebreaker",
+          "name": "Icebreaker",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "labs",
+          "name": "Labs",
+          "comp": {
+            "dive": 0.2,
+            "poke": 0.1,
+            "brawl": 0.7
+          }
+        },
+        {
+          "id": "sublevel",
+          "name": "Sublevel",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "blizzard_world",
+      "name": "Blizzard World",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.4,
+              "brawl": 0.4
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "busan",
+      "name": "Busan",
+      "mode": "control",
+      "points": [
+        {
+          "id": "downtown",
+          "name": "Downtown",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.3,
+            "brawl": 0.3
+          }
+        },
+        {
+          "id": "sanctuary",
+          "name": "Sanctuary",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.2,
+            "brawl": 0.4
+          }
+        },
+        {
+          "id": "meka_base",
+          "name": "MEKA Base",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.1,
+            "brawl": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "circuit_royal",
+      "name": "Circuit Royal",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.1,
+              "poke": 0.7,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.1,
+              "poke": 0.8,
+              "brawl": 0.1
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.6,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.3,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "colosseo",
+      "name": "Colosseo",
+      "mode": "push",
+      "points": [
+        {
+          "id": "center",
+          "name": "Center fight",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "deep_push",
+          "name": "Deep push",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "dorado",
+      "name": "Dorado",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.2,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.2,
+              "brawl": 0.6
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "eichenwalde",
+      "name": "Eichenwalde",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.1,
+              "poke": 0.2,
+              "brawl": 0.7
+            },
+            "defense": {
+              "dive": 0.1,
+              "poke": 0.5,
+              "brawl": 0.4
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.2,
+              "brawl": 0.6
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.3,
+              "brawl": 0.5
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Castle",
+          "comp": {
+            "attack": {
+              "dive": 0.1,
+              "poke": 0.1,
+              "brawl": 0.8
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.2,
+              "brawl": 0.6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "esperanca",
+      "name": "Esperança",
+      "mode": "push",
+      "points": [
+        {
+          "id": "center",
+          "name": "Center fight",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.3,
+            "brawl": 0.3
+          }
+        },
+        {
+          "id": "deep_push",
+          "name": "Deep push",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "grimsvotn",
+      "name": "Grímsvötn",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "hanaoka",
+      "name": "Hanaoka",
+      "mode": "clash",
+      "points": [
+        {
+          "id": "middle",
+          "name": "Middle point",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.2,
+            "brawl": 0.3
+          }
+        },
+        {
+          "id": "outer",
+          "name": "Outer points",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "havana",
+      "name": "Havana",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.6,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.1,
+              "poke": 0.7,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.4,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.6,
+              "brawl": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "hollywood",
+      "name": "Hollywood",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.5,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.2,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ilios",
+      "name": "Ilios",
+      "mode": "control",
+      "points": [
+        {
+          "id": "lighthouse",
+          "name": "Lighthouse",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "ruins",
+          "name": "Ruins",
+          "comp": {
+            "dive": 0.2,
+            "poke": 0.2,
+            "brawl": 0.6
+          }
+        },
+        {
+          "id": "well",
+          "name": "Well",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.4,
+            "brawl": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "junkertown",
+      "name": "Junkertown",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.6,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.1,
+              "poke": 0.7,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.3,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.5,
+              "brawl": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "kings_row",
+      "name": "King's Row",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.1,
+              "brawl": 0.7
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.3,
+              "brawl": 0.5
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "Streets",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Factory",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.1,
+              "brawl": 0.7
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.2,
+              "brawl": 0.6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "lijiang_tower",
+      "name": "Lijiang Tower",
+      "mode": "control",
+      "points": [
+        {
+          "id": "night_market",
+          "name": "Night Market",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.1,
+            "brawl": 0.6
+          }
+        },
+        {
+          "id": "garden",
+          "name": "Garden",
+          "comp": {
+            "dive": 0.6,
+            "poke": 0.2,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "control_center",
+          "name": "Control Center",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.2,
+            "brawl": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "midtown",
+      "name": "Midtown",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.2,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "neon_junction",
+      "name": "Neon Junction",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            },
+            "defense": {
+              "dive": 0.34,
+              "poke": 0.33,
+              "brawl": 0.33
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "nepal",
+      "name": "Nepal",
+      "mode": "control",
+      "points": [
+        {
+          "id": "village",
+          "name": "Village",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        },
+        {
+          "id": "shrine",
+          "name": "Shrine",
+          "comp": {
+            "dive": 0.6,
+            "poke": 0.2,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "sanctum",
+          "name": "Sanctum",
+          "comp": {
+            "dive": 0.2,
+            "poke": 0.1,
+            "brawl": 0.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "new_junk_city",
+      "name": "New Junk City",
+      "mode": "flashpoint",
+      "points": [
+        {
+          "id": "first_point",
+          "name": "First point",
+          "comp": {
+            "dive": 0.6,
+            "poke": 0.2,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "later_points",
+          "name": "Later points",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "new_queen_street",
+      "name": "New Queen Street",
+      "mode": "push",
+      "points": [
+        {
+          "id": "center",
+          "name": "Center fight",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        },
+        {
+          "id": "deep_push",
+          "name": "Deep push",
+          "comp": {
+            "dive": 0.2,
+            "poke": 0.2,
+            "brawl": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "numbani",
+      "name": "Numbani",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.3,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.2,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oasis",
+      "name": "Oasis",
+      "mode": "control",
+      "points": [
+        {
+          "id": "city_center",
+          "name": "City Center",
+          "comp": {
+            "dive": 0.6,
+            "poke": 0.2,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "gardens",
+          "name": "Gardens",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        },
+        {
+          "id": "university",
+          "name": "University",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.2,
+            "brawl": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "paraiso",
+      "name": "Paraíso",
+      "mode": "hybrid",
+      "points": [
+        {
+          "id": "point_a",
+          "name": "Point A capture",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.2,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.2,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "rialto",
+      "name": "Rialto",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.3,
+              "brawl": 0.5
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.2,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.2,
+              "brawl": 0.5
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "route_66",
+      "name": "Route 66",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.2,
+              "poke": 0.6,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.2,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "runasapi",
+      "name": "Runasapi",
+      "mode": "push",
+      "points": [
+        {
+          "id": "center",
+          "name": "Center fight",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.4,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "deep_push",
+          "name": "Deep push",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.3,
+            "brawl": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "samoa",
+      "name": "Samoa",
+      "mode": "control",
+      "points": [
+        {
+          "id": "beach",
+          "name": "Beach",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        },
+        {
+          "id": "downtown",
+          "name": "Downtown",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        },
+        {
+          "id": "volcano",
+          "name": "Volcano",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.3,
+            "brawl": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "shambali_monastery",
+      "name": "Shambali Monastery",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.2,
+              "brawl": 0.3
+            },
+            "defense": {
+              "dive": 0.5,
+              "poke": 0.3,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.2,
+              "poke": 0.2,
+              "brawl": 0.6
+            },
+            "defense": {
+              "dive": 0.3,
+              "poke": 0.3,
+              "brawl": 0.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "suravasa",
+      "name": "Suravasa",
+      "mode": "flashpoint",
+      "points": [
+        {
+          "id": "first_point",
+          "name": "First point",
+          "comp": {
+            "dive": 0.5,
+            "poke": 0.2,
+            "brawl": 0.3
+          }
+        },
+        {
+          "id": "later_points",
+          "name": "Later points",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.2,
+            "brawl": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "throne_of_anubis",
+      "name": "Throne of Anubis",
+      "mode": "clash",
+      "points": [
+        {
+          "id": "middle",
+          "name": "Middle point",
+          "comp": {
+            "dive": 0.4,
+            "poke": 0.3,
+            "brawl": 0.3
+          }
+        },
+        {
+          "id": "outer",
+          "name": "Outer points",
+          "comp": {
+            "dive": 0.3,
+            "poke": 0.2,
+            "brawl": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "watchpoint_gibraltar",
+      "name": "Watchpoint: Gibraltar",
+      "mode": "escort",
+      "points": [
+        {
+          "id": "checkpoint_1",
+          "name": "First checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.5,
+              "poke": 0.3,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.4,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_2",
+          "name": "Second checkpoint",
+          "comp": {
+            "attack": {
+              "dive": 0.6,
+              "poke": 0.2,
+              "brawl": 0.2
+            },
+            "defense": {
+              "dive": 0.5,
+              "poke": 0.3,
+              "brawl": 0.2
+            }
+          }
+        },
+        {
+          "id": "checkpoint_3",
+          "name": "Final stretch",
+          "comp": {
+            "attack": {
+              "dive": 0.4,
+              "poke": 0.2,
+              "brawl": 0.4
+            },
+            "defense": {
+              "dive": 0.4,
+              "poke": 0.3,
+              "brawl": 0.3
+            }
+          }
+        }
+      ]
+    }
   ]
 }

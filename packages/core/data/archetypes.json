@@ -1,6 +1,6 @@
 {
   "sheet": "archetypes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "updated": "2026-10-14",
   "status": "llm-draft",
   "notes": "How much each hero leans into dive, poke and brawl play. Weights per hero sum to 1.",
@@ -10,49 +10,275 @@
     "brawl": "Group up close, absorb damage and win short-range fights through sustain."
   },
   "heroes": {
-    "dva":          { "dive": 0.6, "poke": 0.1, "brawl": 0.3 },
-    "doomfist":     { "dive": 0.8, "poke": 0.0, "brawl": 0.2 },
-    "hazard":       { "dive": 0.4, "poke": 0.0, "brawl": 0.6 },
-    "junkerqueen":  { "dive": 0.1, "poke": 0.0, "brawl": 0.9 },
-    "mauga":        { "dive": 0.0, "poke": 0.2, "brawl": 0.8 },
-    "orisa":        { "dive": 0.0, "poke": 0.5, "brawl": 0.5 },
-    "ramattra":     { "dive": 0.0, "poke": 0.2, "brawl": 0.8 },
-    "reinhardt":    { "dive": 0.0, "poke": 0.0, "brawl": 1.0 },
-    "roadhog":      { "dive": 0.0, "poke": 0.4, "brawl": 0.6 },
-    "sigma":        { "dive": 0.0, "poke": 0.8, "brawl": 0.2 },
-    "winston":      { "dive": 1.0, "poke": 0.0, "brawl": 0.0 },
-    "wreckingball": { "dive": 0.9, "poke": 0.0, "brawl": 0.1 },
-    "zarya":        { "dive": 0.3, "poke": 0.0, "brawl": 0.7 },
-
-    "ashe":         { "dive": 0.0, "poke": 0.9, "brawl": 0.1 },
-    "bastion":      { "dive": 0.0, "poke": 0.5, "brawl": 0.5 },
-    "cassidy":      { "dive": 0.0, "poke": 0.5, "brawl": 0.5 },
-    "echo":         { "dive": 0.6, "poke": 0.4, "brawl": 0.0 },
-    "genji":        { "dive": 0.9, "poke": 0.0, "brawl": 0.1 },
-    "hanzo":        { "dive": 0.1, "poke": 0.9, "brawl": 0.0 },
-    "junkrat":      { "dive": 0.0, "poke": 0.5, "brawl": 0.5 },
-    "mei":          { "dive": 0.0, "poke": 0.1, "brawl": 0.9 },
-    "pharah":       { "dive": 0.4, "poke": 0.6, "brawl": 0.0 },
-    "reaper":       { "dive": 0.2, "poke": 0.0, "brawl": 0.8 },
-    "sojourn":      { "dive": 0.4, "poke": 0.6, "brawl": 0.0 },
-    "soldier76":    { "dive": 0.0, "poke": 0.6, "brawl": 0.4 },
-    "sombra":       { "dive": 0.9, "poke": 0.0, "brawl": 0.1 },
-    "symmetra":     { "dive": 0.0, "poke": 0.2, "brawl": 0.8 },
-    "torbjorn":     { "dive": 0.0, "poke": 0.4, "brawl": 0.6 },
-    "tracer":       { "dive": 1.0, "poke": 0.0, "brawl": 0.0 },
-    "venture":      { "dive": 0.5, "poke": 0.0, "brawl": 0.5 },
-    "widowmaker":   { "dive": 0.0, "poke": 1.0, "brawl": 0.0 },
-
-    "ana":          { "dive": 0.1, "poke": 0.6, "brawl": 0.3 },
-    "baptiste":     { "dive": 0.0, "poke": 0.6, "brawl": 0.4 },
-    "brigitte":     { "dive": 0.3, "poke": 0.0, "brawl": 0.7 },
-    "illari":       { "dive": 0.0, "poke": 0.8, "brawl": 0.2 },
-    "juno":         { "dive": 0.6, "poke": 0.4, "brawl": 0.0 },
-    "kiriko":       { "dive": 0.6, "poke": 0.2, "brawl": 0.2 },
-    "lifeweaver":   { "dive": 0.0, "poke": 0.6, "brawl": 0.4 },
-    "lucio":        { "dive": 0.4, "poke": 0.0, "brawl": 0.6 },
-    "mercy":        { "dive": 0.3, "poke": 0.7, "brawl": 0.0 },
-    "moira":        { "dive": 0.3, "poke": 0.0, "brawl": 0.7 },
-    "zenyatta":     { "dive": 0.3, "poke": 0.7, "brawl": 0.0 }
+    "ana": {
+      "dive": 0.1,
+      "poke": 0.6,
+      "brawl": 0.3
+    },
+    "anran": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "ashe": {
+      "dive": 0,
+      "poke": 0.9,
+      "brawl": 0.1
+    },
+    "baptiste": {
+      "dive": 0,
+      "poke": 0.6,
+      "brawl": 0.4
+    },
+    "bastion": {
+      "dive": 0,
+      "poke": 0.5,
+      "brawl": 0.5
+    },
+    "brigitte": {
+      "dive": 0.3,
+      "poke": 0,
+      "brawl": 0.7
+    },
+    "cassidy": {
+      "dive": 0,
+      "poke": 0.5,
+      "brawl": 0.5
+    },
+    "dmon": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "doctrine": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "domina": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "doomfist": {
+      "dive": 0.8,
+      "poke": 0,
+      "brawl": 0.2
+    },
+    "dva": {
+      "dive": 0.6,
+      "poke": 0.1,
+      "brawl": 0.3
+    },
+    "echo": {
+      "dive": 0.6,
+      "poke": 0.4,
+      "brawl": 0
+    },
+    "emre": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "freja": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "genji": {
+      "dive": 0.9,
+      "poke": 0,
+      "brawl": 0.1
+    },
+    "hanzo": {
+      "dive": 0.1,
+      "poke": 0.9,
+      "brawl": 0
+    },
+    "hazard": {
+      "dive": 0.4,
+      "poke": 0,
+      "brawl": 0.6
+    },
+    "illari": {
+      "dive": 0,
+      "poke": 0.8,
+      "brawl": 0.2
+    },
+    "jetpackcat": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "junkerqueen": {
+      "dive": 0.1,
+      "poke": 0,
+      "brawl": 0.9
+    },
+    "junkrat": {
+      "dive": 0,
+      "poke": 0.5,
+      "brawl": 0.5
+    },
+    "juno": {
+      "dive": 0.6,
+      "poke": 0.4,
+      "brawl": 0
+    },
+    "kiriko": {
+      "dive": 0.6,
+      "poke": 0.2,
+      "brawl": 0.2
+    },
+    "lifeweaver": {
+      "dive": 0,
+      "poke": 0.6,
+      "brawl": 0.4
+    },
+    "lucio": {
+      "dive": 0.4,
+      "poke": 0,
+      "brawl": 0.6
+    },
+    "mauga": {
+      "dive": 0,
+      "poke": 0.2,
+      "brawl": 0.8
+    },
+    "mei": {
+      "dive": 0,
+      "poke": 0.1,
+      "brawl": 0.9
+    },
+    "mercy": {
+      "dive": 0.3,
+      "poke": 0.7,
+      "brawl": 0
+    },
+    "mizuki": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "moira": {
+      "dive": 0.3,
+      "poke": 0,
+      "brawl": 0.7
+    },
+    "orisa": {
+      "dive": 0,
+      "poke": 0.5,
+      "brawl": 0.5
+    },
+    "pharah": {
+      "dive": 0.4,
+      "poke": 0.6,
+      "brawl": 0
+    },
+    "ramattra": {
+      "dive": 0,
+      "poke": 0.2,
+      "brawl": 0.8
+    },
+    "reaper": {
+      "dive": 0.2,
+      "poke": 0,
+      "brawl": 0.8
+    },
+    "reinhardt": {
+      "dive": 0,
+      "poke": 0,
+      "brawl": 1
+    },
+    "roadhog": {
+      "dive": 0,
+      "poke": 0.4,
+      "brawl": 0.6
+    },
+    "shion": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "sierra": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "sigma": {
+      "dive": 0,
+      "poke": 0.8,
+      "brawl": 0.2
+    },
+    "sojourn": {
+      "dive": 0.4,
+      "poke": 0.6,
+      "brawl": 0
+    },
+    "soldier76": {
+      "dive": 0,
+      "poke": 0.6,
+      "brawl": 0.4
+    },
+    "sombra": {
+      "dive": 0.9,
+      "poke": 0,
+      "brawl": 0.1
+    },
+    "symmetra": {
+      "dive": 0,
+      "poke": 0.2,
+      "brawl": 0.8
+    },
+    "torbjorn": {
+      "dive": 0,
+      "poke": 0.4,
+      "brawl": 0.6
+    },
+    "tracer": {
+      "dive": 1,
+      "poke": 0,
+      "brawl": 0
+    },
+    "vendetta": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "venture": {
+      "dive": 0.5,
+      "poke": 0,
+      "brawl": 0.5
+    },
+    "widowmaker": {
+      "dive": 0,
+      "poke": 1,
+      "brawl": 0
+    },
+    "winston": {
+      "dive": 1,
+      "poke": 0,
+      "brawl": 0
+    },
+    "wreckingball": {
+      "dive": 0.9,
+      "poke": 0,
+      "brawl": 0.1
+    },
+    "wuyang": {
+      "dive": 0.34,
+      "poke": 0.33,
+      "brawl": 0.33
+    },
+    "zarya": {
+      "dive": 0.3,
+      "poke": 0,
+      "brawl": 0.7
+    },
+    "zenyatta": {
+      "dive": 0.3,
+      "poke": 0.7,
+      "brawl": 0
+    }
   }
 }

@@ -1,548 +1,1529 @@
 {
-  "dva": {
-    "role": "tank",
+  "ana": {
+    "role": "support",
     "strong_against": {
-      "tanks": ["winston", "roadhog"],
-      "damage": ["hanzo", "sojourn", "pharah", "widowmaker"],
-      "supports": ["ana", "zenyatta"]
+      "tanks": [
+        "winston",
+        "ramattra"
+      ],
+      "damage": [
+        "echo",
+        "pharah",
+        "tracer"
+      ],
+      "supports": [
+        "kiriko"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["winston", "zarya"],
-      "damage": ["genji", "tracer", "echo", "sombra", "reaper"],
-      "supports": ["ana", "kiriko", "lucio", "brigitte", "baptiste"]
+      "tanks": [
+        "reinhardt",
+        "zarya",
+        "dva"
+      ],
+      "damage": [
+        "genji",
+        "reaper",
+        "junkrat"
+      ],
+      "supports": [
+        "baptiste",
+        "lucio"
+      ]
     }
   },
-  "doomfist": {
-    "role": "tank",
+  "anran": {
+    "role": "damage",
     "strong_against": {
-      "tanks": ["orisa"],
-      "damage": ["sombra", "tracer", "bastion", "genji"],
-      "supports": ["ana", "brigitte"]
+      "tanks": [],
+      "damage": [],
+      "support": []
     },
     "synergizes_with": {
-      "tanks": ["winston", "zarya"],
-      "damage": ["genji", "echo", "sombra", "tracer"],
-      "supports": ["kiriko", "ana", "lucio"]
-    }
-  },
-  "hazard": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["reinhardt", "zarya"],
-      "damage": ["sombra", "widowmaker", "hanzo", "soldier76"],
-      "supports": ["ana", "zenyatta"]
-    },
-    "synergizes_with": {
-      "tanks": ["ramattra", "sigma"],
-      "damage": ["cassidy", "mei", "sojourn"],
-      "supports": ["baptiste", "kiriko"]
-    }
-  },
-  "junkerqueen": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["wreckingball"],
-      "damage": ["genji", "tracer", "torbjorn", "symmetra"],
-      "supports": ["brigitte", "lucio", "moira"]
-    },
-    "synergizes_with": {
-      "tanks": ["reinhardt", "rampaging-style tanks"],
-      "damage": ["reaper", "cassidy", "mei"],
-      "supports": ["ana", "kiriko", "baptiste", "lucio"]
-    }
-  },
-  "mauga": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["doomfist", "wreckingball"],
-      "damage": ["sombra", "reaper", "widowmaker"],
-      "supports": ["zenyatta", "kiriko"]
-    },
-    "synergizes_with": {
-      "tanks": ["ramattra", "orisa"],
-      "damage": ["bastion", "symmetra"],
-      "supports": ["ana", "baptiste"]
-    }
-  },
-  "orisa": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["zarya", "dva", "hazard"],
-      "damage": ["mei", "echo"],
-      "supports": ["moira"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma", "ramattra"],
-      "damage": ["bastion", "cassidy"],
-      "supports": ["ana", "baptiste"]
-    }
-  },
-  "ramattra": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["roadhog"],
-      "damage": ["reaper", "tracer", "pharah", "genji", "cassidy"],
-      "supports": ["kiriko"]
-    },
-    "synergizes_with": {
-      "tanks": ["orisa", "mauga", "hazard"],
-      "damage": ["mei", "symmetra"],
-      "supports": ["baptiste", "ana"]
-    }
-  },
-  "reinhardt": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["ramattra"],
-      "damage": ["sombra", "cassidy", "mei", "junkrat", "pharah"],
-      "supports": ["zenyatta"]
-    },
-    "synergizes_with": {
-      "tanks": ["zarya", "orisa"],
-      "damage": ["bastion", "junkrat", "reaper", "symmetra"],
-      "supports": ["lucio", "ana", "baptiste"]
-    }
-  },
-  "roadhog": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["wreckingball"],
-      "damage": ["reaper", "echo", "junkrat"],
-      "supports": ["ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma"],
-      "damage": ["mei", "torbjorn"],
-      "supports": ["kiriko", "baptiste"]
-    }
-  },
-  "sigma": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["ramattra", "roadhog"],
-      "damage": ["genji", "tracer", "sombra"],
-      "supports": ["lucio"]
-    },
-    "synergizes_with": {
-      "tanks": ["orisa", "ramattra", "hazard"],
-      "damage": ["ashe", "soldier76"],
-      "supports": ["baptiste", "zenyatta"]
-    }
-  },
-  "winston": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["zarya"],
-      "damage": ["junkrat", "pharah", "bastion"],
-      "supports": ["ana", "brigitte"]
-    },
-    "synergizes_with": {
-      "tanks": ["dva"],
-      "damage": ["genji", "tracer", "sombra", "echo"],
-      "supports": ["kiriko", "ana", "lucio"]
-    }
-  },
-  "wreckingball": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["roadhog", "doomfist", "hazard"],
-      "damage": ["mei", "sombra"],
-      "supports": ["ana", "brigitte"]
-    },
-    "synergizes_with": {
-      "tanks": ["dva"],
-      "damage": ["tracer", "sombra", "genji"],
-      "supports": ["kiriko", "zenyatta", "lucio"]
-    }
-  },
-  "zarya": {
-    "role": "tank",
-    "strong_against": {
-      "tanks": ["dva", "winston"],
-      "damage": ["hanzo", "widowmaker", "cassidy", "tracer"],
-      "supports": ["zenyatta"]
-    },
-    "synergizes_with": {
-      "tanks": ["reinhardt"],
-      "damage": ["mei", "reaper"],
-      "supports": ["ana", "kiriko"]
+      "tanks": [],
+      "damage": [],
+      "support": []
     }
   },
   "ashe": {
     "role": "damage",
     "strong_against": {
-      "tanks": ["zarya", "reinhardt"],
-      "damage": ["genji", "tracer", "widowmaker"],
-      "supports": ["ana", "kiriko"]
+      "tanks": [
+        "zarya",
+        "reinhardt"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "widowmaker"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["sigma", "orisa"],
-      "damage": ["cassidy", "soldier76"],
-      "supports": ["baptiste", "mercy"]
-    }
-  },
-  "bastion": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["zarya", "orisa"],
-      "damage": ["junkrat", "pharah", "genji", "tracer"],
-      "supports": ["ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["reinhardt", "sigma"],
-      "damage": ["symmetra", "torbjorn"],
-      "supports": ["baptiste", "mercy"]
-    }
-  },
-  "cassidy": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["reinhardt", "winston"],
-      "damage": ["genji", "tracer"],
-      "supports": ["ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma", "orisa", "hazard"],
-      "damage": ["ashe", "soldier76"],
-      "supports": ["ana", "baptiste"]
-    }
-  },
-  "echo": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["winston", "zarya", "hazard"],
-      "damage": ["ashe", "cassidy", "soldier76", "widowmaker"],
-      "supports": ["zenyatta"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "dva"],
-      "damage": ["pharah", "sombra"],
-      "supports": ["mercy", "kiriko"]
-    }
-  },
-  "genji": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["winston", "zarya"],
-      "damage": ["symmetra", "mei"],
-      "supports": ["moira", "ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "dva"],
-      "damage": ["sombra", "tracer"],
-      "supports": ["ana", "kiriko"]
-    }
-  },
-  "hanzo": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva", "wreckingball"],
-      "damage": ["widowmaker", "genji"],
-      "supports": ["lucio"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma", "ramattra"],
-      "damage": ["ashe", "cassidy"],
-      "supports": ["baptiste", "ana"]
-    }
-  },
-  "junkrat": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["zarya", "wreckingball"],
-      "damage": ["cassidy", "soldier76"],
-      "supports": ["lucio", "brigitte", "lifeweaver"]
-    },
-    "synergizes_with": {
-      "tanks": ["roadhog", "sigma"],
-      "damage": ["mei", "bastion"],
-      "supports": ["ana", "kiriko"]
-    }
-  },
-  "mei": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva"],
-      "damage": ["sombra", "pharah", "echo"],
-      "supports": ["kiriko"]
-    },
-    "synergizes_with": {
-      "tanks": ["zarya", "ramattra", "hazard"],
-      "damage": ["cassidy", "reaper"],
-      "supports": ["ana", "baptiste"]
-    }
-  },
-  "pharah": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva", "roadhog", "mauga", "hazard"],
-      "damage": ["soldier76", "cassidy", "ashe", "widowmaker"],
-      "supports": ["baptiste"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "wreckingball"],
-      "damage": ["echo", "sombra"],
-      "supports": ["mercy", "kiriko"]
-    }
-  },
-  "reaper": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["zarya"],
-      "damage": ["pharah", "echo", "junkrat", "widowmaker"],
-      "supports": ["ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "junkerqueen"],
-      "damage": ["mei", "cassidy"],
-      "supports": ["lucio", "kiriko"]
-    }
-  },
-  "sojourn": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["winston", "mauga"],
-      "damage": ["genji", "tracer"],
-      "supports": ["lucio"]
-    },
-    "synergizes_with": {
-      "tanks": ["orisa", "ramattra", "hazard"],
-      "damage": ["cassidy", "widowmaker"],
-      "supports": ["baptiste", "ana"]
-    }
-  },
-  "soldier76": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["roadhog"],
-      "damage": ["ashe", "cassidy", "genji", "junkrat"],
-      "supports": ["ana", "lucio"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma", "orisa"],
-      "damage": ["sojourn", "cassidy"],
-      "supports": ["baptiste", "ana"]
-    }
-  },
-  "sombra": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva"],
-      "damage": ["pharah", "junkrat", "hanzo", "mei"],
-      "supports": ["kiriko", "ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "wreckingball"],
-      "damage": ["genji", "tracer"],
-      "supports": ["ana", "kiriko"]
-    }
-  },
-  "symmetra": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["winston", "mauga"],
-      "damage": ["pharah", "junkrat", "echo"],
-      "supports": ["lucio", "lifeweaver"]
-    },
-    "synergizes_with": {
-      "tanks": ["orisa", "ramattra"],
-      "damage": ["bastion", "torbjorn"],
-      "supports": ["baptiste", "lucio"]
-    }
-  },
-  "torbjorn": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva"],
-      "damage": ["junkrat", "ashe"],
-      "supports": ["lucio"]
-    },
-    "synergizes_with": {
-      "tanks": ["orisa", "sigma"],
-      "damage": ["symmetra", "bastion"],
-      "supports": ["baptiste", "lucio"]
-    }
-  },
-  "tracer": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["winston", "mauga", "hazard"],
-      "damage": ["symmetra", "torbjorn", "mei"],
-      "supports": ["brigitte", "moira"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "wreckingball"],
-      "damage": ["genji", "sombra"],
-      "supports": ["ana", "kiriko"]
-    }
-  },
-  "widowmaker": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["dva", "winston"],
-      "damage": ["genji", "tracer", "sombra"],
-      "supports": ["zenyatta"]
-    },
-    "synergizes_with": {
-      "tanks": ["sigma", "orisa"],
-      "damage": ["ashe", "sojourn"],
-      "supports": ["baptiste", "mercy"]
-    }
-  },
-  "venture": {
-    "role": "damage",
-    "strong_against": {
-      "tanks": ["reinhardt", "sigma", "zarya", "dva"],
-      "damage": ["pharah", "soldier76", "mei"],
-      "supports": ["ana"]
-    },
-    "synergizes_with": {
-      "tanks": ["winston", "wreckingball"],
-      "damage": ["genji", "tracer", "sombra"],
-      "supports": ["kiriko", "lucio"]
-    }
-  },
-  "ana": {
-    "role": "support",
-    "strong_against": {
-      "tanks": ["winston", "ramattra"],
-      "damage": ["echo", "pharah", "tracer"],
-      "supports": ["kiriko"]
-    },
-    "synergizes_with": {
-      "tanks": ["reinhardt", "zarya", "dva"],
-      "damage": ["genji", "reaper", "junkrat"],
-      "supports": ["baptiste", "lucio"]
+      "tanks": [
+        "sigma",
+        "orisa"
+      ],
+      "damage": [
+        "cassidy",
+        "soldier76"
+      ],
+      "supports": [
+        "baptiste",
+        "mercy"
+      ]
     }
   },
   "baptiste": {
     "role": "support",
     "strong_against": {
-      "tanks": ["winston", "dva"],
-      "damage": ["cassidy", "ashe", "mei"],
-      "supports": ["lucio"]
+      "tanks": [
+        "winston",
+        "dva"
+      ],
+      "damage": [
+        "cassidy",
+        "ashe",
+        "mei"
+      ],
+      "supports": [
+        "lucio"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["orisa", "ramattra", "hazard"],
-      "damage": ["bastion", "soldier76"],
-      "supports": ["ana", "zenyatta"]
+      "tanks": [
+        "orisa",
+        "ramattra",
+        "hazard"
+      ],
+      "damage": [
+        "bastion",
+        "soldier76"
+      ],
+      "supports": [
+        "ana",
+        "zenyatta"
+      ]
+    }
+  },
+  "bastion": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "zarya",
+        "orisa"
+      ],
+      "damage": [
+        "junkrat",
+        "pharah",
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "reinhardt",
+        "sigma"
+      ],
+      "damage": [
+        "symmetra",
+        "torbjorn"
+      ],
+      "supports": [
+        "baptiste",
+        "mercy"
+      ]
     }
   },
   "brigitte": {
     "role": "support",
     "strong_against": {
-      "tanks": ["reinhardt", "roadhog"],
-      "damage": ["pharah", "echo", "junkrat"],
-      "supports": ["lucio", "zenyatta"]
+      "tanks": [
+        "reinhardt",
+        "roadhog"
+      ],
+      "damage": [
+        "pharah",
+        "echo",
+        "junkrat"
+      ],
+      "supports": [
+        "lucio",
+        "zenyatta"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["reinhardt", "zarya"],
-      "damage": ["cassidy", "reaper"],
-      "supports": ["ana", "lucio"]
+      "tanks": [
+        "reinhardt",
+        "zarya"
+      ],
+      "damage": [
+        "cassidy",
+        "reaper"
+      ],
+      "supports": [
+        "ana",
+        "lucio"
+      ]
+    }
+  },
+  "cassidy": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "reinhardt",
+        "winston"
+      ],
+      "damage": [
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma",
+        "orisa",
+        "hazard"
+      ],
+      "damage": [
+        "ashe",
+        "soldier76"
+      ],
+      "supports": [
+        "ana",
+        "baptiste"
+      ]
+    }
+  },
+  "dmon": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "doctrine": {
+    "role": "support",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "domina": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "doomfist": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "orisa"
+      ],
+      "damage": [
+        "sombra",
+        "tracer",
+        "bastion",
+        "genji"
+      ],
+      "supports": [
+        "ana",
+        "brigitte"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "zarya"
+      ],
+      "damage": [
+        "genji",
+        "echo",
+        "sombra",
+        "tracer"
+      ],
+      "supports": [
+        "kiriko",
+        "ana",
+        "lucio"
+      ]
+    }
+  },
+  "dva": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "roadhog"
+      ],
+      "damage": [
+        "hanzo",
+        "sojourn",
+        "pharah",
+        "widowmaker"
+      ],
+      "supports": [
+        "ana",
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "zarya"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "echo",
+        "sombra",
+        "reaper"
+      ],
+      "supports": [
+        "ana",
+        "kiriko",
+        "lucio",
+        "brigitte",
+        "baptiste"
+      ]
+    }
+  },
+  "echo": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "zarya",
+        "hazard"
+      ],
+      "damage": [
+        "ashe",
+        "cassidy",
+        "soldier76",
+        "widowmaker"
+      ],
+      "supports": [
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "dva"
+      ],
+      "damage": [
+        "pharah",
+        "sombra"
+      ],
+      "supports": [
+        "mercy",
+        "kiriko"
+      ]
+    }
+  },
+  "emre": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "freja": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "genji": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "zarya"
+      ],
+      "damage": [
+        "symmetra",
+        "mei"
+      ],
+      "supports": [
+        "moira",
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "dva"
+      ],
+      "damage": [
+        "sombra",
+        "tracer"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
+    }
+  },
+  "hanzo": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva",
+        "wreckingball"
+      ],
+      "damage": [
+        "widowmaker",
+        "genji"
+      ],
+      "supports": [
+        "lucio"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma",
+        "ramattra"
+      ],
+      "damage": [
+        "ashe",
+        "cassidy"
+      ],
+      "supports": [
+        "baptiste",
+        "ana"
+      ]
+    }
+  },
+  "hazard": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "reinhardt",
+        "zarya"
+      ],
+      "damage": [
+        "sombra",
+        "widowmaker",
+        "hanzo",
+        "soldier76"
+      ],
+      "supports": [
+        "ana",
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "ramattra",
+        "sigma"
+      ],
+      "damage": [
+        "cassidy",
+        "mei",
+        "sojourn"
+      ],
+      "supports": [
+        "baptiste",
+        "kiriko"
+      ]
     }
   },
   "illari": {
     "role": "support",
     "strong_against": {
-      "tanks": ["orisa", "zarya", "dva"],
-      "damage": ["cassidy", "ashe", "widowmaker"],
-      "supports": ["baptiste", "lifeweaver", "lucio"]
+      "tanks": [
+        "orisa",
+        "zarya",
+        "dva"
+      ],
+      "damage": [
+        "cassidy",
+        "ashe",
+        "widowmaker"
+      ],
+      "supports": [
+        "baptiste",
+        "lifeweaver",
+        "lucio"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["ramattra", "sigma"],
-      "damage": ["soldier76", "sojourn"],
-      "supports": ["kiriko", "baptiste"]
+      "tanks": [
+        "ramattra",
+        "sigma"
+      ],
+      "damage": [
+        "soldier76",
+        "sojourn"
+      ],
+      "supports": [
+        "kiriko",
+        "baptiste"
+      ]
     }
   },
-  "kiriko": {
+  "jetpackcat": {
     "role": "support",
     "strong_against": {
-      "tanks": ["roadhog", "winston"],
-      "damage": ["tracer", "sombra", "genji", "mei"],
-      "supports": ["ana", "zenyatta", "illari"]
+      "tanks": [],
+      "damage": [],
+      "support": []
     },
     "synergizes_with": {
-      "tanks": ["winston", "dva", "hazard"],
-      "damage": ["genji", "sombra", "echo"],
-      "supports": ["ana", "lucio"]
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "junkerqueen": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "wreckingball"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "torbjorn",
+        "symmetra"
+      ],
+      "supports": [
+        "brigitte",
+        "lucio",
+        "moira"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "reinhardt",
+        "rampaging-style tanks"
+      ],
+      "damage": [
+        "reaper",
+        "cassidy",
+        "mei"
+      ],
+      "supports": [
+        "ana",
+        "kiriko",
+        "baptiste",
+        "lucio"
+      ]
+    }
+  },
+  "junkrat": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "zarya",
+        "wreckingball"
+      ],
+      "damage": [
+        "cassidy",
+        "soldier76"
+      ],
+      "supports": [
+        "lucio",
+        "brigitte",
+        "lifeweaver"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "roadhog",
+        "sigma"
+      ],
+      "damage": [
+        "mei",
+        "bastion"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
     }
   },
   "juno": {
     "role": "support",
     "strong_against": {
-      "tanks": ["dva", "winston", "reinhardt"],
-      "damage": ["sombra", "soldier76", "widowmaker"],
-      "supports": ["lucio", "ana"]
+      "tanks": [
+        "dva",
+        "winston",
+        "reinhardt"
+      ],
+      "damage": [
+        "sombra",
+        "soldier76",
+        "widowmaker"
+      ],
+      "supports": [
+        "lucio",
+        "ana"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["ramattra", "sigma"],
-      "damage": ["symmetra", "torbjorn"],
-      "supports": ["baptiste", "zenyatta"]
+      "tanks": [
+        "ramattra",
+        "sigma"
+      ],
+      "damage": [
+        "symmetra",
+        "torbjorn"
+      ],
+      "supports": [
+        "baptiste",
+        "zenyatta"
+      ]
+    }
+  },
+  "kiriko": {
+    "role": "support",
+    "strong_against": {
+      "tanks": [
+        "roadhog",
+        "winston"
+      ],
+      "damage": [
+        "tracer",
+        "sombra",
+        "genji",
+        "mei"
+      ],
+      "supports": [
+        "ana",
+        "zenyatta",
+        "illari"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "dva",
+        "hazard"
+      ],
+      "damage": [
+        "genji",
+        "sombra",
+        "echo"
+      ],
+      "supports": [
+        "ana",
+        "lucio"
+      ]
     }
   },
   "lifeweaver": {
     "role": "support",
     "strong_against": {
-      "tanks": ["roadhog", "dva"],
-      "damage": ["sombra", "soldier76"],
-      "supports": ["lucio"]
+      "tanks": [
+        "roadhog",
+        "dva"
+      ],
+      "damage": [
+        "sombra",
+        "soldier76"
+      ],
+      "supports": [
+        "lucio"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["sigma", "ramattra"],
-      "damage": ["bastion", "symmetra"],
-      "supports": ["ana", "baptiste"]
+      "tanks": [
+        "sigma",
+        "ramattra"
+      ],
+      "damage": [
+        "bastion",
+        "symmetra"
+      ],
+      "supports": [
+        "ana",
+        "baptiste"
+      ]
     }
   },
   "lucio": {
     "role": "support",
     "strong_against": {
-      "tanks": ["winston", "roadhog", "hazard"],
-      "damage": ["soldier76", "cassidy", "symmetra", "torbjorn", "mei"],
-      "supports": ["moira"]
+      "tanks": [
+        "winston",
+        "roadhog",
+        "hazard"
+      ],
+      "damage": [
+        "soldier76",
+        "cassidy",
+        "symmetra",
+        "torbjorn",
+        "mei"
+      ],
+      "supports": [
+        "moira"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["reinhardt", "zarya"],
-      "damage": ["genji", "tracer"],
-      "supports": ["ana", "kiriko"]
+      "tanks": [
+        "reinhardt",
+        "zarya"
+      ],
+      "damage": [
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
+    }
+  },
+  "mauga": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "doomfist",
+        "wreckingball"
+      ],
+      "damage": [
+        "sombra",
+        "reaper",
+        "widowmaker"
+      ],
+      "supports": [
+        "zenyatta",
+        "kiriko"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "ramattra",
+        "orisa"
+      ],
+      "damage": [
+        "bastion",
+        "symmetra"
+      ],
+      "supports": [
+        "ana",
+        "baptiste"
+      ]
+    }
+  },
+  "mei": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva"
+      ],
+      "damage": [
+        "sombra",
+        "pharah",
+        "echo"
+      ],
+      "supports": [
+        "kiriko"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "zarya",
+        "ramattra",
+        "hazard"
+      ],
+      "damage": [
+        "cassidy",
+        "reaper"
+      ],
+      "supports": [
+        "ana",
+        "baptiste"
+      ]
     }
   },
   "mercy": {
     "role": "support",
     "strong_against": {
-      "tanks": ["winston", "roadhog"],
-      "damage": ["echo", "cassidy", "widowmaker", "genji", "tracer"],
+      "tanks": [
+        "winston",
+        "roadhog"
+      ],
+      "damage": [
+        "echo",
+        "cassidy",
+        "widowmaker",
+        "genji",
+        "tracer"
+      ],
       "supports": []
     },
     "synergizes_with": {
-      "tanks": ["sigma", "orisa"],
-      "damage": ["pharah", "echo", "sojourn"],
-      "supports": ["baptiste", "kiriko"]
+      "tanks": [
+        "sigma",
+        "orisa"
+      ],
+      "damage": [
+        "pharah",
+        "echo",
+        "sojourn"
+      ],
+      "supports": [
+        "baptiste",
+        "kiriko"
+      ]
+    }
+  },
+  "mizuki": {
+    "role": "support",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
     }
   },
   "moira": {
     "role": "support",
     "strong_against": {
-      "tanks": ["roadhog", "zarya", "hazard"],
-      "damage": ["echo", "pharah", "widowmaker", "junkrat", "mei", "ashe"],
-      "supports": ["ana"]
+      "tanks": [
+        "roadhog",
+        "zarya",
+        "hazard"
+      ],
+      "damage": [
+        "echo",
+        "pharah",
+        "widowmaker",
+        "junkrat",
+        "mei",
+        "ashe"
+      ],
+      "supports": [
+        "ana"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["orisa", "ramattra"],
-      "damage": ["reaper", "symmetra"],
-      "supports": ["lucio", "kiriko"]
+      "tanks": [
+        "orisa",
+        "ramattra"
+      ],
+      "damage": [
+        "reaper",
+        "symmetra"
+      ],
+      "supports": [
+        "lucio",
+        "kiriko"
+      ]
+    }
+  },
+  "orisa": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "zarya",
+        "dva",
+        "hazard"
+      ],
+      "damage": [
+        "mei",
+        "echo"
+      ],
+      "supports": [
+        "moira"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma",
+        "ramattra"
+      ],
+      "damage": [
+        "bastion",
+        "cassidy"
+      ],
+      "supports": [
+        "ana",
+        "baptiste"
+      ]
+    }
+  },
+  "pharah": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva",
+        "roadhog",
+        "mauga",
+        "hazard"
+      ],
+      "damage": [
+        "soldier76",
+        "cassidy",
+        "ashe",
+        "widowmaker"
+      ],
+      "supports": [
+        "baptiste"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "wreckingball"
+      ],
+      "damage": [
+        "echo",
+        "sombra"
+      ],
+      "supports": [
+        "mercy",
+        "kiriko"
+      ]
+    }
+  },
+  "ramattra": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "roadhog"
+      ],
+      "damage": [
+        "reaper",
+        "tracer",
+        "pharah",
+        "genji",
+        "cassidy"
+      ],
+      "supports": [
+        "kiriko"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "orisa",
+        "mauga",
+        "hazard"
+      ],
+      "damage": [
+        "mei",
+        "symmetra"
+      ],
+      "supports": [
+        "baptiste",
+        "ana"
+      ]
+    }
+  },
+  "reaper": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "zarya"
+      ],
+      "damage": [
+        "pharah",
+        "echo",
+        "junkrat",
+        "widowmaker"
+      ],
+      "supports": [
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "junkerqueen"
+      ],
+      "damage": [
+        "mei",
+        "cassidy"
+      ],
+      "supports": [
+        "lucio",
+        "kiriko"
+      ]
+    }
+  },
+  "reinhardt": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "ramattra"
+      ],
+      "damage": [
+        "sombra",
+        "cassidy",
+        "mei",
+        "junkrat",
+        "pharah"
+      ],
+      "supports": [
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "zarya",
+        "orisa"
+      ],
+      "damage": [
+        "bastion",
+        "junkrat",
+        "reaper",
+        "symmetra"
+      ],
+      "supports": [
+        "lucio",
+        "ana",
+        "baptiste"
+      ]
+    }
+  },
+  "roadhog": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "wreckingball"
+      ],
+      "damage": [
+        "reaper",
+        "echo",
+        "junkrat"
+      ],
+      "supports": [
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma"
+      ],
+      "damage": [
+        "mei",
+        "torbjorn"
+      ],
+      "supports": [
+        "kiriko",
+        "baptiste"
+      ]
+    }
+  },
+  "shion": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "sierra": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "sigma": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "ramattra",
+        "roadhog"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "sombra"
+      ],
+      "supports": [
+        "lucio"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "orisa",
+        "ramattra",
+        "hazard"
+      ],
+      "damage": [
+        "ashe",
+        "soldier76"
+      ],
+      "supports": [
+        "baptiste",
+        "zenyatta"
+      ]
+    }
+  },
+  "sojourn": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "mauga"
+      ],
+      "damage": [
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "lucio"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "orisa",
+        "ramattra",
+        "hazard"
+      ],
+      "damage": [
+        "cassidy",
+        "widowmaker"
+      ],
+      "supports": [
+        "baptiste",
+        "ana"
+      ]
+    }
+  },
+  "soldier76": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "roadhog"
+      ],
+      "damage": [
+        "ashe",
+        "cassidy",
+        "genji",
+        "junkrat"
+      ],
+      "supports": [
+        "ana",
+        "lucio"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma",
+        "orisa"
+      ],
+      "damage": [
+        "sojourn",
+        "cassidy"
+      ],
+      "supports": [
+        "baptiste",
+        "ana"
+      ]
+    }
+  },
+  "sombra": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva"
+      ],
+      "damage": [
+        "pharah",
+        "junkrat",
+        "hanzo",
+        "mei"
+      ],
+      "supports": [
+        "kiriko",
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "wreckingball"
+      ],
+      "damage": [
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
+    }
+  },
+  "symmetra": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "mauga"
+      ],
+      "damage": [
+        "pharah",
+        "junkrat",
+        "echo"
+      ],
+      "supports": [
+        "lucio",
+        "lifeweaver"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "orisa",
+        "ramattra"
+      ],
+      "damage": [
+        "bastion",
+        "torbjorn"
+      ],
+      "supports": [
+        "baptiste",
+        "lucio"
+      ]
+    }
+  },
+  "torbjorn": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva"
+      ],
+      "damage": [
+        "junkrat",
+        "ashe"
+      ],
+      "supports": [
+        "lucio"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "orisa",
+        "sigma"
+      ],
+      "damage": [
+        "symmetra",
+        "bastion"
+      ],
+      "supports": [
+        "baptiste",
+        "lucio"
+      ]
+    }
+  },
+  "tracer": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "winston",
+        "mauga",
+        "hazard"
+      ],
+      "damage": [
+        "symmetra",
+        "torbjorn",
+        "mei"
+      ],
+      "supports": [
+        "brigitte",
+        "moira"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "wreckingball"
+      ],
+      "damage": [
+        "genji",
+        "sombra"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
+    }
+  },
+  "vendetta": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "venture": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "reinhardt",
+        "sigma",
+        "zarya",
+        "dva"
+      ],
+      "damage": [
+        "pharah",
+        "soldier76",
+        "mei"
+      ],
+      "supports": [
+        "ana"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "winston",
+        "wreckingball"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "sombra"
+      ],
+      "supports": [
+        "kiriko",
+        "lucio"
+      ]
+    }
+  },
+  "widowmaker": {
+    "role": "damage",
+    "strong_against": {
+      "tanks": [
+        "dva",
+        "winston"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "sombra"
+      ],
+      "supports": [
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "sigma",
+        "orisa"
+      ],
+      "damage": [
+        "ashe",
+        "sojourn"
+      ],
+      "supports": [
+        "baptiste",
+        "mercy"
+      ]
+    }
+  },
+  "winston": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "zarya"
+      ],
+      "damage": [
+        "junkrat",
+        "pharah",
+        "bastion"
+      ],
+      "supports": [
+        "ana",
+        "brigitte"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "dva"
+      ],
+      "damage": [
+        "genji",
+        "tracer",
+        "sombra",
+        "echo"
+      ],
+      "supports": [
+        "kiriko",
+        "ana",
+        "lucio"
+      ]
+    }
+  },
+  "wreckingball": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "roadhog",
+        "doomfist",
+        "hazard"
+      ],
+      "damage": [
+        "mei",
+        "sombra"
+      ],
+      "supports": [
+        "ana",
+        "brigitte"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "dva"
+      ],
+      "damage": [
+        "tracer",
+        "sombra",
+        "genji"
+      ],
+      "supports": [
+        "kiriko",
+        "zenyatta",
+        "lucio"
+      ]
+    }
+  },
+  "wuyang": {
+    "role": "support",
+    "strong_against": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    },
+    "synergizes_with": {
+      "tanks": [],
+      "damage": [],
+      "support": []
+    }
+  },
+  "zarya": {
+    "role": "tank",
+    "strong_against": {
+      "tanks": [
+        "dva",
+        "winston"
+      ],
+      "damage": [
+        "hanzo",
+        "widowmaker",
+        "cassidy",
+        "tracer"
+      ],
+      "supports": [
+        "zenyatta"
+      ]
+    },
+    "synergizes_with": {
+      "tanks": [
+        "reinhardt"
+      ],
+      "damage": [
+        "mei",
+        "reaper"
+      ],
+      "supports": [
+        "ana",
+        "kiriko"
+      ]
     }
   },
   "zenyatta": {
     "role": "support",
     "strong_against": {
-      "tanks": ["dva", "zarya"],
-      "damage": ["junkrat", "pharah", "cassidy", "widowmaker", "ashe", "hanzo", "tracer"],
-      "supports": ["kiriko", "zenyatta"]
+      "tanks": [
+        "dva",
+        "zarya"
+      ],
+      "damage": [
+        "junkrat",
+        "pharah",
+        "cassidy",
+        "widowmaker",
+        "ashe",
+        "hanzo",
+        "tracer"
+      ],
+      "supports": [
+        "kiriko",
+        "zenyatta"
+      ]
     },
     "synergizes_with": {
-      "tanks": ["sigma", "wreckingball"],
-      "damage": ["genji", "tracer"],
-      "supports": ["baptiste", "lucio"]
+      "tanks": [
+        "sigma",
+        "wreckingball"
+      ],
+      "damage": [
+        "genji",
+        "tracer"
+      ],
+      "supports": [
+        "baptiste",
+        "lucio"
+      ]
     }
   }
 }

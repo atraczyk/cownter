@@ -8,6 +8,10 @@ const NICKNAMES: Record<string, string> = {
   widow: 'widowmaker',
   ball: 'wreckingball',
   zen: 'zenyatta',
+  jpc: 'jetpackcat',
+  'jetpack cat': 'jetpackcat',
+  'd.mon': 'dmon',
+  'd mon': 'dmon',
 };
 
 const PHONETIC: Record<string, string> = {

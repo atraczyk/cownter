@@ -15,6 +15,8 @@
     "test:e2e": "npm run test:e2e --workspace ow2-counters-client",
     "preview": "npm run preview --workspace ow2-counters-client",
     "validate-data": "node packages/core/bin/ow2.js validate-data",
+    "audit-data": "node packages/core/bin/ow2.js audit-data",
+    "scaffold-missing": "node packages/core/bin/ow2.js scaffold-missing",
     "ow2": "node packages/core/bin/ow2.js"
   }
 }

@@ -13,3 +13,15 @@ Versions follow semver per sheet:
 ## maps 0.1.0 (2026-10-14)
 
 - First LLM-drafted comp preferences for Control, Escort, Hybrid, Push, Flashpoint and Clash maps, per point and per side for Escort and Hybrid. Needs human review.
+
+## 2026-10-14
+
+### archetypes 0.2.0
+
+- Scaffolded missing heroes from roster.json: anran, dmon, doctrine, domina, emre, freja, jetpackcat, mizuki, shion, sierra, vendetta, wuyang. Counters and weights are placeholders (neutral / empty) pending review.
+
+## 2026-10-14
+
+### maps 0.2.0
+
+- Scaffolded missing maps from roster.json: grimsvotn, neon_junction. Point comps are neutral placeholders pending review.

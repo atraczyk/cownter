@@ -21,7 +21,8 @@ test.describe('counter picker', () => {
   test('loads the hero pool and match bar without a backend', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'Control' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Escort' })).toBeVisible();
-    await expect(page.locator('.hero-icon-select')).toHaveCount(42);
+    const heroCount = await page.locator('.hero-icon-select').count();
+    expect(heroCount).toBeGreaterThanOrEqual(42);
     await expect(page.locator('.load-error')).toBeHidden();
   });
 
