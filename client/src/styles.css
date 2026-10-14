@@ -193,7 +193,7 @@ h1, h2 { margin: 0; }
 
 .main-container {
     display: grid;
-    grid-template-columns: 252px minmax(400px, 460px) minmax(380px, 520px);
+    grid-template-columns: 252px minmax(420px, 1fr) minmax(400px, 1fr);
     grid-template-rows: auto auto auto;
     grid-template-areas:
         "pool yours suggestions"
@@ -287,9 +287,9 @@ h1, h2 { margin: 0; }
 
 .player-row {
     display: grid;
-    grid-template-columns: 26px 34px minmax(0, 1fr) auto auto;
+    grid-template-columns: 22px 34px minmax(0, 1fr) 88px 132px;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     min-height: 50px;
     padding: 7px 8px;
     margin: 3px 0;
@@ -343,14 +343,15 @@ select.hero-select {
     align-items: center;
     justify-content: flex-end;
     gap: 6px;
-    min-width: 110px;
+    min-width: 0;
 }
 
 .current-score, .enemy-score, .score {
+    flex: none;
     font-family: var(--font-data);
     font-weight: 600;
     font-size: 14px;
-    min-width: 28px;
+    width: 30px;
     text-align: right;
 }
 
@@ -358,14 +359,14 @@ select.hero-select {
 .enemy-score { color: var(--enemy); }
 .score { color: var(--suggest); }
 
-.countered-heroes, .synergizing-heroes { display: flex; max-width: 96px; flex-wrap: wrap; justify-content: flex-end; }
+.countered-heroes, .synergizing-heroes { display: flex; flex: none; }
 
 .synergizing-heroes:empty, .countered-heroes:empty { display: none; }
 
 .countered-hero-icon, .synergizing-hero-icon {
     width: 20px;
     height: 20px;
-    margin-left: -6px;
+    margin-left: -7px;
     border-radius: 50%;
     background: center / cover no-repeat;
     border: 2px solid #fff;
@@ -424,6 +425,7 @@ select.hero-select {
     font-size: 11px;
     font-weight: 600;
     white-space: nowrap;
+    text-align: center;
     color: var(--arch, var(--muted));
 }
 
@@ -587,6 +589,8 @@ select.hero-select {
 
 @media (max-width: 760px) {
     .app-header { position: static; padding: 12px 16px; }
+    .match-field { max-width: 100%; }
+    .segmented { flex-wrap: wrap; }
     .main-container {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -601,8 +605,8 @@ select.hero-select {
     .insight-gap { display: none; }
     .hero-selector { position: static; }
     .hero-grid { grid-template-columns: repeat(8, 1fr); }
-    .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) auto; }
-    .player-row .score-section { grid-column: 3 / -1; justify-content: flex-start; }
+    .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) 88px; }
+    .player-row .score-section { grid-column: 3 / -1; }
     .compass-body { grid-template-columns: 1fr; }
 }
 

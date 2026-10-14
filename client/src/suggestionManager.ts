@@ -26,9 +26,9 @@ function suggestionRow(role: Role, heroData: HeroScore, score: number): HTMLDivE
     <div class="hero-name">${hero}</div>
     <div class="fit-chip"></div>
     <div class="score-section">
-      <div class="score">${score}</div>
       <div class="countered-heroes">${iconList(counteredHeroes, 'countered-hero-icon')}</div>
       <div class="synergizing-heroes">${iconList(synergizingHeroes, 'synergizing-hero-icon')}</div>
+      <div class="score">${score}</div>
     </div>
   `;
   const chip = row.querySelector<HTMLElement>('.fit-chip');

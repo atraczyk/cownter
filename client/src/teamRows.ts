@@ -24,9 +24,9 @@ export function renderTeamRows(): void {
         </select>
         <div class="fit-chip"></div>
         <div class="score-section">
-          <div class="${scoreClass}"></div>
           <div class="countered-heroes"></div>
           <div class="synergizing-heroes"></div>
+          <div class="${scoreClass}"></div>
         </div>
       </div>`).join('');
   });
