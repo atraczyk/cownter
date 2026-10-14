@@ -17,6 +17,7 @@
     "validate-data": "node packages/core/bin/ow2.js validate-data",
     "audit-data": "node packages/core/bin/ow2.js audit-data",
     "scaffold-missing": "node packages/core/bin/ow2.js scaffold-missing",
+    "grab-icons": "node packages/core/scripts/grab-icons.mjs",
     "ow2": "node packages/core/bin/ow2.js"
   }
 }

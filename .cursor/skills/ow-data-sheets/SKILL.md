@@ -26,11 +26,13 @@ Clash maps (`hanaoka`, `throne_of_anubis`) stay in the roster with `"pool": "sta
 npm run validate-data   # schema / weight / parity checks
 npm run audit-data      # gaps vs roster.json + missing icons + empty counters
 npm run scaffold-missing  # stub any roster heroes/maps not yet in the sheets
+npm run grab-icons      # download portraits into resources/images/icons/
+npm run grab-icons -- --force   # refresh every icon
 npm test
 npm run test:e2e
 ```
 
-`scaffold-missing` creates **placeholders only**: empty counter lists, near-neutral archetype weights, and neutral map point comps. Always follow with a real draft pass and keep `status: llm-draft` until reviewed.
+`scaffold-missing` creates **placeholders only**: empty counter lists, near-neutral archetype weights, and neutral map point comps. Always run `npm run grab-icons` after adding heroes, then draft counters/comps and keep `status: llm-draft` until reviewed.
 
 ## Workflow after a patch / season
 

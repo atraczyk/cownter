@@ -29,6 +29,7 @@ npm run test:e2e
 npm run build
 npm run validate-data
 npm run audit-data
+npm run grab-icons
 ```
 
 ## CLI

@@ -104,7 +104,14 @@ export function auditData(
         level: 'warn',
         kind: 'icon',
         id: hero.id,
-        message: `missing icon at resources/images/icons/icon-${hero.id}.png`,
+        message: `missing icon at resources/images/icons/icon-${hero.id}.png (run npm run grab-icons)`,
+      });
+    } else if (fs.statSync(iconPath).size < 2048) {
+      findings.push({
+        level: 'warn',
+        kind: 'icon',
+        id: hero.id,
+        message: `icon looks like a stub (${fs.statSync(iconPath).size} bytes); run npm run grab-icons -- --force`,
       });
     }
 
