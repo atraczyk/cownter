@@ -1,8 +1,35 @@
-import type { Archetype, ArchetypesSheet, CompWeights, HeroData, MapsSheet, Side } from './types';
+import type { Archetype, ArchetypesSheet, CompWeights, HeroData, MapsSheet, Role, RoleCategory, Side } from './types';
 import { ARCHETYPES, SIDES, WEIGHT_TOLERANCE } from './fit';
 
 const SEMVER = /^\d+\.\d+\.\d+$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+const CATEGORY_ROLE: Record<RoleCategory, Role> = { tanks: 'tank', damage: 'damage', supports: 'support' };
+const ROLE_CATEGORY = Object.fromEntries(
+  Object.entries(CATEGORY_ROLE).map(([category, role]) => [role, category]),
+) as Record<Role, RoleCategory>;
+
+function checkHeroLists(heroData: HeroData, errors: string[]): void {
+  const roles = new Set(Object.values(CATEGORY_ROLE));
+  for (const [hero, info] of Object.entries(heroData)) {
+    if (!roles.has(info.role)) errors.push(`hero_data.${hero}: unknown role "${String(info.role)}"`);
+    for (const field of ['strong_against', 'synergizes_with'] as const) {
+      for (const [category, listed] of Object.entries(info[field] ?? {})) {
+        const label = `hero_data.${hero}.${field}.${category}`;
+        const expected = CATEGORY_ROLE[category as RoleCategory];
+        if (!expected) {
+          errors.push(`${label}: unknown list "${category}", expected ${Object.keys(CATEGORY_ROLE).join(', ')}`);
+          continue;
+        }
+        for (const other of listed ?? []) {
+          const role = heroData[other]?.role;
+          if (!role) errors.push(`${label}: unknown hero "${other}"`);
+          else if (role !== expected) errors.push(`${label}: "${other}" is ${role}, move it to the ${ROLE_CATEGORY[role]} list`);
+        }
+      }
+    }
+  }
+}
 
 function checkWeights(label: string, weights: unknown, errors: string[]): void {
   if (!weights || typeof weights !== 'object' || Array.isArray(weights)) {
@@ -52,6 +79,7 @@ export function validateSheets(
   for (const [hero, weights] of Object.entries(heroWeights)) {
     checkWeights(`archetypes.${hero}`, weights, errors);
   }
+  checkHeroLists(heroData, errors);
 
   const modes = new Map(maps.modes.map((mode) => [mode.id, mode]));
   const seenMaps = new Set<string>();

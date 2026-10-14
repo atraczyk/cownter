@@ -8,7 +8,7 @@ export type Side = 'attack' | 'defense';
 
 export type CompWeights = Record<Archetype, number>;
 
-export type RoleCategory = 'tanks' | 'damage' | 'support';
+export type RoleCategory = 'tanks' | 'damage' | 'supports';
 
 export interface HeroInfo {
   role: Role;

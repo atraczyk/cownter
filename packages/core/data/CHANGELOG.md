@@ -25,3 +25,14 @@ Versions follow semver per sheet:
 ### maps 0.2.0
 
 - Scaffolded missing maps from roster.json: grimsvotn, neon_junction. Point comps are neutral placeholders pending review.
+
+## 2026-10-14
+
+### roster 1.0.0 -> 1.1.0 (sync-roster)
+
+- Sombra: damage -> support; moved in counter/synergy lists.
+
+### hero_data
+
+- Renamed the `support` lists on the 12 scaffolded heroes to `supports`, the key the engine reads.
+- Removed the non-hero entry "rampaging-style tanks" from Junker Queen's synergies.

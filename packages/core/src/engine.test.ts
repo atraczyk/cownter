@@ -32,15 +32,23 @@ describe('comp fit', () => {
     const bonuses = provider.fitBonuses(preference);
     expect(bonuses.reinhardt).toBeGreaterThan(bonuses.widowmaker);
   });
+
+  it('flags heroes listed under the wrong role', () => {
+    const misfiled = structuredClone(heroData);
+    misfiled.ana.strong_against.damage = [...(misfiled.ana.strong_against.damage ?? []), 'sombra'];
+    expect(validateSheets(archetypesSheet, mapsSheet, misfiled)).toContain(
+      'hero_data.ana.strong_against.damage: "sombra" is support, move it to the supports list',
+    );
+  });
 });
 
 describe('suggestCounterTeam', () => {
-  const enemy = ['hazard', 'echo', 'sombra', 'illari', 'lifeweaver'];
+  const enemy = ['hazard', 'echo', 'genji', 'sombra', 'illari'];
 
   it('returns the known counter team without map fit', () => {
     const suggestions = suggestCounterTeam(heroData, enemy);
-    expect(suggestions.tank?.[0][0]).toBe('orisa');
-    expect(suggestions.damage?.map(([hero]) => hero).sort()).toEqual(['mei', 'symmetra']);
+    expect(suggestions.tank?.[0][0]).toBe('doomfist');
+    expect(suggestions.damage?.map(([hero]) => hero).sort()).toEqual(['mei', 'widowmaker']);
     expect(suggestions.map_fit).toBeUndefined();
   });
 
@@ -57,12 +65,12 @@ describe('MatchSession', () => {
   it('scores and suggests without a server', () => {
     const session = new MatchSession();
     session.restoreTeams({
-      enemy: ['hazard', 'echo', 'sombra', 'illari', 'lifeweaver'],
-      counter: ['orisa', null, null, null, null],
+      enemy: ['hazard', 'echo', 'genji', 'sombra', 'illari'],
+      counter: ['doomfist', null, null, null, null],
     });
     const scores = session.currentScores();
-    expect(scores.current_scores?.heroes[0][0]).toBe('orisa');
-    expect(session.suggestionsIfReady()?.tank?.[0][0]).toBe('orisa');
+    expect(scores.current_scores?.heroes[0][0]).toBe('doomfist');
+    expect(session.suggestionsIfReady()?.tank?.[0][0]).toBe('doomfist');
 
     session.applyContext({
       mode: 'escort',

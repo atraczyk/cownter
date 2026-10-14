@@ -29,21 +29,21 @@ test.describe('counter picker', () => {
   test('suggests counters once the enemy team is full', async ({ page }) => {
     await pick(page, 'enemy', 0, 'hazard');
     await pick(page, 'enemy', 1, 'echo');
-    await pick(page, 'enemy', 2, 'sombra');
-    await pick(page, 'enemy', 3, 'illari');
-    await pick(page, 'enemy', 4, 'lifeweaver');
+    await pick(page, 'enemy', 2, 'genji');
+    await pick(page, 'enemy', 3, 'sombra');
+    await pick(page, 'enemy', 4, 'illari');
 
     await expect(page.getByRole('heading', { name: 'Suggested picks' })).toBeVisible();
-    await expect(page.locator('.suggestion-block .hero-name')).toContainText(['orisa', 'mei', 'symmetra']);
-    await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '10.5');
+    await expect(page.locator('.suggestion-block .hero-name')).toContainText(['doomfist', 'mei', 'widowmaker', 'kiriko', 'mercy']);
+    await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
   });
 
   test('weighs suggestions by map point and side', async ({ page }) => {
     await pick(page, 'enemy', 0, 'hazard');
     await pick(page, 'enemy', 1, 'echo');
-    await pick(page, 'enemy', 2, 'sombra');
-    await pick(page, 'enemy', 3, 'illari');
-    await pick(page, 'enemy', 4, 'lifeweaver');
+    await pick(page, 'enemy', 2, 'genji');
+    await pick(page, 'enemy', 3, 'sombra');
+    await pick(page, 'enemy', 4, 'illari');
 
     await page.getByRole('button', { name: 'Escort' }).click();
     await page.locator('#map-select').selectOption('dorado');

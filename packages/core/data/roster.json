@@ -1,6 +1,6 @@
 {
   "sheet": "roster",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated": "2026-10-14",
   "status": "llm-draft",
   "notes": "Canonical Overwatch (formerly Overwatch 2) roster snapshot for audit/scaffold. Roles are standard Role Queue roles. pool=core is Quick Play + Competitive; stadium is Stadium-only.",
@@ -49,7 +49,7 @@
     { "id": "sigma", "name": "Sigma", "role": "tank" },
     { "id": "sojourn", "name": "Sojourn", "role": "damage" },
     { "id": "soldier76", "name": "Soldier: 76", "role": "damage" },
-    { "id": "sombra", "name": "Sombra", "role": "damage" },
+    { "id": "sombra", "name": "Sombra", "role": "support" },
     { "id": "symmetra", "name": "Symmetra", "role": "damage" },
     { "id": "torbjorn", "name": "Torbjörn", "role": "damage" },
     { "id": "tracer", "name": "Tracer", "role": "damage" },

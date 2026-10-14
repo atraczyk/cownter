@@ -8,25 +8,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { API, apiKey, fetchBuffer, fetchJson } from './overfast.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const DATA = path.join(ROOT, 'packages/core/data/hero_data.json');
 const OUT = path.join(ROOT, 'resources/images/icons');
-const API = 'https://overfast-api.tekrop.fr/heroes';
-
-/** Our sheet ids -> OverFast path keys when they differ. */
-const API_KEYS = {
-  jetpackcat: 'jetpack-cat',
-  junkerqueen: 'junker-queen',
-  soldier76: 'soldier-76',
-  wreckingball: 'wrecking-ball',
-};
 
 const force = process.argv.includes('--force');
-
-function apiKey(id) {
-  return API_KEYS[id] ?? id;
-}
 
 async function download(heroId) {
   const key = apiKey(heroId);
@@ -35,18 +23,11 @@ async function download(heroId) {
     return { heroId, skipped: true };
   }
 
-  const res = await fetch(`${API}/${key}`, { headers: { 'User-Agent': 'ow-counters/2' } });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`${res.status} ${key}: ${body.slice(0, 120)}`);
-  }
-  const data = await res.json();
+  const data = await fetchJson(`${API}/heroes/${key}`);
   const portrait = data.portrait;
   if (!portrait) throw new Error(`no portrait for ${key}`);
 
-  const image = await fetch(portrait, { headers: { 'User-Agent': 'ow-counters/2' } });
-  if (!image.ok) throw new Error(`portrait ${image.status} for ${key}`);
-  const buffer = Buffer.from(await image.arrayBuffer());
+  const buffer = await fetchBuffer(portrait);
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(dest, buffer);
   return { heroId, bytes: buffer.length, portrait };

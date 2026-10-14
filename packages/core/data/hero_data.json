@@ -37,12 +37,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "ashe": {
@@ -209,12 +209,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "doctrine": {
@@ -222,12 +222,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "domina": {
@@ -235,12 +235,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "doomfist": {
@@ -250,14 +250,14 @@
         "orisa"
       ],
       "damage": [
-        "sombra",
         "tracer",
         "bastion",
         "genji"
       ],
       "supports": [
         "ana",
-        "brigitte"
+        "brigitte",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -268,13 +268,13 @@
       "damage": [
         "genji",
         "echo",
-        "sombra",
         "tracer"
       ],
       "supports": [
         "kiriko",
         "ana",
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     }
   },
@@ -305,7 +305,6 @@
         "genji",
         "tracer",
         "echo",
-        "sombra",
         "reaper"
       ],
       "supports": [
@@ -313,7 +312,8 @@
         "kiriko",
         "lucio",
         "brigitte",
-        "baptiste"
+        "baptiste",
+        "sombra"
       ]
     }
   },
@@ -341,12 +341,12 @@
         "dva"
       ],
       "damage": [
-        "pharah",
-        "sombra"
+        "pharah"
       ],
       "supports": [
         "mercy",
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     }
   },
@@ -355,12 +355,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "freja": {
@@ -368,12 +368,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "genji": {
@@ -398,12 +398,12 @@
         "dva"
       ],
       "damage": [
-        "sombra",
         "tracer"
       ],
       "supports": [
         "ana",
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     }
   },
@@ -445,14 +445,14 @@
         "zarya"
       ],
       "damage": [
-        "sombra",
         "widowmaker",
         "hanzo",
         "soldier76"
       ],
       "supports": [
         "ana",
-        "zenyatta"
+        "zenyatta",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -510,12 +510,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "junkerqueen": {
@@ -538,8 +538,7 @@
     },
     "synergizes_with": {
       "tanks": [
-        "reinhardt",
-        "rampaging-style tanks"
+        "reinhardt"
       ],
       "damage": [
         "reaper",
@@ -595,13 +594,13 @@
         "reinhardt"
       ],
       "damage": [
-        "sombra",
         "soldier76",
         "widowmaker"
       ],
       "supports": [
         "lucio",
-        "ana"
+        "ana",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -628,14 +627,14 @@
       ],
       "damage": [
         "tracer",
-        "sombra",
         "genji",
         "mei"
       ],
       "supports": [
         "ana",
         "zenyatta",
-        "illari"
+        "illari",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -646,12 +645,12 @@
       ],
       "damage": [
         "genji",
-        "sombra",
         "echo"
       ],
       "supports": [
         "ana",
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     }
   },
@@ -663,11 +662,11 @@
         "dva"
       ],
       "damage": [
-        "sombra",
         "soldier76"
       ],
       "supports": [
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -727,13 +726,13 @@
         "wreckingball"
       ],
       "damage": [
-        "sombra",
         "reaper",
         "widowmaker"
       ],
       "supports": [
         "zenyatta",
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -758,12 +757,12 @@
         "dva"
       ],
       "damage": [
-        "sombra",
         "pharah",
         "echo"
       ],
       "supports": [
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -819,12 +818,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "moira": {
@@ -918,12 +917,12 @@
         "wreckingball"
       ],
       "damage": [
-        "echo",
-        "sombra"
+        "echo"
       ],
       "supports": [
         "mercy",
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     }
   },
@@ -998,14 +997,14 @@
         "ramattra"
       ],
       "damage": [
-        "sombra",
         "cassidy",
         "mei",
         "junkrat",
         "pharah"
       ],
       "supports": [
-        "zenyatta"
+        "zenyatta",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -1060,12 +1059,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "sierra": {
@@ -1073,12 +1072,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "sigma": {
@@ -1090,11 +1089,11 @@
       ],
       "damage": [
         "genji",
-        "tracer",
-        "sombra"
+        "tracer"
       ],
       "supports": [
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -1177,7 +1176,7 @@
     }
   },
   "sombra": {
-    "role": "damage",
+    "role": "support",
     "strong_against": {
       "tanks": [
         "dva"
@@ -1293,12 +1292,12 @@
         "wreckingball"
       ],
       "damage": [
-        "genji",
-        "sombra"
+        "genji"
       ],
       "supports": [
         "ana",
-        "kiriko"
+        "kiriko",
+        "sombra"
       ]
     }
   },
@@ -1307,12 +1306,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "venture": {
@@ -1340,12 +1339,12 @@
       ],
       "damage": [
         "genji",
-        "tracer",
-        "sombra"
+        "tracer"
       ],
       "supports": [
         "kiriko",
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     }
   },
@@ -1358,11 +1357,11 @@
       ],
       "damage": [
         "genji",
-        "tracer",
-        "sombra"
+        "tracer"
       ],
       "supports": [
-        "zenyatta"
+        "zenyatta",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -1403,13 +1402,13 @@
       "damage": [
         "genji",
         "tracer",
-        "sombra",
         "echo"
       ],
       "supports": [
         "kiriko",
         "ana",
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     }
   },
@@ -1422,12 +1421,12 @@
         "hazard"
       ],
       "damage": [
-        "mei",
-        "sombra"
+        "mei"
       ],
       "supports": [
         "ana",
-        "brigitte"
+        "brigitte",
+        "sombra"
       ]
     },
     "synergizes_with": {
@@ -1436,13 +1435,13 @@
       ],
       "damage": [
         "tracer",
-        "sombra",
         "genji"
       ],
       "supports": [
         "kiriko",
         "zenyatta",
-        "lucio"
+        "lucio",
+        "sombra"
       ]
     }
   },
@@ -1451,12 +1450,12 @@
     "strong_against": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     },
     "synergizes_with": {
       "tanks": [],
       "damage": [],
-      "support": []
+      "supports": []
     }
   },
   "zarya": {

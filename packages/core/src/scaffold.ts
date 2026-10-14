@@ -6,8 +6,6 @@ import type { RosterHero, RosterMap, RosterSheet } from './audit';
 
 const DATA_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../data');
 
-const EMPTY_AGAINST = { tanks: [] as string[], damage: [] as string[], support: [] as string[] };
-
 const DEFAULT_ARCHETYPE: CompWeights = { dive: 0.34, poke: 0.33, brawl: 0.33 };
 
 const DEFAULT_POINTS: Record<string, Array<{ id: string; name: string }>> = {
@@ -79,11 +77,7 @@ export function scaffoldMissingHeroes(
 
   for (const hero of roster.heroes) {
     if (!nextHeroes[hero.id]) {
-      nextHeroes[hero.id] = {
-        role: hero.role,
-        strong_against: { ...EMPTY_AGAINST, tanks: [], damage: [], support: [] },
-        synergizes_with: { ...EMPTY_AGAINST, tanks: [], damage: [], support: [] },
-      };
+      nextHeroes[hero.id] = heroStub(hero);
       added.push(hero.id);
     }
     if (!nextArchetypes.heroes[hero.id]) {
@@ -179,7 +173,7 @@ function appendChangelog(dataDir: string, heading: string, line: string): void {
 export function heroStub(hero: RosterHero): HeroData[string] {
   return {
     role: hero.role,
-    strong_against: { tanks: [], damage: [], support: [] },
-    synergizes_with: { tanks: [], damage: [], support: [] },
+    strong_against: { tanks: [], damage: [], supports: [] },
+    synergizes_with: { tanks: [], damage: [], supports: [] },
   };
 }
