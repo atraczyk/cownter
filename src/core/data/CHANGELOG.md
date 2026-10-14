@@ -1,0 +1,15 @@
+# Data sheet changelog
+
+Versions follow semver per sheet:
+
+- **patch**: weight tweaks, renamed display names, typo fixes
+- **minor**: new heroes, maps, points or modes
+- **major**: schema changes that need code changes
+
+## archetypes 0.1.0 (2026-10-14)
+
+- First LLM-drafted dive/poke/brawl weights for every hero in `hero_data.json`. Needs human review.
+
+## maps 0.1.0 (2026-10-14)
+
+- First LLM-drafted comp preferences for Control, Escort, Hybrid, Push, Flashpoint and Clash maps, per point and per side for Escort and Hybrid. Needs human review.

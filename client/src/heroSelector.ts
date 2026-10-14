@@ -1,33 +1,35 @@
+import { ARCHETYPE_LABELS, dominant, signed } from './compFit';
 import type { HeroesWithRoles, TeamName } from './types';
 import { getHeroIcon, getSelectedHeroes } from './utils';
+import { viewState } from './viewState';
 
 export const HeroSelector = {
   draggedHero: null as string | null,
   draggedRole: null as string | null,
 
-  updateSelectorPosition(event?: MouseEvent): void {
-    const selector = document.querySelector<HTMLElement>('.hero-selector');
-    const blueTeam = document.querySelector('.blue-team');
-    const redTeam = document.querySelector('.red-team');
-    if (!selector || !blueTeam || !redTeam) return;
-
-    const blueRect = blueTeam.getBoundingClientRect();
-    const redRect = redTeam.getBoundingClientRect();
-
-    requestAnimationFrame(() => {
-      const selectorHeight = selector.getBoundingClientRect().height;
-      const midPoint = (blueRect.bottom + redRect.top) / 2;
-      const mouseY = event ? event.clientY : midPoint;
-
-      selector.style.top = mouseY < midPoint
-        ? `${blueRect.top}px`
-        : `${redRect.bottom - selectorHeight}px`;
-      selector.style.opacity = '1';
+  /** Mark each pool icon with its comp type and, when a map point is set, its fit there. */
+  paintFit(): void {
+    const weights = viewState.compData?.archetypes.heroes ?? {};
+    document.querySelectorAll<HTMLElement>('.hero-icon-select').forEach((icon) => {
+      const hero = icon.dataset.hero ?? '';
+      const heroWeights = weights[hero];
+      const fit = viewState.mapFit[hero];
+      icon.classList.remove('fits', 'misfits', 'arch-dive', 'arch-poke', 'arch-brawl');
+      if (!heroWeights) {
+        icon.title = hero;
+        return;
+      }
+      const archetype = dominant(heroWeights);
+      icon.classList.add(`arch-${archetype}`);
+      if (fit !== undefined) icon.classList.add(fit > 0.1 ? 'fits' : fit < -0.1 ? 'misfits' : 'neutral');
+      icon.title = fit === undefined
+        ? `${hero} · ${ARCHETYPE_LABELS[archetype]}`
+        : `${hero} · ${ARCHETYPE_LABELS[archetype]} · ${signed(fit)} on this point`;
     });
   },
 
   populateHeroSelector(heroData: HeroesWithRoles): void {
-    Object.entries(heroData).forEach(([hero, data]) => {
+    Object.entries(heroData).sort(([a], [b]) => a.localeCompare(b)).forEach(([hero, data]) => {
       const section = document.querySelector(`.role-section[data-role="${data.role}"] .hero-grid`);
       if (!section) return;
 
@@ -121,12 +123,6 @@ export const HeroSelector = {
           select.dispatchEvent(new Event('change'));
         }
       });
-    });
-  },
-
-  init(): void {
-    document.addEventListener('mousemove', (event) => {
-      this.updateSelectorPosition(event);
     });
   },
 };

@@ -1,3 +1,4 @@
+import { paintFitChip } from './fitChip';
 import type { HeroScore, Role, Suggestions } from './types';
 import { getHeroIcon, heroTotalScore, iconList } from './utils';
 
@@ -9,24 +10,46 @@ function roleSuggestions(suggestions: Suggestions, role: Role): HeroScore[] {
   return Array.isArray(heroes) ? heroes : [];
 }
 
-function suggestionRow(role: Role, heroData: HeroScore): HTMLDivElement {
-  const [hero, counterScore, counteredHeroes, synergizingHeroes] = heroData;
+function rowScore(suggestions: Suggestions, heroData: HeroScore): number {
+  const [hero, counterScore, , synergizingHeroes] = heroData;
+  const fit = suggestions.map_fit?.[hero] ?? 0;
+  return Math.round((heroTotalScore(counterScore, synergizingHeroes) + fit) * 10) / 10;
+}
+
+function suggestionRow(role: Role, heroData: HeroScore, score: number): HTMLDivElement {
+  const [hero, , counteredHeroes, synergizingHeroes] = heroData;
   const row = document.createElement('div');
   row.className = 'player-row';
   row.innerHTML = `
     <div class="role-icon role-${role}"></div>
     <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
-    <div style="font-weight: bold;">${hero}</div>
+    <div class="hero-name">${hero}</div>
+    <div class="fit-chip"></div>
     <div class="score-section">
-      <div class="score">${heroTotalScore(counterScore, synergizingHeroes)}</div>
+      <div class="score">${score}</div>
       <div class="countered-heroes">${iconList(counteredHeroes, 'countered-hero-icon')}</div>
       <div class="synergizing-heroes">${iconList(synergizingHeroes, 'synergizing-hero-icon')}</div>
     </div>
   `;
+  const chip = row.querySelector<HTMLElement>('.fit-chip');
+  if (chip) paintFitChip(chip, hero);
   return row;
 }
 
 export const SuggestionManager = {
+  latest: null as Suggestions | null,
+
+  /** Repaint the current suggestions, e.g. after map fit changes. */
+  refresh(): void {
+    if (this.latest) this.updateCounterSuggestions(this.latest);
+  },
+
+  clear(): void {
+    this.latest = null;
+    const rightColumn = document.querySelector('.right-column');
+    if (rightColumn) rightColumn.innerHTML = '';
+  },
+
   updateCounterSuggestions(suggestions: Suggestions | null | undefined): void {
     if (!suggestions) return;
 
@@ -36,6 +59,7 @@ export const SuggestionManager = {
     const rightColumn = document.querySelector('.right-column');
     if (!rightColumn) return;
 
+    this.latest = suggestions;
     rightColumn.innerHTML = '';
     rightColumn.appendChild(this.createSuggestionBlock(suggestions));
   },
@@ -50,17 +74,22 @@ export const SuggestionManager = {
     const headerContainer = document.createElement('div');
     headerContainer.className = 'team-header-container';
 
-    const header = document.createElement('div');
+    const header = document.createElement('h2');
     header.className = 'team-header';
-    header.textContent = 'SUGGESTED PICKS';
+    header.textContent = 'Suggested picks';
     headerContainer.appendChild(header);
+
+    const note = document.createElement('span');
+    note.className = 'board-note';
+    note.textContent = suggestions.map_fit ? 'Counters + synergy + map fit' : 'Counters + synergy';
+    headerContainer.appendChild(note);
     content.appendChild(headerContainer);
 
     const slotCounts: Record<Role, number> = { tank: 0, damage: 0, support: 0 };
 
     ROLES.forEach((role) => {
       roleSuggestions(suggestions, role).forEach((heroData) => {
-        content.appendChild(suggestionRow(role, heroData));
+        content.appendChild(suggestionRow(role, heroData, rowScore(suggestions, heroData)));
         slotCounts[role] += 1;
       });
 
@@ -74,13 +103,13 @@ export const SuggestionManager = {
 
     const totalScore = ROLES.reduce((total, role) => {
       return total + roleSuggestions(suggestions, role).reduce((roleTotal, entry) => {
-        return roleTotal + heroTotalScore(entry[1], entry[3]);
+        return roleTotal + rowScore(suggestions, entry);
       }, 0);
     }, 0);
 
     const score = document.createElement('div');
     score.className = 'total-score-display';
-    score.setAttribute('data-score', String(totalScore));
+    score.setAttribute('data-score', String(Math.round(totalScore * 10) / 10));
     content.appendChild(score);
 
     block.appendChild(content);

@@ -1,9 +1,14 @@
 import './styles.css';
 import { API } from './api';
+import { Compass } from './compass';
+import { paintTeamFitChips } from './fitChip';
 import { HeroSelector } from './heroSelector';
+import { MatchContextBar } from './matchContext';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
+import { renderTeamRows } from './teamRows';
 import { TeamManager } from './teamManager';
+import { loadContext, onViewChange, viewState } from './viewState';
 
 function bindClearButtons(): void {
   document.querySelectorAll<HTMLButtonElement>('[data-clear-team]').forEach((button) => {
@@ -16,15 +21,22 @@ function bindClearButtons(): void {
   });
 }
 
+function refreshView(): void {
+  Compass.render();
+  paintTeamFitChips();
+  HeroSelector.paintFit();
+  SuggestionManager.refresh();
+}
+
 async function start(): Promise<void> {
-  HeroSelector.init();
   const savedTeams = TeamManager.loadTeams();
-  const heroData = await API.getHeroesWithRoles();
+  const [heroData, compData] = await Promise.all([API.getHeroesWithRoles(), API.getCompData()]);
+  viewState.compData = compData;
+  onViewChange(refreshView);
 
   HeroSelector.populateHeroSelector(heroData);
   TeamManager.updateDropdowns(heroData);
   TeamManager.restoreTeamSelections(savedTeams);
-  HeroSelector.updateSelectorPosition();
   TeamManager.initSelectionHandlers();
 
   const restored = await API.restoreTeams(savedTeams);
@@ -35,18 +47,19 @@ async function start(): Promise<void> {
     });
   }
 
-  const firstEnemyHero = restored.teams.enemy.find((hero) => hero !== null);
-  if (!firstEnemyHero) return;
-
-  const suggestions = await API.requestSuggestions(firstEnemyHero);
-  if (suggestions.suggestions) {
-    SuggestionManager.updateCounterSuggestions(suggestions.suggestions);
-  }
+  const bar = document.querySelector<HTMLElement>('.app-header');
+  if (bar) await MatchContextBar.init(bar, loadContext());
 }
 
+renderTeamRows();
 bindClearButtons();
 window.addEventListener('load', () => {
   start().catch((error: unknown) => {
     console.error('Error initializing application:', error);
+    const status = document.querySelector('.load-error');
+    if (status) {
+      status.textContent = 'Could not reach the counter API. Start it with "python main.py --serve" and reload.';
+      status.removeAttribute('hidden');
+    }
   });
 });

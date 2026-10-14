@@ -4,7 +4,7 @@ Provides classes for analyzing hero counter relationships and suggesting optimal
 """
 
 from collections import defaultdict
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Optional, Tuple
 
 import pandas as pd
 
@@ -125,9 +125,11 @@ class CounterAnalyzer:
         """Initialize with a hero data provider."""
         self.data_provider = data_provider
 
-    def suggest_counters(self, enemy_team: List[str]) -> Dict[str, Any]:
-        """Suggest optimal counter picks for an enemy team."""
-        return suggest_counter_team(self.data_provider.hero_data, enemy_team)
+    def suggest_counters(
+        self, enemy_team: List[str], fit_bonus: Optional[Dict[str, float]] = None
+    ) -> Dict[str, Any]:
+        """Suggest optimal counter picks for an enemy team, optionally weighted by map fit."""
+        return suggest_counter_team(self.data_provider.hero_data, enemy_team, fit_bonus)
 
     def show_hero_counters(self, hero: str) -> Dict[str, List[str]]:
         """Get counters for a specific hero."""

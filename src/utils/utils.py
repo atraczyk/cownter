@@ -5,7 +5,7 @@ Shared utility functions for Overwatch 2 counter picker.
 import json
 import logging
 import unicodedata
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import os
 
 def levenshtein(s1: str, s2: str) -> int:
@@ -121,8 +121,18 @@ def validate_team_composition(hero_list: List[str], hero_data: Dict[str, Any], o
 
     return True
 
-def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Dict[str, Any]:
-    """Suggest an optimal counter team composition with synergy consideration."""
+def suggest_counter_team(
+    hero_data: Dict[str, Any],
+    enemy_team: List[str],
+    fit_bonus: Optional[Dict[str, float]] = None,
+) -> Dict[str, Any]:
+    """Suggest an optimal counter team composition with synergy consideration.
+
+    ``fit_bonus`` maps hero names to a map-fit adjustment that is added to
+    counter scores when ranking candidates and teams.
+    """
+    fit_bonus = fit_bonus or {}
+
     # Calculate counter scores and track which enemies each hero counters
     counter_scores = {}
     countered_heroes = {}
@@ -146,7 +156,7 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
                     score += 1
                     countered.append(enemy)
 
-        if score > 0:
+        if score > 0 or fit_bonus.get(hero, 0) > 0:
             counter_scores[hero] = score
             countered_heroes[hero] = countered
 
@@ -158,9 +168,12 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
             if role in role_heroes:
                 role_heroes[role].append((hero, score, countered_heroes[hero]))
 
-    # Sort heroes by counter score within each role
+    def ranked(entry):
+        return entry[1] + fit_bonus.get(entry[0], 0)
+
+    # Sort heroes by counter score plus map fit within each role
     for role, heroes in role_heroes.items():
-        heroes.sort(key=lambda x: x[1], reverse=True)
+        heroes.sort(key=ranked, reverse=True)
 
     # Select top candidates for each role
     top_candidates = {
@@ -181,12 +194,14 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
                 # Try different support combinations
                 for k, (support1, support1_score, support1_countered) in enumerate(top_candidates['support']):
                     for l, (support2, support2_score, support2_countered) in enumerate(top_candidates['support'][k+1:], k+1):
-                        # Calculate counter score
+                        team = [tank, damage1, damage2, support1, support2]
+
+                        # Calculate counter score, including map fit
                         counter_score = tank_score + damage1_score + damage2_score + support1_score + support2_score
+                        counter_score += sum(fit_bonus.get(hero, 0) for hero in team)
 
                         # Calculate synergy score
                         synergy_score = 0
-                        team = [tank, damage1, damage2, support1, support2]
 
                         for i, hero1 in enumerate(team):
                             if hero1 not in hero_data or 'synergizes_with' not in hero_data[hero1]:
@@ -211,19 +226,28 @@ def suggest_counter_team(hero_data: Dict[str, Any], enemy_team: List[str]) -> Di
 
     # If we couldn't find a good team with synergy, fall back to the original method
     if best_score == 0:
-        return {
+        result = {
             'total_score': sum(score for role, heroes in role_heroes.items()
                               for _, score, _ in heroes[:2 if role != 'tank' else 1]),
             'tank': role_heroes['tank'][:1],
             'damage': role_heroes['damage'][:2],
             'support': role_heroes['support'][:2]
         }
+    else:
+        picked_fit = sum(fit_bonus.get(hero, 0) for heroes in best_team.values() for hero, _, _ in heroes)
+        result = {
+            'total_score': best_score,
+            'synergy_bonus': best_score - picked_fit - sum(
+                score for role, heroes in best_team.items() for _, score, _ in heroes),
+            'tank': best_team['tank'],
+            'damage': best_team['damage'],
+            'support': best_team['support']
+        }
 
-    # Return the best team with total score
-    return {
-        'total_score': best_score,
-        'synergy_bonus': best_score - sum(score for role, heroes in best_team.items() for _, score, _ in heroes),
-        'tank': best_team['tank'],
-        'damage': best_team['damage'],
-        'support': best_team['support']
-    }
+    if fit_bonus:
+        result['map_fit'] = {
+            hero: fit_bonus.get(hero, 0)
+            for role in ('tank', 'damage', 'support')
+            for hero, _, _ in result[role]
+        }
+    return result

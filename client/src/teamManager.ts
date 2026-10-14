@@ -3,6 +3,7 @@ import { API } from './api';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
 import { updateHeroIcon } from './utils';
+import { notifyViewChange } from './viewState';
 
 const EMPTY_TEAMS = (): TeamsState => ({
   enemy: [null, null, null, null, null],
@@ -16,7 +17,7 @@ function isTeamsState(value: unknown): value is TeamsState {
 }
 
 function teamLabel(team: TeamName): string {
-  return team === 'enemy' ? 'enemy' : 'current';
+  return team === 'enemy' ? 'enemy' : 'your';
 }
 
 export const TeamManager = {
@@ -36,17 +37,14 @@ export const TeamManager = {
   },
 
   clearTeam(team: TeamName): void {
-    if (!confirm(`Clear ${teamLabel(team)} team selections?`)) return;
+    if (!confirm(`Clear ${teamLabel(team)} team?`)) return;
 
     document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`).forEach((select) => {
       select.value = '';
       updateHeroIcon(select);
     });
-
-    if (team === 'enemy') {
-      const rightColumn = document.querySelector('.right-column');
-      if (rightColumn) rightColumn.innerHTML = '';
-    }
+    if (team === 'enemy') SuggestionManager.clear();
+    notifyViewChange();
 
     API.clearTeam(team)
       .then((data) => {
@@ -55,11 +53,6 @@ export const TeamManager = {
           current_scores: data.current_scores,
           enemy_scores: data.enemy_scores,
         });
-
-        if (team === 'enemy') {
-          const rightColumn = document.querySelector('.right-column');
-          if (rightColumn) rightColumn.innerHTML = '';
-        }
       })
       .catch((error: unknown) => {
         console.error('Error clearing team:', error);
@@ -90,65 +83,11 @@ export const TeamManager = {
       }
 
       filteredHeroes.forEach((hero) => {
-        const option = document.createElement('option');
-        option.value = hero;
-        option.textContent = hero;
-        select.appendChild(option);
+        select.appendChild(new Option(hero, hero));
       });
 
       if (currentValue) select.value = currentValue;
     });
-  },
-
-  updateHeroSelect(select: HTMLSelectElement, hero: string): void {
-    select.value = hero || '';
-    updateHeroIcon(select);
-
-    const team = select.dataset.team as TeamName;
-    const slot = Number(select.dataset.slot);
-
-    API.updateTeam(team, slot, hero)
-      .then((data) => {
-        if (data.error) {
-          console.error('Error:', data.error);
-          alert(data.error);
-          select.value = '';
-          updateHeroIcon(select);
-          return;
-        }
-
-        this.saveTeams(data.teams);
-        if (data.current_scores || data.enemy_scores) {
-          ScoreManager.updateTeamScores({
-            current_scores: data.current_scores,
-            enemy_scores: data.enemy_scores,
-          });
-        }
-
-        if (team !== 'enemy') return;
-
-        if (!hero) {
-          const firstEnemyHero = data.teams.enemy.find((entry) => entry !== null);
-          if (firstEnemyHero) {
-            API.requestSuggestions(firstEnemyHero).then((suggestionData) => {
-              if (suggestionData.suggestions) {
-                SuggestionManager.updateCounterSuggestions(suggestionData.suggestions);
-              }
-            });
-          } else {
-            const rightColumn = document.querySelector('.right-column');
-            if (rightColumn) rightColumn.innerHTML = '';
-          }
-        } else if (data.suggestions) {
-          SuggestionManager.updateCounterSuggestions(data.suggestions);
-        }
-      })
-      .catch((error: unknown) => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the team.');
-        select.value = '';
-        updateHeroIcon(select);
-      });
   },
 
   initSelectionHandlers(): void {
@@ -159,14 +98,15 @@ export const TeamManager = {
         const hero = select.value;
 
         updateHeroIcon(select);
+        notifyViewChange();
 
         API.updateTeam(team, slot, hero)
           .then((data) => {
             if (data.error) {
-              console.error('Data error:', data.error);
               alert(data.error);
               select.value = '';
               updateHeroIcon(select);
+              notifyViewChange();
               return;
             }
 
@@ -175,19 +115,8 @@ export const TeamManager = {
             if (team === 'enemy') {
               if (data.suggestions) {
                 SuggestionManager.updateCounterSuggestions(data.suggestions);
-              } else {
-                const firstEnemyHero = data.teams.enemy.find((entry) => entry !== null);
-                if (firstEnemyHero) {
-                  API.requestSuggestions(firstEnemyHero)
-                    .then((suggestionData) => {
-                      if (suggestionData.suggestions) {
-                        SuggestionManager.updateCounterSuggestions(suggestionData.suggestions);
-                      }
-                    })
-                    .catch((error: unknown) => {
-                      console.error('Error fetching suggestions:', error);
-                    });
-                }
+              } else if (data.teams.enemy.some((entry) => !entry)) {
+                SuggestionManager.clear();
               }
             }
 
@@ -201,9 +130,10 @@ export const TeamManager = {
           .catch((error: unknown) => {
             console.error('Error updating team:', error);
             const message = error instanceof Error ? error.message : String(error);
-            alert(`Error updating team: ${message}`);
+            alert(`Could not update the team: ${message}`);
             select.value = '';
             updateHeroIcon(select);
+            notifyViewChange();
           });
       });
     });
@@ -221,5 +151,6 @@ export const TeamManager = {
         updateHeroIcon(select);
       });
     });
+    notifyViewChange();
   },
 };

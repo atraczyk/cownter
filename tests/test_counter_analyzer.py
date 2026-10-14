@@ -169,7 +169,7 @@ class TestCounterAnalyzer(unittest.TestCase):
             result = self.analyzer.suggest_counters(enemy_team)
 
             # Verify suggest_counter_team was called with the right arguments
-            mock_suggest.assert_called_once_with(self.mock_provider.hero_data, enemy_team)
+            mock_suggest.assert_called_once_with(self.mock_provider.hero_data, enemy_team, None)
 
             # Verify the result is what we expect
             self.assertEqual(result, mock_return)

@@ -290,6 +290,38 @@ class TestWebServer(unittest.TestCase):
             self.mock_counter_analyzer.compute_team_stats.assert_called()
             self.mock_counter_analyzer.compute_enemy_stats.assert_called()
 
+    def test_comp_data(self):
+        """Test the /api/comp_data endpoint returns versioned modes, maps and hero leanings."""
+        response = self.client.get('/api/comp_data')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.data)
+        self.assertRegex(data['maps']['version'], r'^\d+\.\d+\.\d+$')
+        self.assertIn('control', [mode['id'] for mode in data['maps']['modes']])
+        self.assertIn('winston', data['archetypes']['heroes'])
+
+    def test_context_sets_map_point_and_weights_suggestions(self):
+        """Test /api/context stores the map point and passes map fit to suggestions."""
+        with patch('src.web.server.match_context', {'map': None, 'point': None, 'side': None}), \
+                patch('src.web.server.teams', {'enemy': list(self.enemy_team), 'counter': [None] * 5}):
+            response = self.client.post('/api/context', json={
+                'map': 'dorado', 'point': 'checkpoint_1', 'side': 'attack'})
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data)
+
+            self.assertEqual(data['context'], {'map': 'dorado', 'point': 'checkpoint_1', 'side': 'attack'})
+            self.assertGreater(data['map_fit']['reinhardt'], data['map_fit']['widowmaker'])
+            self.assertIsNotNone(data['suggestions'])
+            _, fit_bonus = self.mock_counter_analyzer.suggest_counters.call_args[0]
+            self.assertEqual(fit_bonus, data['map_fit'])
+
+    def test_context_ignores_invalid_side(self):
+        """Test /api/context drops an unknown side instead of storing it."""
+        with patch('src.web.server.match_context', {'map': None, 'point': None, 'side': None}):
+            response = self.client.post('/api/context', json={'map': 'dorado', 'point': 'checkpoint_1', 'side': 'sideways'})
+            data = json.loads(response.data)
+            self.assertIsNone(data['context']['side'])
+            self.assertEqual(data['map_fit'], {})
+
     def test_server_start(self):
         """Test the server start function."""
         with patch('flask.Flask.run') as mock_run:

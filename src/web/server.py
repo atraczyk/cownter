@@ -4,6 +4,7 @@ from flask import Flask, render_template, jsonify, request, send_from_directory
 import os
 
 from src.core.counter_analyzer import HeroDataProvider, TeamValidator, CounterAnalyzer
+from src.core.comp_fit import CompDataProvider, SIDES
 
 # Create Flask app with correct template and static folder paths
 template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../templates'))
@@ -17,11 +18,51 @@ counter_analyzer = CounterAnalyzer(data_provider)
 # Ensure data is loaded
 data_provider.load_data()
 
+comp_data = CompDataProvider()
+
 # Team state storage
 teams = {
     'enemy': [None] * 5,
     'counter': [None] * 5
 }
+
+# Selected map point; side is the side your team plays on sided modes
+match_context = {'map': None, 'point': None, 'side': None}
+
+
+def current_fit_bonus():
+    """Map-fit bonus per hero for the selected map point, or {} when none is set."""
+    preference = comp_data.point_preference(
+        match_context['map'], match_context['point'], match_context['side'])
+    return comp_data.fit_bonuses(preference)
+
+
+def build_suggestions(enemy_heroes):
+    """Counter suggestions for a full enemy team, weighted by the selected map point."""
+    suggestions = counter_analyzer.suggest_counters(enemy_heroes, current_fit_bonus() or None)
+    for role, heroes in suggestions.items():
+        if not isinstance(heroes, list):
+            continue
+        for i, hero_data in enumerate(heroes):
+            hero, score = hero_data[0], hero_data[1]
+            countered = list(hero_data[2]) if len(hero_data) > 2 else []
+            synergizes = list(hero_data[3]) if len(hero_data) > 3 else []
+
+            if hero in counter_analyzer.data_provider.hero_data:
+                hero_info = counter_analyzer.data_provider.hero_data[hero]
+                if 'synergizes_with' in hero_info:
+                    for other_role, other_heroes in suggestions.items():
+                        if not isinstance(other_heroes, list) or other_role == role:
+                            continue
+                        for other_hero_data in other_heroes:
+                            other_hero = other_hero_data[0]
+                            if other_hero == hero:
+                                continue
+                            other_role_category = other_role + "s" if other_role != "damage" else other_role
+                            if other_hero in hero_info['synergizes_with'].get(other_role_category, []):
+                                synergizes.append(other_hero)
+            suggestions[role][i] = (hero, score, countered, sorted(synergizes))
+    return suggestions
 
 @app.route('/resources/<path:filename>')
 def serve_resource(filename):
@@ -322,32 +363,7 @@ def update_team():
 
             # Calculate suggestions if enemy team is complete
             if team == 'enemy' and all(h is not None for h in teams['enemy']):
-                suggestions = counter_analyzer.suggest_counters(enemy_heroes)
-                # Add synergy information to suggestions
-                for role, heroes in suggestions.items():
-                    if isinstance(heroes, list):
-                        for i, hero_data in enumerate(heroes):
-                            # Handle both 3-tuple and 4-tuple formats
-                            if len(hero_data) == 3:
-                                hero, score, countered = hero_data
-                                synergizes = []
-                            else:
-                                hero, score, countered, synergizes = hero_data
-
-                            # Calculate synergies with other suggested heroes
-                            if hero in counter_analyzer.data_provider.hero_data:
-                                hero_info = counter_analyzer.data_provider.hero_data[hero]
-                                if 'synergizes_with' in hero_info:
-                                    for other_role, other_heroes in suggestions.items():
-                                        if isinstance(other_heroes, list) and other_role != role:
-                                            for other_hero_data in other_heroes:
-                                                other_hero = other_hero_data[0]  # Get hero name from tuple
-                                                if other_hero != hero:
-                                                    other_role_category = other_role + "s" if other_role != "damage" else other_role
-                                                    if other_role_category in hero_info['synergizes_with']:
-                                                        if other_hero in hero_info['synergizes_with'][other_role_category]:
-                                                            synergizes.append(other_hero)
-                            suggestions[role][i] = (hero, score, countered, sorted(synergizes))
+                suggestions = build_suggestions(enemy_heroes)
 
         return jsonify({
             'teams': teams,
@@ -843,6 +859,34 @@ def get_current_scores():
         'enemy_scores': enemy_scores,
         'team_stats': team_stats,
         'enemy_stats': enemy_stats
+    })
+
+@app.route('/api/comp_data')
+def get_comp_data():
+    """Game modes, maps and hero comp leanings from the versioned data sheets."""
+    return jsonify(comp_data.client_payload())
+
+@app.route('/api/context', methods=['GET', 'POST'])
+def set_context():
+    """Read or set the selected map, point and side; returns refreshed suggestions."""
+    if request.method == 'POST':
+        data = request.get_json(silent=True) or {}
+        side = data.get('side')
+        match_context.update({
+            'map': data.get('map') or None,
+            'point': data.get('point') or None,
+            'side': side if side in SIDES else None,
+        })
+
+    enemy_heroes = [h for h in teams['enemy'] if h]
+    suggestions = None
+    if len(enemy_heroes) == len(teams['enemy']):
+        suggestions = build_suggestions(enemy_heroes)
+
+    return jsonify({
+        'context': match_context,
+        'map_fit': current_fit_bonus(),
+        'suggestions': suggestions,
     })
 
 def start(port: int = 5000, debug: bool = False):

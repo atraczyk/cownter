@@ -89,6 +89,26 @@ npm start
 
 Open `http://localhost:3000`. `npm test` runs the client tests and `npm run build` typechecks and builds the page.
 
+### Maps and comp types
+
+Pick a mode (Control, Escort, Hybrid, Push, Flashpoint, Clash), a map and the point you are playing. For Escort and Hybrid, also pick whether you are attacking or defending. Each point favours a mix of dive, poke and brawl. Suggestions then get a map-fit bonus on top of counters and synergy, and the comp read triangle shows where the point, your team and the enemy team sit.
+
+## Data sheets
+
+The comp-type data lives in versioned JSON sheets in `src/core/data/`:
+
+- `archetypes.json`: dive/poke/brawl weights per hero
+- `maps.json`: modes, maps and per-point (and per-side) comp preference
+- `CHANGELOG.md`: version history for both sheets
+
+Each sheet carries a semver `version`, an `updated` date and a `status` of `llm-draft` or `reviewed`. The page shows the map data version in the header. After editing a sheet, run:
+
+```bash
+python tools/validate_data.py
+```
+
+The project skill `.cursor/skills/ow2-data-sheets/SKILL.md` describes the workflow for drafting, reviewing and versioning these sheets with an LLM.
+
 ## Testing
 
 The project includes a comprehensive test suite. To run the tests:

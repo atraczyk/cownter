@@ -1,4 +1,13 @@
-import type { HeroesWithRoles, ScoreUpdate, TeamName, TeamUpdateResponse, TeamsState } from './types';
+import type {
+  CompData,
+  ContextResponse,
+  HeroesWithRoles,
+  MatchContext,
+  ScoreUpdate,
+  TeamName,
+  TeamUpdateResponse,
+  TeamsState,
+} from './types';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -50,7 +59,12 @@ export const API = {
     return request('/api/heroes_with_roles');
   },
 
-  requestSuggestions(enemyHero: string): Promise<TeamUpdateResponse> {
-    return this.updateTeam('enemy', 0, enemyHero);
+  getCompData(): Promise<CompData> {
+    return request('/api/comp_data');
+  },
+
+  setContext(context: MatchContext): Promise<ContextResponse> {
+    const { map, point, side } = context;
+    return request('/api/context', jsonInit({ map, point, side }));
   },
 };
