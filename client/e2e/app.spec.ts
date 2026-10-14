@@ -38,6 +38,30 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
   });
 
+  test('clearing a team resets both scoreboards', async ({ page }) => {
+    page.on('dialog', (dialog) => void dialog.accept());
+    const yourTotal = page.locator('.blue-team .total-score-display');
+    const enemyTotal = page.locator('.red-team .total-score-display');
+    const scoredRows = page.locator('.current-score:not(:empty), .enemy-score:not(:empty)');
+
+    for (const team of ['counter', 'enemy'] as const) {
+      await pick(page, 'counter', 0, 'doomfist');
+      await pick(page, 'counter', 1, 'mei');
+      await pick(page, 'enemy', 0, 'hazard');
+      await pick(page, 'enemy', 2, 'genji');
+      await expect(yourTotal).toHaveAttribute('data-score', /\d/);
+      await expect(enemyTotal).toHaveAttribute('data-score', /\d/);
+
+      await page.locator(`[data-clear-team="${team}"]`).click();
+      await expect(yourTotal).not.toHaveAttribute('data-score');
+      await expect(enemyTotal).not.toHaveAttribute('data-score');
+      await expect(scoredRows).toHaveCount(0);
+
+      await page.locator('[data-clear-team="counter"]').click();
+      await page.locator('[data-clear-team="enemy"]').click();
+    }
+  });
+
   test('weighs suggestions by map point and side', async ({ page }) => {
     await pick(page, 'enemy', 0, 'hazard');
     await pick(page, 'enemy', 1, 'echo');

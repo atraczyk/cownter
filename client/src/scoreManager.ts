@@ -31,8 +31,7 @@ function clearTeamDisplay(team: 'counter' | 'enemy', scoreClass: string, totalSe
     if (synergizing) synergizing.innerHTML = '';
   });
 
-  const total = document.querySelector(totalSelector);
-  if (total) total.textContent = '';
+  document.querySelector(totalSelector)?.removeAttribute('data-score');
 }
 
 function applyScores(
@@ -57,12 +56,8 @@ export const ScoreManager = {
   updateTeamScores(scores: ScoreUpdate | null | undefined): void {
     if (!scores) return;
 
-    if (scores.current_scores) {
-      clearTeamDisplay('counter', '.current-score', '.team.blue-team .total-score-display');
-    }
-    if (scores.enemy_scores) {
-      clearTeamDisplay('enemy', '.enemy-score', '.team.red-team .total-score-display');
-    }
+    clearTeamDisplay('counter', '.current-score', '.team.blue-team .total-score-display');
+    clearTeamDisplay('enemy', '.enemy-score', '.team.red-team .total-score-display');
 
     if (scores.current_scores) {
       applyScores(
