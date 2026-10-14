@@ -1,70 +1,35 @@
-import type {
-  CompData,
-  ContextResponse,
-  HeroesWithRoles,
-  MatchContext,
-  ScoreUpdate,
-  TeamName,
-  TeamUpdateResponse,
-  TeamsState,
-} from './types';
+import { MatchSession, type MatchContext, type TeamName, type TeamsState } from '@ow2/core';
 
-async function handleResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    const data = (await response.json()) as { error?: string };
-    console.error('Server error:', data);
-    throw new Error(data.error || `Server error: ${response.status}`);
-  }
-  return response.json() as Promise<T>;
-}
-
-function handleError(error: unknown): never {
-  console.error('API error:', error);
-  throw error;
-}
-
-async function request<T>(url: string, init?: RequestInit): Promise<T> {
-  try {
-    const response = await fetch(url, init);
-    return await handleResponse<T>(response);
-  } catch (error) {
-    return handleError(error);
-  }
-}
-
-const jsonInit = (body: unknown): RequestInit => ({
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(body),
-});
+/** Local match engine — no HTTP server. */
+export const session = new MatchSession();
 
 export const API = {
-  updateTeam(team: TeamName, slot: number, hero: string, teams: TeamsState): Promise<TeamUpdateResponse> {
-    return request('/api/update_team', jsonInit({ team, slot, hero, teams }));
+  updateTeam(team: TeamName, slot: number, hero: string, teams: TeamsState) {
+    return Promise.resolve(session.updateTeam(team, slot, hero, teams));
   },
 
-  getCurrentScores(): Promise<ScoreUpdate> {
-    return request('/api/current_scores');
+  getCurrentScores() {
+    return Promise.resolve(session.currentScores());
   },
 
-  clearTeam(team: TeamName): Promise<TeamUpdateResponse> {
-    return request('/api/clear_team', jsonInit({ team }));
+  clearTeam(team: TeamName) {
+    return Promise.resolve(session.clearTeam(team));
   },
 
-  restoreTeams(teams: TeamsState): Promise<TeamUpdateResponse> {
-    return request('/api/restore_teams', jsonInit(teams));
+  restoreTeams(teams: TeamsState) {
+    return Promise.resolve(session.restoreTeams(teams));
   },
 
-  getHeroesWithRoles(): Promise<HeroesWithRoles> {
-    return request('/api/heroes_with_roles');
+  getHeroesWithRoles() {
+    return Promise.resolve(session.getHeroesWithRoles());
   },
 
-  getCompData(): Promise<CompData> {
-    return request('/api/comp_data');
+  getCompData() {
+    return Promise.resolve(session.getCompData());
   },
 
-  setContext(context: MatchContext, teams: TeamsState): Promise<ContextResponse> {
-    const { map, point, side } = context;
-    return request('/api/context', jsonInit({ map, point, side, teams }));
+  setContext(context: MatchContext, teams: TeamsState) {
+    session.restoreTeams(teams);
+    return Promise.resolve(session.applyContext(context));
   },
 };

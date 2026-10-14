@@ -1,15 +1,12 @@
 # Node
 node_modules/
+client/dist/
+*.tsbuildinfo
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.Python
+# Local env
 .env
-.venv
+.venv/
 venv/
-ENV/
 
 # IDE
 .idea/
@@ -20,13 +17,3 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
-
-# pyinstaller
-*.spec
-build/
-dist/
-
-# Coverage
-.coverage
-coverage_html/
-htmlcov/

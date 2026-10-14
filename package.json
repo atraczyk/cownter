@@ -1,11 +1,19 @@
 {
   "name": "ow2-counters",
   "private": true,
-  "workspaces": ["client"],
+  "workspaces": [
+    "client",
+    "packages/core"
+  ],
+  "bin": {
+    "ow2": "./packages/core/bin/ow2.js"
+  },
   "scripts": {
-    "start": "npm start --prefix client",
-    "build": "npm run build --prefix client",
-    "test": "npm test --prefix client",
-    "preview": "npm run preview --prefix client"
+    "start": "npm start --workspace ow2-counters-client",
+    "build": "npm run build --workspace ow2-counters-client",
+    "test": "npm test --workspace @ow2/core && npm test --workspace ow2-counters-client",
+    "preview": "npm run preview --workspace ow2-counters-client",
+    "validate-data": "node packages/core/bin/ow2.js validate-data",
+    "ow2": "node packages/core/bin/ow2.js"
   }
 }

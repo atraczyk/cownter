@@ -1,6 +1,6 @@
 ---
 name: ow2-data-sheets
-description: Build, update and version the Overwatch 2 data sheets that drive counter picks and map comp fit (hero archetypes, maps, points and game modes). Use when adding a new hero or map, rebalancing dive/poke/brawl weights after a patch or season, reviewing LLM-drafted data, or editing files in src/core/data or src/core/hero_data.json.
+description: Build, update and version the Overwatch 2 data sheets that drive counter picks and map comp fit (hero archetypes, maps, points and game modes). Use when adding a new hero or map, rebalancing dive/poke/brawl weights after a patch or season, reviewing LLM-drafted data, or editing files in packages/core/data.
 ---
 
 # OW2 data sheets
@@ -9,9 +9,9 @@ description: Build, update and version the Overwatch 2 data sheets that drive co
 
 | File | What it holds | Versioned |
 |------|---------------|-----------|
-| `src/core/data/archetypes.json` | Per-hero `dive` / `poke` / `brawl` weights | yes |
-| `src/core/data/maps.json` | Modes, maps, points, and the comp each point favors | yes |
-| `src/core/hero_data.json` | Role, `strong_against`, `synergizes_with` | no, keyed directly by hero |
+| `packages/core/data/archetypes.json` | Per-hero `dive` / `poke` / `brawl` weights | yes |
+| `packages/core/data/maps.json` | Modes, maps, points, and the comp each point favors | yes |
+| `packages/core/data/hero_data.json` | Role, `strong_against`, `synergizes_with` | no, keyed directly by hero |
 
 Every hero key in `hero_data.json` must also exist in `archetypes.json`, using the same lowercase, no-space id (`soldier76`, `wreckingball`). Icons live at `resources/images/icons/icon-<id>.png`.
 
@@ -31,16 +31,16 @@ Copy this checklist:
 - [ ] Edit the sheet(s)
 - [ ] Bump version, set updated, set status
 - [ ] Add a CHANGELOG entry
-- [ ] python tools/validate_data.py passes
-- [ ] python tests/run_all.py passes
+- [ ] npm run validate-data passes
+- [ ] npm test passes
 ```
 
-1. **Version bump** (per sheet, in `src/core/data/CHANGELOG.md` terms):
+1. **Version bump** (per sheet, in `packages/core/data/CHANGELOG.md` terms):
    - patch: weight tweaks, display-name fixes
    - minor: new hero, map, point or mode
-   - major: schema change that needs code changes in `src/core/comp_fit.py` or the client
+   - major: schema change that needs code changes in `packages/core/src/fit.ts` or the client
 2. **Status**: use `llm-draft` for anything an LLM produced without a player checking it, and `reviewed` once someone has signed off. When an LLM edits a sheet that was `reviewed`, set it back to `llm-draft` unless the user confirms the values.
-3. **Validate** with `python tools/validate_data.py`. Fix every reported problem before moving on, then run the tests.
+3. **Validate** with `npm run validate-data`. Fix every reported problem before moving on, then run the tests.
 
 ## Drafting values with an LLM
 
@@ -53,7 +53,7 @@ Weights describe how a hero or point plays, not how strong it is in the current 
 
 ## How the values are used
 
-`fit_bonus = 3.0 × (Σ hero[a] × point[a] − 1/3)`, a number between about -1 and +2. It is added to each candidate's counter score when ranking suggestions, so one counter (1 point) can outweigh a mild fit. To change how much maps matter, adjust `FIT_WEIGHT` in `src/core/comp_fit.py`, not the sheets.
+`fit_bonus = 3.0 × (Σ hero[a] × point[a] − 1/3)`, a number between about -1 and +2. It is added to each candidate's counter score when ranking suggestions, so one counter (1 point) can outweigh a mild fit. To change how much maps matter, adjust `FIT_WEIGHT` in `packages/core/src/fit.ts`, not the sheets.
 
 ## Examples
 
