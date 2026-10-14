@@ -19,7 +19,17 @@ function serveResources(): Plugin {
           res.end('Not found');
           return;
         }
+        const stat = fs.statSync(filePath);
+        const etag = `W/"${stat.size.toString(16)}-${stat.mtimeMs.toString(16)}"`;
         res.setHeader('Content-Type', contentType(filePath));
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.setHeader('ETag', etag);
+        res.setHeader('Last-Modified', stat.mtime.toUTCString());
+        if (req.headers['if-none-match'] === etag) {
+          res.statusCode = 304;
+          res.end();
+          return;
+        }
         fs.createReadStream(filePath).pipe(res);
       });
     },
