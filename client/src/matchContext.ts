@@ -109,7 +109,8 @@ export const MatchContextBar = {
         )
         : []),
     );
-    sides.toggleAttribute('hidden', !(mode?.sided && map));
+    const sidesField = root.querySelector('[data-part="sides-field"]') ?? sides;
+    sidesField.toggleAttribute('hidden', !(mode?.sided && map));
 
     const version = root.querySelector('[data-part="version"]');
     if (version) {

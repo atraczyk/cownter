@@ -10,16 +10,19 @@
 </head>
 <body>
     <header class="app-header">
-        <div class="brand">
-            <span class="brand-mark" aria-hidden="true"></span>
-            <h1>Counter Picker</h1>
+        <div class="header-top">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <h1>Counter Picker</h1>
+            </div>
             <span class="data-version" data-part="version"></span>
+            <button type="button" class="text-button" data-part="clear">Clear map</button>
         </div>
 
         <nav class="match-bar" aria-label="Match setup">
             <div class="match-field">
                 <span class="field-label" id="mode-label">Mode</span>
-                <div class="mode-tabs" data-part="modes" role="group" aria-labelledby="mode-label"></div>
+                <div class="segmented mode-tabs" data-part="modes" role="group" aria-labelledby="mode-label"></div>
             </div>
             <div class="match-field">
                 <label class="field-label" for="map-select">Map</label>
@@ -27,10 +30,12 @@
             </div>
             <div class="match-field">
                 <span class="field-label" id="point-label">Point</span>
-                <div class="chip-row" data-part="points" role="group" aria-labelledby="point-label"></div>
+                <div class="segmented chip-row" data-part="points" role="group" aria-labelledby="point-label"></div>
             </div>
-            <div class="match-field" data-part="sides" role="group" aria-label="Your side" hidden></div>
-            <button type="button" class="text-button" data-part="clear">Clear map</button>
+            <div class="match-field side-field" data-part="sides-field" hidden>
+                <span class="field-label" id="side-label">Side</span>
+                <div class="segmented" data-part="sides" role="group" aria-labelledby="side-label"></div>
+            </div>
         </nav>
     </header>
 
@@ -54,46 +59,44 @@
             </div>
         </aside>
 
-        <section class="left-column" aria-label="Teams">
-            <div class="scoreboard">
-                <div class="team blue-team">
-                    <div class="team-header-container">
-                        <h2 class="team-header">Your team</h2>
-                        <button class="clear-teams" data-clear-team="counter" type="button">Clear</button>
-                    </div>
-                    <div class="team-rows" data-team="counter"></div>
-                    <div class="total-score-display"></div>
+        <div class="scoreboard board-yours">
+            <div class="team blue-team">
+                <div class="team-header-container">
+                    <h2 class="team-header">Your team</h2>
+                    <button class="clear-teams" data-clear-team="counter" type="button">Clear</button>
                 </div>
+                <div class="team-rows" data-team="counter"></div>
+                <div class="total-score-display"></div>
             </div>
+        </div>
 
-            <div class="vs-divider" aria-hidden="true"><span>VS</span></div>
+        <div class="right-column" data-empty="Fill all five enemy slots to see suggested picks."></div>
 
-            <div class="scoreboard">
-                <div class="team red-team">
-                    <div class="team-header-container">
-                        <h2 class="team-header">Enemy team</h2>
-                        <button class="clear-teams" data-clear-team="enemy" type="button">Clear</button>
-                    </div>
-                    <div class="team-rows" data-team="enemy"></div>
-                    <div class="total-score-display"></div>
+        <div class="vs-divider" aria-hidden="true"><span>VS</span></div>
+        <div class="insight-gap" aria-hidden="true"></div>
+
+        <div class="scoreboard board-enemy">
+            <div class="team red-team">
+                <div class="team-header-container">
+                    <h2 class="team-header">Enemy team</h2>
+                    <button class="clear-teams" data-clear-team="enemy" type="button">Clear</button>
                 </div>
+                <div class="team-rows" data-team="enemy"></div>
+                <div class="total-score-display"></div>
             </div>
-        </section>
+        </div>
 
-        <section class="insight-column" aria-label="Comp and suggestions">
-            <div class="compass-card">
-                <div class="compass-head">
-                    <h2 class="team-header">Comp read</h2>
-                    <span class="compass-where" data-part="where"></span>
-                </div>
-                <div class="compass-body">
-                    <div class="compass-plot" data-part="plot"></div>
-                    <div class="compass-legend" data-part="legend"></div>
-                </div>
-                <p class="compass-verdict" data-part="verdict"></p>
+        <div class="compass-card">
+            <div class="compass-head">
+                <h2 class="team-header">Comp read</h2>
+                <span class="compass-where" data-part="where"></span>
             </div>
-            <div class="right-column" data-empty="Fill all five enemy slots to see suggested picks."></div>
-        </section>
+            <div class="compass-body">
+                <div class="compass-plot" data-part="plot"></div>
+                <div class="compass-legend" data-part="legend"></div>
+            </div>
+            <p class="compass-verdict" data-part="verdict"></p>
+        </div>
     </main>
 
     <script type="module" src="/src/main.ts"></script>

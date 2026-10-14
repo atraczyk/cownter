@@ -51,8 +51,19 @@ async function start(): Promise<void> {
   if (bar) await MatchContextBar.init(bar, loadContext());
 }
 
+function trackHeaderHeight(): void {
+  const header = document.querySelector<HTMLElement>('.app-header');
+  if (!header) return;
+  const update = () => {
+    document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  };
+  new ResizeObserver(update).observe(header);
+  update();
+}
+
 renderTeamRows();
 bindClearButtons();
+trackHeaderHeight();
 window.addEventListener('load', () => {
   start().catch((error: unknown) => {
     console.error('Error initializing application:', error);
