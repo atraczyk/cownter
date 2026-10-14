@@ -4,6 +4,7 @@ import { scoreTeams, heroesWithRoles } from './scores';
 import { suggestCounterTeam } from './suggest';
 import type {
   CompData,
+  ContextResponse,
   MatchContext,
   ScoreUpdate,
   Side,
@@ -43,11 +44,24 @@ export class MatchSession {
     return this.comp.fitBonuses(this.comp.preferenceFor(this.context));
   }
 
-  setContext(next: Partial<MatchContext>): {
-    context: MatchContext;
-    map_fit: Record<string, number>;
-    suggestions: Suggestions | null;
-  } {
+  /** Fit for the enemy team, who play the opposite side on sided modes. */
+  enemyMapFit(): Record<string, number> {
+    const { side } = this.context;
+    const enemySide = side ? SIDES.find((entry) => entry !== side) ?? null : null;
+    return this.comp.fitBonuses(this.comp.preferenceFor({ ...this.context, side: enemySide }));
+  }
+
+  private contextResponse(): ContextResponse {
+    return {
+      context: this.context,
+      map_fit: this.mapFit(),
+      enemy_map_fit: this.enemyMapFit(),
+      suggestions: this.suggestionsIfReady(),
+      ...this.currentScores(),
+    };
+  }
+
+  setContext(next: Partial<MatchContext>): ContextResponse {
     const side = next.side && SIDES.includes(next.side) ? next.side : null;
     this.context = {
       mode: next.mode ?? null,
@@ -55,22 +69,11 @@ export class MatchSession {
       point: next.point ?? null,
       side: next.map ? side : null,
     };
-    if (next.side === undefined && next.map === this.context.map) {
-      // keep existing side when only map/point change unless cleared
-    }
-    return {
-      context: this.context,
-      map_fit: this.mapFit(),
-      suggestions: this.suggestionsIfReady(),
-    };
+    return this.contextResponse();
   }
 
   /** Apply a full context object from the UI (including mode). */
-  applyContext(context: MatchContext): {
-    context: MatchContext;
-    map_fit: Record<string, number>;
-    suggestions: Suggestions | null;
-  } {
+  applyContext(context: MatchContext): ContextResponse {
     const side = context.side && SIDES.includes(context.side) ? context.side : null;
     this.context = {
       mode: context.mode,
@@ -78,11 +81,7 @@ export class MatchSession {
       point: context.point,
       side,
     };
-    return {
-      context: this.context,
-      map_fit: this.mapFit(),
-      suggestions: this.suggestionsIfReady(),
-    };
+    return this.contextResponse();
   }
 
   restoreTeams(teams: TeamsState): ScoreUpdate & { teams: TeamsState } {
@@ -138,7 +137,7 @@ export class MatchSession {
   }
 
   currentScores(): ScoreUpdate {
-    return scoreTeams(heroData, this.teams.counter, this.teams.enemy);
+    return scoreTeams(heroData, this.teams.counter, this.teams.enemy, this.mapFit(), this.enemyMapFit());
   }
 
   suggestionsIfReady(): Suggestions | null {

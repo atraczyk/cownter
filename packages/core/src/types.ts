@@ -110,9 +110,10 @@ export interface MatchContext {
   side: Side | null;
 }
 
-export interface ContextResponse {
+export interface ContextResponse extends ScoreUpdate {
   context: MatchContext;
   map_fit: Record<string, number>;
+  enemy_map_fit: Record<string, number>;
   suggestions: Suggestions | null;
 }
 

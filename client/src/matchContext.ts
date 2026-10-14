@@ -1,5 +1,6 @@
 import { API } from './api';
 import { findMap, findMode, mapsForMode } from './compFit';
+import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
 import { pageTeams, showStatus } from './teamManager';
 import type { CompData, MatchContext, Side } from './types';
@@ -51,7 +52,9 @@ export const MatchContextBar = {
       return;
     }
     viewState.mapFit = response.map_fit;
+    viewState.enemyMapFit = response.enemy_map_fit;
     if (response.suggestions) SuggestionManager.updateCounterSuggestions(response.suggestions);
+    ScoreManager.updateTeamScores(response);
     notifyViewChange();
   },
 

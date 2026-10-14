@@ -12,6 +12,7 @@ function scoreSide(
   heroData: HeroData,
   attackers: readonly (string | null)[],
   defenders: readonly (string | null)[],
+  fitBonus: Record<string, number>,
 ): ScoreBlock | null {
   const attackersFilled = attackers.filter((hero): hero is string => Boolean(hero));
   const defendersFilled = defenders.filter((hero): hero is string => Boolean(hero));
@@ -60,32 +61,39 @@ function scoreSide(
   const heroes: HeroScore[] = attackersFilled.map((hero) => {
     const counter = counterScores[hero] ?? 0;
     const synergy = synergyScores[hero] ?? 0;
+    const fit = fitBonus[hero] ?? 0;
     return [
       hero,
-      counter + synergy,
+      Math.round((counter + synergy + fit) * 10) / 10,
       [...(counteredHeroes[hero] ?? [])].sort(),
       [...(synergizingHeroes[hero] ?? [])].sort(),
     ];
   });
 
   return {
-    total_score: heroes.reduce((sum, [, score]) => sum + score, 0),
+    total_score: Math.round(heroes.reduce((sum, [, score]) => sum + score, 0) * 10) / 10,
     heroes,
   };
 }
 
-/** Score your team vs the enemy and the enemy vs your team (UI scoreboard). */
+/**
+ * Score your team vs the enemy and the enemy vs your team (UI scoreboard).
+ * Each hero scores counters + synergy + map fit; fit maps are per team because
+ * on sided modes the enemy plays the other side.
+ */
 export function scoreTeams(
   heroData: HeroData,
   counter: TeamSlots,
   enemy: TeamSlots,
+  counterFit: Record<string, number> = {},
+  enemyFit: Record<string, number> = {},
 ): ScoreUpdate {
   if (emptyTeams(enemy)) {
     return { current_scores: null, enemy_scores: null };
   }
   return {
-    current_scores: scoreSide(heroData, counter, enemy),
-    enemy_scores: scoreSide(heroData, enemy, counter),
+    current_scores: scoreSide(heroData, counter, enemy, counterFit),
+    enemy_scores: scoreSide(heroData, enemy, counter, enemyFit),
   };
 }
 

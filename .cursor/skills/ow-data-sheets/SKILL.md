@@ -85,6 +85,8 @@ Weights describe how a hero or point plays, not patch-tier strength.
 
 `fit_bonus = 3.0 × (Σ hero[a] × point[a] − 1/3)`. Adjust `FIT_WEIGHT` in `packages/core/src/fit.ts` if maps should matter more or less.
 
+Every score adds it: suggested picks, and each hero row on Your team / Enemy team (counters + 0.5 per synergy + fit, rounded to 0.1). On sided modes the enemy is scored with the opposite side's point preference.
+
 ## Known gap pattern (as of roster 1.0.0)
 
 Typical missing pieces after the 2026 expansion:

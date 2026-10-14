@@ -80,4 +80,24 @@ describe('MatchSession', () => {
     });
     expect(Object.keys(session.mapFit()).length).toBeGreaterThan(10);
   });
+
+  it('adds map fit to team scores, using the opposite side for the enemy', () => {
+    const session = new MatchSession();
+    session.restoreTeams({
+      enemy: ['hazard', 'echo', 'genji', 'sombra', 'illari'],
+      counter: ['doomfist', null, null, null, null],
+    });
+    const before = session.currentScores();
+    session.applyContext({ mode: 'escort', map: 'dorado', point: 'checkpoint_1', side: 'attack' });
+    const after = session.currentScores();
+
+    const yourFit = session.mapFit().doomfist;
+    expect(after.current_scores?.heroes[0][1]).toBeCloseTo((before.current_scores?.heroes[0][1] ?? 0) + yourFit, 1);
+
+    const provider = new CompDataProvider(archetypesSheet, mapsSheet);
+    const defense = provider.fitBonuses(provider.pointPreference('dorado', 'checkpoint_1', 'defense'));
+    expect(session.enemyMapFit()).toEqual(defense);
+    const hazard = (scores: typeof after) => scores.enemy_scores?.heroes.find(([hero]) => hero === 'hazard')?.[1] ?? 0;
+    expect(hazard(after)).toBeCloseTo(hazard(before) + defense.hazard, 1);
+  });
 });

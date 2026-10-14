@@ -11,6 +11,7 @@ export const viewState = {
   compData: null as CompData | null,
   context: emptyContext(),
   mapFit: {} as Record<string, number>,
+  enemyMapFit: {} as Record<string, number>,
 };
 
 export function onViewChange(listener: Listener): void {
