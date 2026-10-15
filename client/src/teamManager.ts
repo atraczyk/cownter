@@ -57,6 +57,7 @@ export const TeamManager = {
 
   clearTeam(team: TeamName): void {
     if (!confirm(`Clear ${teamLabel(team)} team?`)) return;
+    if (team === 'counter') SuggestionManager.setLinked(false);
 
     document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`).forEach((select) => {
       select.value = '';
@@ -162,6 +163,7 @@ export const TeamManager = {
         const team = select.dataset.team as TeamName;
         const slot = Number(select.dataset.slot);
         const hero = select.value;
+        if (team === 'counter') SuggestionManager.setLinked(false);
 
         updateHeroIcon(select);
         this.updateDropdowns();

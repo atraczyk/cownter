@@ -35,10 +35,14 @@ test.describe('counter picker', () => {
 
     await expect(page.getByRole('heading', { name: 'Suggested picks' })).toBeVisible();
     await expect(page.locator('.suggestion-block .hero-name')).toContainText(['doomfist', 'mei', 'widowmaker', 'kiriko', 'mercy']);
+    const link = page.getByRole('button', { name: 'Link your team to the suggested picks' });
     const suggestedScores = await page.locator('.suggestion-block .score').allTextContents();
-    await page.getByRole('button', { name: 'Use suggested picks for your team' }).click();
+    await link.click();
+    await expect(link).toHaveAttribute('aria-pressed', 'true');
     await expect.poll(() => page.locator('.blue-team .current-score').allTextContents()).toEqual(suggestedScores);
     await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', '13');
+    await pick(page, 'counter', 1, 'genji');
+    await expect(link).toHaveAttribute('aria-pressed', 'false');
   });
 
   test('randomizes the enemy and uses the suggested picks', async ({ page }) => {
@@ -56,7 +60,7 @@ test.describe('counter picker', () => {
 
     await expect(page.locator('.suggestion-block .hero-name').first()).toBeVisible();
     const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
-    await page.getByRole('button', { name: 'Use suggested picks for your team' }).click();
+    await page.getByRole('button', { name: 'Link your team to the suggested picks' }).click();
     await expect.poll(async () => (await values(yourSelects)).filter(Boolean)).toEqual(suggested);
     await expect(yourTotal).toHaveAttribute('data-score', /\d/);
     expect(await totalHeight()).toBe(emptyHeight);

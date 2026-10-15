@@ -1,6 +1,6 @@
 import { paintFitChip } from './fitChip';
 import { breakdown, relationTip, rowScoreTip, totalTip } from './scoreTips';
-import { TeamManager } from './teamManager';
+import { pageTeams, TeamManager } from './teamManager';
 import { setTip } from './tooltip';
 import type { HeroScore, Role, Suggestions } from './types';
 import { getHeroIcon, heroTotalScore, iconList } from './utils';
@@ -64,32 +64,60 @@ function suggestionRow(role: Role, heroData: HeroScore, score: number, fitApplie
   return row;
 }
 
+function linkButton(): HTMLButtonElement | null {
+  return document.querySelector('.link-toggle');
+}
+
 export const SuggestionManager = {
   latest: null as Suggestions | null,
+  linked: false,
 
   /** Repaint the current suggestions, e.g. after map fit changes. */
   refresh(): void {
-    if (this.latest) this.updateCounterSuggestions(this.latest);
+    if (this.latest) this.paint(this.latest);
+  },
+
+  /** Turn the link on or off. While on, your team copies the suggested picks. */
+  setLinked(on: boolean): void {
+    this.linked = on;
+    const button = linkButton();
+    if (button) button.setAttribute('aria-pressed', String(on));
+    if (on) this.followSuggestions();
+  },
+
+  followSuggestions(): void {
+    if (!this.linked || !this.latest) return;
+    const heroes = suggestedTeam(this.latest);
+    const current = pageTeams().counter;
+    const same = heroes.every((hero, index) => (hero ?? null) === (current[index] ?? null));
+    if (!same) TeamManager.setTeam('counter', heroes);
   },
 
   clear(): void {
     this.latest = null;
     const rightColumn = document.querySelector('.right-column');
     if (rightColumn) rightColumn.innerHTML = '';
+    const button = linkButton();
+    if (button) button.hidden = true;
   },
 
   updateCounterSuggestions(suggestions: Suggestions | null | undefined): void {
     if (!suggestions) return;
-
     const hasHeroes = ROLES.some((role) => roleSuggestions(suggestions, role).length > 0);
     if (!hasHeroes) return;
+    this.paint(suggestions);
+    this.followSuggestions();
+  },
 
+  paint(suggestions: Suggestions): void {
     const rightColumn = document.querySelector('.right-column');
     if (!rightColumn) return;
 
     this.latest = suggestions;
     rightColumn.innerHTML = '';
     rightColumn.appendChild(this.createSuggestionBlock(suggestions));
+    const button = linkButton();
+    if (button) button.hidden = false;
   },
 
   createSuggestionBlock(suggestions: Suggestions): HTMLElement {
@@ -120,14 +148,7 @@ export const SuggestionManager = {
     const title = document.createElement('div');
     title.className = 'header-title';
     title.append(header, info);
-    const use = document.createElement('button');
-    use.type = 'button';
-    use.className = 'use-picks';
-    use.textContent = 'Use';
-    use.setAttribute('aria-label', 'Use suggested picks for your team');
-    setTip(use, { title: 'Use these picks', note: 'Replace your team with the suggested picks.' });
-    use.addEventListener('click', () => TeamManager.setTeam('counter', suggestedTeam(suggestions)));
-    headerContainer.append(title, use);
+    headerContainer.append(title);
     content.appendChild(headerContainer);
 
     const fitApplies = Boolean(suggestions.map_fit);

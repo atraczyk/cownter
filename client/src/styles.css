@@ -385,17 +385,46 @@ h1, h2 { margin: 0; }
 
 .icon-button:hover svg { transform: rotate(-20deg) scale(1.1); }
 
-.use-picks {
-    padding: 4px 10px;
-    border: 1px solid var(--board, var(--ink));
-    border-radius: 4px;
-    background: none;
-    color: var(--board, var(--ink));
-    font-weight: 600;
+.link-toggle {
+    display: grid;
+    place-items: center;
+    grid-area: suggestions;
+    justify-self: end;
+    align-self: start;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    margin: 16px 18px 0 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--muted);
+    box-shadow: 0 2px 6px rgba(22, 32, 43, 0.12);
     cursor: pointer;
 }
 
-.use-picks:hover { background: var(--board, var(--ink)); color: #fff; }
+.link-toggle[hidden] { display: none; }
+
+.link-toggle svg { width: 18px; height: 18px; }
+
+.link-toggle:hover { color: var(--ink); }
+
+.link-toggle[aria-pressed="true"] {
+    background: var(--suggest);
+    border-color: var(--suggest);
+    color: #fff;
+}
+
+@media (min-width: 1241px) {
+    .link-toggle {
+        grid-row: 1;
+        grid-column: 2 / 4;
+        justify-self: center;
+        align-self: center;
+        margin: 0;
+    }
+}
 
 .vs-divider {
     display: flex;

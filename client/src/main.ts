@@ -20,6 +20,9 @@ function bindClearButtons(): void {
       }
     });
   });
+  document.querySelector<HTMLButtonElement>('.link-toggle')?.addEventListener('click', () => {
+    SuggestionManager.setLinked(!SuggestionManager.linked);
+  });
   document.querySelectorAll<HTMLButtonElement>('[data-randomize-team]').forEach((button) => {
     button.addEventListener('click', () => {
       const team = button.dataset.randomizeTeam;
