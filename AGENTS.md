@@ -7,7 +7,11 @@ Overwatch counter picker: suggests counter teams and scores both teams by counte
 - `packages/core/` — `@ow2/core`: engine (`src/`), data sheets (`data/`), CLI (`src/cli.ts`, run via `bin/ow2.js` + tsx), maintenance scripts (`scripts/*.mjs`)
 - `client/` — Vite UI that runs the engine in the browser (`src/api.ts` wraps an in-memory `MatchSession`), Playwright e2e in `e2e/`
 - `resources/images/` — hero portraits (`icons/icon-<id>.png`) and role icons, served at `/resources/`
-- `.agents/skills/` — task skills; read the matching `SKILL.md` before starting that task
+- `.agents/skills/` — task skills; read the matching `SKILL.md` before starting that task:
+  - `ow-data-sheets` — heroes, maps, roles, weights, roster sync
+  - `scoring-engine` — counters, synergy, map fit, suggestions
+  - `ui-check` — verifying client changes in the browser and e2e
+  - `git-history` — commits, rewording, tags, pushing
 
 ## Commands
 
