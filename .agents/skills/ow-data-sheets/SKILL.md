@@ -1,9 +1,11 @@
 ---
 name: ow-data-sheets
-description: Build, update and version the Overwatch data sheets that drive counter picks and map comp fit (hero roster, archetypes, maps, points and game modes). Use when adding a new hero or map, rebalancing dive/poke/brawl weights after a patch or season, reviewing LLM-drafted data, auditing gaps after an Overwatch roster change, or editing files in packages/core/data.
+description: Build, update and version the Overwatch data sheets that drive counter picks and map comp fit (hero roster, archetypes, maps, points and game modes). Use when adding a new hero or map, handling a hero role change, rebalancing dive/poke/brawl weights after a patch or season, reviewing drafted data, auditing gaps after an Overwatch roster change, or editing files in packages/core/data.
 ---
 
 # Overwatch data sheets
+
+Repo-wide conventions (commands, commit messages, code layout) are in the root `AGENTS.md`.
 
 The game rebranded from **Overwatch 2** to **Overwatch** in February 2026. Prefer “Overwatch” / “OW” in copy. Repo paths may still say `ow2` for history.
 
@@ -33,7 +35,7 @@ npm run validate-data   # schema / weight / parity / role-list checks
 npm run audit-data      # gaps vs roster.json + missing icons + empty counters
 npm run scaffold-missing  # stub any roster heroes/maps not yet in the sheets
 npm run grab-icons      # download portraits into resources/images/icons/
-npm run grab-icons -- --force   # refresh every icon
+node packages/core/scripts/grab-icons.mjs --force   # refresh every icon
 npm test
 npm run test:e2e
 ```
@@ -62,21 +64,21 @@ npm run test:e2e
 
 ### Status
 
-- `llm-draft` — LLM or scaffold produced it; needs player review
+- `llm-draft` — an agent or scaffold produced it; needs player review
 - `reviewed` — someone signed off
 
-When an LLM edits a `reviewed` sheet, set it back to `llm-draft` unless the user confirms.
+When an agent edits a `reviewed` sheet, set it back to `llm-draft` unless the user confirms.
 
 ### Role changes
 
 `sync-roster --write` updates the hero's role in roster.json and hero_data.json and moves the id between the `tanks` / `damage` / `supports` lists of every other hero. It does not rethink the matchups: afterwards review the hero's own counters, synergies and archetype weights for the new role, and check test fixtures that assume the old role.
 
-## Drafting values with an LLM
+## Drafting values
 
 Weights describe how a hero or point plays, not patch-tier strength.
 
 - **Hero weights**: mobility/burst onto isolates → dive; range/sightlines → poke; close-range sustain/grouping → brawl. Split when a hero flexes (Cassidy 0.5/0.5 poke/brawl).
-- **Counters**: only list clear soft/hard answers in `strong_against` by role bucket (`tanks` / `damage` / `support`). Prefer sparse accurate lists over dumping the roster.
+- **Counters**: only list clear soft/hard answers in `strong_against` by role bucket (`tanks` / `damage` / `supports`). Prefer sparse accurate lists over dumping the roster.
 - **Point weights**: long sightlines → poke; flanks/verticality → dive; chokes/corridors → brawl. On sided maps, first-point defense often leans poke; final-stretch attack often leans brawl.
 - Avoid 0.34/0.33/0.33 — `fit_bonus` ignores near-neutral mixes.
 - Do not invent heroes or maps. If unsure, run `npm run audit-data` and ask the user.
@@ -87,12 +89,10 @@ Weights describe how a hero or point plays, not patch-tier strength.
 
 Every score adds it: suggested picks, and each hero row on Your team / Enemy team (counters + 0.5 per synergy + fit, rounded to 0.1). On sided modes the enemy is scored with the opposite side's point preference.
 
-## Known gap pattern (as of roster 1.0.0)
+## Open data work (as of roster 1.1.0)
 
-Typical missing pieces after the 2026 expansion:
+- 12 scaffolded heroes have empty counter/synergy lists and near-neutral weights: Anran, D.Mon, Doctrine, Domina, Emre, Freja, Jetpack Cat, Mizuki, Shion, Sierra, Vendetta, Wuyang
+- Neon Junction and Grímsvötn have neutral placeholder point comps
+- Sombra's own counters and weights still reflect her damage kit
 
-- Heroes such as Freja, Vendetta, Wuyang, Anran, Domina, Emre, Mizuki, Jetpack Cat, Shion, Sierra, Doctrine, D.Mon
-- Maps such as Neon Junction (Hybrid) and Grímsvötn (Escort)
-- Icons for every new id
-
-Use `audit-data` rather than this list — the roster file is authoritative.
+Run `npm run sync-roster` and `npm run audit-data` rather than trusting this list.

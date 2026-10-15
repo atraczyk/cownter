@@ -50,7 +50,8 @@ ow2-counters/
 ├── packages/core/          # Shared engine + CLI (@ow2/core)
 │   └── data/               # roster, hero_data, archetypes, maps
 ├── resources/              # Hero and role icons
-└── .cursor/skills/ow-data-sheets/
+├── .agents/skills/         # Agent skills (ow-data-sheets)
+└── AGENTS.md               # Conventions for coding agents
 ```
 
 ## Data sheets
@@ -63,4 +64,4 @@ Versioned JSON in `packages/core/data/`:
 - `hero_data.json` — roles, counters, synergies
 - `CHANGELOG.md` — sheet history
 
-After a season patch: update `roster.json`, run `npm run audit-data`, optionally `npm run scaffold-missing`, then draft counters and comps. See `.cursor/skills/ow-data-sheets/SKILL.md`.
+After a season patch: run `npm run sync-roster` (then `--write`), `npm run audit-data`, optionally `npm run scaffold-missing`, then draft counters and comps. See `.agents/skills/ow-data-sheets/SKILL.md`.
