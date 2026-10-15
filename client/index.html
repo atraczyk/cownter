@@ -42,22 +42,36 @@
     <p class="load-error" role="alert" hidden></p>
 
     <main class="main-container">
-        <aside class="hero-selector" aria-label="Hero pool">
-            <h2 class="pool-title">Hero pool</h2>
-            <p class="pool-hint">Drag a hero onto a slot. Bright icons fit the selected point.</p>
-            <div class="role-section" data-role="tank">
-                <div class="role-header"><div class="role-icon role-tank"></div><span>Tank</span></div>
-                <div class="hero-grid"></div>
-            </div>
-            <div class="role-section" data-role="damage">
-                <div class="role-header"><div class="role-icon role-damage"></div><span>Damage</span></div>
-                <div class="hero-grid"></div>
-            </div>
-            <div class="role-section" data-role="support">
-                <div class="role-header"><div class="role-icon role-support"></div><span>Support</span></div>
-                <div class="hero-grid"></div>
-            </div>
-        </aside>
+        <div class="pool-column">
+            <aside class="hero-selector" aria-label="Hero pool">
+                <h2 class="pool-title">Hero pool</h2>
+                <p class="pool-hint">Drag a hero onto a slot. Bright icons fit the selected point.</p>
+                <div class="role-section" data-role="tank">
+                    <div class="role-header"><div class="role-icon role-tank"></div><span>Tank</span></div>
+                    <div class="hero-grid"></div>
+                </div>
+                <div class="role-section" data-role="damage">
+                    <div class="role-header"><div class="role-icon role-damage"></div><span>Damage</span></div>
+                    <div class="hero-grid"></div>
+                </div>
+                <div class="role-section" data-role="support">
+                    <div class="role-header"><div class="role-icon role-support"></div><span>Support</span></div>
+                    <div class="hero-grid"></div>
+                </div>
+            </aside>
+            <section class="map-panel" aria-label="Map">
+                <h2 class="pool-title">Map</h2>
+                <p class="map-where" data-part="where">No map selected</p>
+                <p class="map-detail" data-part="detail"></p>
+                <div class="map-bar" data-part="bar" hidden>
+                    <span data-arch="dive" class="arch-dive"></span>
+                    <span data-arch="poke" class="arch-poke"></span>
+                    <span data-arch="brawl" class="arch-brawl"></span>
+                </div>
+                <p class="map-mix" data-part="mix"></p>
+                <p class="map-note" data-part="note">Choose a mode, map and point to see what the point favors.</p>
+            </section>
+        </div>
 
         <div class="scoreboard board-yours">
             <div class="team blue-team">

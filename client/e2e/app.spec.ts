@@ -24,6 +24,7 @@ test.describe('counter picker', () => {
     const heroCount = await page.locator('.hero-icon-select').count();
     expect(heroCount).toBeGreaterThanOrEqual(42);
     await expect(page.locator('.load-error')).toBeHidden();
+    await expect(page.locator('.map-panel')).toContainText('No map selected');
   });
 
   test('suggests counters once the enemy team is full', async ({ page }) => {
@@ -105,6 +106,9 @@ test.describe('counter picker', () => {
     await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
     await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
     await expect(page.locator('.compass-verdict')).not.toHaveText(/Choose a mode/);
+    await expect(page.locator('.map-panel')).toContainText('Dorado');
+    await expect(page.locator('.map-panel')).toContainText('First checkpoint');
+    await expect(page.locator('.map-panel')).toContainText(/Poke \d+%/);
     await page.locator('.suggestion-block .score').first().hover();
     const tip = page.getByRole('tooltip');
     await expect(tip).toBeVisible();

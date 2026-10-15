@@ -3,6 +3,7 @@ import { API } from './api';
 import { Compass } from './compass';
 import { paintTeamFitChips } from './fitChip';
 import { HeroSelector } from './heroSelector';
+import { MapPanel } from './mapPanel';
 import { MatchContextBar } from './matchContext';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
@@ -33,6 +34,7 @@ function bindClearButtons(): void {
 
 function refreshView(): void {
   Compass.render();
+  MapPanel.render();
   paintTeamFitChips();
   HeroSelector.paintFit();
   SuggestionManager.refresh();
