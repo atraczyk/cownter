@@ -2,8 +2,10 @@ import { expect, test, type Page } from '@playwright/test';
 
 async function clearState(page: Page): Promise<void> {
   await page.addInitScript(() => {
-    if (sessionStorage.getItem('ow2_e2e_cleared')) return;
-    sessionStorage.setItem('ow2_e2e_cleared', '1');
+    if (sessionStorage.getItem('ow_e2e_cleared')) return;
+    sessionStorage.setItem('ow_e2e_cleared', '1');
+    localStorage.removeItem('ow_teams');
+    localStorage.removeItem('ow_context');
     localStorage.removeItem('ow2_teams');
     localStorage.removeItem('ow2_context');
   });

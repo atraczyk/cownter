@@ -18,4 +18,4 @@ export type {
   TeamSlots,
   TeamsState,
   TeamUpdateResponse,
-} from '@ow2/core';
+} from '@ow/core';

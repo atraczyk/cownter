@@ -1,25 +1,25 @@
 {
-  "name": "ow2-counters",
+  "name": "ow-counters",
   "private": true,
   "workspaces": [
     "client",
     "packages/core"
   ],
   "bin": {
-    "ow2": "./packages/core/bin/ow2.js"
+    "ow": "./packages/core/bin/ow.js"
   },
   "scripts": {
-    "start": "npm start --workspace ow2-counters-client",
-    "build": "npm run build --workspace ow2-counters-client",
-    "test": "npm test --workspace @ow2/core && npm test --workspace ow2-counters-client",
-    "test:e2e": "npm run test:e2e --workspace ow2-counters-client",
-    "preview": "npm run preview --workspace ow2-counters-client",
-    "validate-data": "node packages/core/bin/ow2.js validate-data",
-    "audit-data": "node packages/core/bin/ow2.js audit-data",
-    "scaffold-missing": "node packages/core/bin/ow2.js scaffold-missing",
+    "start": "npm start --workspace ow-counters-client",
+    "build": "npm run build --workspace ow-counters-client",
+    "test": "npm test --workspace @ow/core && npm test --workspace ow-counters-client",
+    "test:e2e": "npm run test:e2e --workspace ow-counters-client",
+    "preview": "npm run preview --workspace ow-counters-client",
+    "validate-data": "node packages/core/bin/ow.js validate-data",
+    "audit-data": "node packages/core/bin/ow.js audit-data",
+    "scaffold-missing": "node packages/core/bin/ow.js scaffold-missing",
     "grab-icons": "node packages/core/scripts/grab-icons.mjs",
     "grab-maps": "node packages/core/scripts/grab-maps.mjs",
     "sync-roster": "node packages/core/scripts/sync-roster.mjs",
-    "ow2": "node packages/core/bin/ow2.js"
+    "ow": "node packages/core/bin/ow.js"
   }
 }

@@ -1,4 +1,4 @@
-import { MatchSession, type MatchContext, type TeamName, type TeamsState } from '@ow2/core';
+import { MatchSession, type MatchContext, type TeamName, type TeamsState } from '@ow/core';
 
 /** Local match engine — no HTTP server. */
 export const session = new MatchSession();

@@ -10,6 +10,6 @@ export {
   signed,
   teamLean,
   ternaryPoint,
-} from '@ow2/core';
+} from '@ow/core';
 
-export type { Vec } from '@ow2/core';
+export type { Vec } from '@ow/core';

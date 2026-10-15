@@ -37,12 +37,12 @@ function printHelp(): void {
   console.log(`Overwatch Counter Picker
 
 Usage:
-  ow2 --list-heroes
-  ow2 --heroes rein,genji,tracer,mercy,lucio [--open]
-  ow2 validate-data
-  ow2 audit-data
-  ow2 scaffold-missing
-  ow2 --help
+  ow --list-heroes
+  ow --heroes rein,genji,tracer,mercy,lucio [--open]
+  ow validate-data
+  ow audit-data
+  ow scaffold-missing
+  ow --help
 `);
 }
 
@@ -71,7 +71,7 @@ async function main(argv: string[]): Promise<number> {
     } else {
       if (heroes.length) console.log(`Scaffolded heroes: ${heroes.join(', ')}`);
       if (mapIds.length) console.log(`Scaffolded maps: ${mapIds.join(', ')}`);
-      console.log('Re-run `ow2 audit-data` and draft counters / map comps next.');
+      console.log('Re-run `ow audit-data` and draft counters / map comps next.');
     }
     return 0;
   }

@@ -5,6 +5,18 @@ import { SuggestionManager } from './suggestionManager';
 import { updateHeroIcon } from './utils';
 import { notifyViewChange } from './viewState';
 
+const TEAMS_KEY = 'ow_teams';
+
+function readTeams(): string | null {
+  const saved = localStorage.getItem(TEAMS_KEY);
+  if (saved) return saved;
+  const legacy = localStorage.getItem('ow2_teams');
+  if (!legacy) return null;
+  localStorage.setItem(TEAMS_KEY, legacy);
+  localStorage.removeItem('ow2_teams');
+  return legacy;
+}
+
 const EMPTY_TEAMS = (): TeamsState => ({
   enemy: [null, null, null, null, null],
   counter: [null, null, null, null, null],
@@ -41,11 +53,11 @@ let heroRoles: HeroesWithRoles | null = null;
 
 export const TeamManager = {
   saveTeams(teams: TeamsState): void {
-    localStorage.setItem('ow2_teams', JSON.stringify(teams));
+    localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));
   },
 
   loadTeams(): TeamsState {
-    const saved = localStorage.getItem('ow2_teams');
+    const saved = readTeams();
     if (!saved) return EMPTY_TEAMS();
     try {
       const parsed: unknown = JSON.parse(saved);

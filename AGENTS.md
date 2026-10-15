@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Overwatch counter picker: suggests counter teams and scores both teams by counters, synergy and map fit (dive / poke / brawl). Static TypeScript app, no backend. The game dropped the "2" in 2026; repo and package names still say `ow2`.
+Overwatch counter picker: suggests counter teams and scores both teams by counters, synergy and map fit (dive / poke / brawl). Static TypeScript app, no backend.
 
 ## Layout
 
-- `packages/core/` — `@ow2/core`: engine (`src/`), data sheets (`data/`), CLI (`src/cli.ts`, run via `bin/ow2.js` + tsx), maintenance scripts (`scripts/*.mjs`)
+- `packages/core/` — `@ow/core`: engine (`src/`), data sheets (`data/`), CLI (`src/cli.ts`, run via `bin/ow.js` + tsx), maintenance scripts (`scripts/*.mjs`)
 - `client/` — Vite UI that runs the engine in the browser (`src/api.ts` wraps an in-memory `MatchSession`), Playwright e2e in `e2e/`
 - `resources/images/` — hero portraits (`icons/icon-<id>.png`), map thumbnails (`maps/<id>.jpg`), role icons, and the title-triangle favicon (`favicon.svg`), served at `/resources/`
 - `.agents/skills/` — task skills; read the matching `SKILL.md` before starting that task:

@@ -14,7 +14,7 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "paths": {
-      "@ow2/core": ["../packages/core/src/index.ts"]
+      "@ow/core": ["../packages/core/src/index.ts"]
     }
   },
   "include": ["src"]

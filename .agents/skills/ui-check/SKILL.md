@@ -28,7 +28,7 @@ Measure instead of eyeballing when alignment matters, e.g. evaluate in the page:
 [...document.querySelectorAll('.player-row')].map((r) => r.querySelector('select, .hero-name').getBoundingClientRect().width)
 ```
 
-Saved picks and context live in `localStorage` (`ow2_teams`, `ow2_context`); the user's own tab may share them, so don't wipe them without asking.
+Saved picks and context live in `localStorage` (`ow_teams`, `ow_context`); the user's own tab may share them, so don't wipe them without asking.
 
 ## Finish
 

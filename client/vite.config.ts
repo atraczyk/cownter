@@ -90,7 +90,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@ow2/core': path.join(root, 'packages/core/src/index.ts'),
+      '@ow/core': path.join(root, 'packages/core/src/index.ts'),
     },
   },
   server: {

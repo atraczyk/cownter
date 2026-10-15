@@ -7,7 +7,7 @@ description: Build, update and version the Overwatch data sheets that drive coun
 
 Repo-wide conventions (commands, commit messages, code layout) are in the root `AGENTS.md`.
 
-The game rebranded from **Overwatch 2** to **Overwatch** in February 2026. Prefer “Overwatch” / “OW” in copy. Repo paths may still say `ow2` for history.
+Prefer “Overwatch” / “OW” in copy.
 
 ## Sheets
 
