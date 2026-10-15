@@ -74,7 +74,8 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'First checkpoint' }).click();
     await page.getByRole('button', { name: 'Attacking' }).click();
 
-    await expect(page.locator('[data-part="version"]')).toContainText('Map data');
+    await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
+    await expect(page.locator('[data-part="version"]')).toHaveAttribute('title', /Map data v\d/);
     await expect(page.locator('.compass-verdict')).not.toHaveText(/Choose a mode/);
     await expect(page.locator('.suggestion-block .board-note')).toHaveText('Counters + synergy + map fit');
     await expect(page.locator('.suggestion-block .fit-chip').first()).not.toBeEmpty();

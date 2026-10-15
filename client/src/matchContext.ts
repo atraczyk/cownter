@@ -118,10 +118,11 @@ export const MatchContextBar = {
     const version = root.querySelector('[data-part="version"]');
     if (version) {
       const draft = data.maps.status === 'llm-draft' || data.archetypes.status === 'llm-draft';
-      version.textContent = `Map data v${data.maps.version}${draft ? ' · draft' : ''}`;
+      version.textContent = `v${__APP_VERSION__} · ${__GIT_HASH__}`;
       version.setAttribute(
         'title',
-        draft ? 'Map and comp-type values are an unreviewed first draft.' : 'Map and comp-type values are reviewed.',
+        `Map data v${data.maps.version}, comp types v${data.archetypes.version}` +
+          (draft ? ' (unreviewed draft)' : ' (reviewed)'),
       );
     }
   },
