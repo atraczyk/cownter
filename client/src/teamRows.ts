@@ -17,7 +17,7 @@ export function renderTeamRows(): void {
 
     container.innerHTML = SLOTS.map(({ role, label }, slot) => `
       <div class="player-row">
-        <div class="role-icon role-${role}" title="${label}"></div>
+        <div class="role-icon role-${role}" data-tip='${JSON.stringify({ title: label })}'></div>
         <div class="hero-icon"></div>
         <select class="hero-select" data-team="${team}" data-slot="${slot}" data-role="${role}" aria-label="${teamLabel} ${label}">
           <option value="">${label}</option>

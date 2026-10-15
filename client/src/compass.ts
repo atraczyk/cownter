@@ -10,6 +10,7 @@ import {
   ternaryPoint,
   type Vec,
 } from './compFit';
+import type { Tip } from './tooltip';
 import type { Archetype, CompWeights } from './types';
 import { getSelectedHeroes } from './utils';
 import { viewState } from './viewState';
@@ -40,6 +41,14 @@ function leanText(weights: CompWeights | null, empty: string): string {
   if (!weights) return empty;
   const top = dominant(weights);
   return `${ARCHETYPE_LABELS[top]} ${percent(weights[top])}`;
+}
+
+function mixTip(title: string, weights: CompWeights): string {
+  const tip: Tip = {
+    title: `${title} · ${leanText(weights, '')}`,
+    rows: ARCHETYPES.map((archetype) => [ARCHETYPE_LABELS[archetype], percent(weights[archetype])]),
+  };
+  return JSON.stringify(tip);
 }
 
 function drawTriangle(map: CompWeights | null, yours: CompWeights | null, enemy: CompWeights | null): SVGSVGElement {
@@ -73,19 +82,27 @@ function drawTriangle(map: CompWeights | null, yours: CompWeights | null, enemy:
   if (map) {
     const at = ternaryPoint(map, CORNERS);
     root.append(svg('circle', { cx: at.x, cy: at.y, r: 26, class: 'compass-zone' }));
-    root.append(svg('rect', { x: at.x - 7, y: at.y - 7, width: 14, height: 14, class: 'marker-map', transform: `rotate(45 ${at.x} ${at.y})` }));
+    const marker = svg('rect', { x: at.x - 7, y: at.y - 7, width: 14, height: 14, class: 'marker-map', transform: `rotate(45 ${at.x} ${at.y})` });
+    marker.setAttribute('data-tip', mixTip('This point favors', map));
+    root.append(marker);
   }
 
-  const dots: Array<[CompWeights | null, string]> = [[enemy, 'marker-enemy'], [yours, 'marker-yours']];
-  dots.forEach(([weights, className]) => {
+  const dots: Array<[CompWeights | null, string, string]> = [
+    [enemy, 'marker-enemy', 'Enemy team'],
+    [yours, 'marker-yours', 'Your team'],
+  ];
+  dots.forEach(([weights, className, label]) => {
     if (!weights) return;
     const at = ternaryPoint(weights, CORNERS);
-    root.append(svg('circle', { cx: at.x, cy: at.y, r: 8, class: className }));
+    const dot = svg('circle', { cx: at.x, cy: at.y, r: 8, class: className });
+    dot.setAttribute('data-tip', mixTip(label, weights));
+    root.append(dot);
   });
 
-  const title = svg('title', {});
-  title.textContent = `Map point ${leanText(map, 'not set')}, your team ${leanText(yours, 'empty')}, enemy ${leanText(enemy, 'empty')}`;
-  root.prepend(title);
+  root.setAttribute(
+    'aria-label',
+    `Map point ${leanText(map, 'not set')}, your team ${leanText(yours, 'empty')}, enemy ${leanText(enemy, 'empty')}`,
+  );
   return root;
 }
 

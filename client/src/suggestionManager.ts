@@ -16,6 +16,7 @@ const HOW_PICKS_WORK = {
 
 const ROLES: Role[] = ['tank', 'damage', 'support'];
 const MAX_SLOTS: Record<Role, number> = { tank: 1, damage: 2, support: 2 };
+const ROLE_LABELS: Record<Role, string> = { tank: 'Tank', damage: 'Damage', support: 'Support' };
 
 function roleSuggestions(suggestions: Suggestions, role: Role): HeroScore[] {
   const heroes = suggestions[role];
@@ -33,7 +34,7 @@ function suggestionRow(role: Role, heroData: HeroScore, score: number, fitApplie
   const row = document.createElement('div');
   row.className = 'player-row';
   row.innerHTML = `
-    <div class="role-icon role-${role}"></div>
+    <div class="role-icon role-${role}" data-tip='${JSON.stringify({ title: ROLE_LABELS[role] })}'></div>
     <div class="hero-icon" style="background-image: url('${getHeroIcon(hero)}')"></div>
     <div class="hero-name">${hero}</div>
     <div class="fit-chip"></div>
