@@ -385,6 +385,18 @@ h1, h2 { margin: 0; }
 
 .icon-button:hover svg { transform: rotate(-20deg) scale(1.1); }
 
+.use-picks {
+    padding: 4px 10px;
+    border: 1px solid var(--board, var(--ink));
+    border-radius: 4px;
+    background: none;
+    color: var(--board, var(--ink));
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.use-picks:hover { background: var(--board, var(--ink)); color: #fff; }
+
 .vs-divider {
     display: flex;
     align-items: center;

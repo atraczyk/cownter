@@ -1,5 +1,6 @@
 import { paintFitChip } from './fitChip';
 import { breakdown, relationTip, rowScoreTip, totalTip } from './scoreTips';
+import { TeamManager } from './teamManager';
 import { setTip } from './tooltip';
 import type { HeroScore, Role, Suggestions } from './types';
 import { getHeroIcon, heroTotalScore, iconList } from './utils';
@@ -21,6 +22,14 @@ const ROLE_LABELS: Record<Role, string> = { tank: 'Tank', damage: 'Damage', supp
 function roleSuggestions(suggestions: Suggestions, role: Role): HeroScore[] {
   const heroes = suggestions[role];
   return Array.isArray(heroes) ? heroes : [];
+}
+
+/** Suggested heroes in team slot order: tank, damage, damage, support, support. */
+function suggestedTeam(suggestions: Suggestions): Array<string | null> {
+  return ROLES.flatMap((role) => {
+    const heroes = roleSuggestions(suggestions, role).map(([hero]) => hero);
+    return Array.from({ length: MAX_SLOTS[role] }, (_, index) => heroes[index] ?? null);
+  });
 }
 
 function rowScore(suggestions: Suggestions, heroData: HeroScore): number {
@@ -111,7 +120,14 @@ export const SuggestionManager = {
     const title = document.createElement('div');
     title.className = 'header-title';
     title.append(header, info);
-    headerContainer.appendChild(title);
+    const use = document.createElement('button');
+    use.type = 'button';
+    use.className = 'use-picks';
+    use.textContent = 'Use';
+    use.setAttribute('aria-label', 'Use suggested picks for your team');
+    setTip(use, { title: 'Use these picks', note: 'Replace your team with the suggested picks.' });
+    use.addEventListener('click', () => TeamManager.setTeam('counter', suggestedTeam(suggestions)));
+    headerContainer.append(title, use);
     content.appendChild(headerContainer);
 
     const fitApplies = Boolean(suggestions.map_fit);

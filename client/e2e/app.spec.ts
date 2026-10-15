@@ -38,8 +38,9 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
   });
 
-  test('randomizes the enemy team', async ({ page }) => {
+  test('randomizes the enemy and uses the suggested picks', async ({ page }) => {
     const enemySelects = page.locator('.hero-select[data-team="enemy"]');
+    const yourSelects = page.locator('.hero-select[data-team="counter"]');
     const yourTotal = page.locator('.blue-team .total-score-display');
     const totalHeight = async () => (await yourTotal.boundingBox())?.height;
     const emptyHeight = await totalHeight();
@@ -51,7 +52,9 @@ test.describe('counter picker', () => {
     expect(new Set(await values(enemySelects)).size).toBe(5);
 
     await expect(page.locator('.suggestion-block .hero-name').first()).toBeVisible();
-    await pick(page, 'counter', 0, 'doomfist');
+    const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
+    await page.getByRole('button', { name: 'Use suggested picks for your team' }).click();
+    await expect.poll(async () => (await values(yourSelects)).filter(Boolean)).toEqual(suggested);
     await expect(yourTotal).toHaveAttribute('data-score', /\d/);
     expect(await totalHeight()).toBe(emptyHeight);
   });
