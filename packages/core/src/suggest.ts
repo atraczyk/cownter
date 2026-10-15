@@ -1,3 +1,4 @@
+import { synergyPartners } from './scores';
 import type { HeroData, HeroScore, Role, RoleCategory, Suggestions } from './types';
 
 type Candidate = [string, number, string[]];
@@ -146,33 +147,36 @@ export function suggestCounterTeam(
     );
   }
 
-  return enrichSuggestionSynergies(heroData, result);
+  return withTeamSynergy(heroData, result);
 }
 
-/** Add cross-role synergy partners among the suggested picks (matches the old Flask response). */
-export function enrichSuggestionSynergies(heroData: HeroData, suggestions: Suggestions): Suggestions {
-  const roles: Role[] = ['tank', 'damage', 'support'];
-  const next: Suggestions = { ...suggestions };
+const ROLES: Role[] = ['tank', 'damage', 'support'];
+const round = (value: number) => Math.round(value * 10) / 10;
 
-  for (const role of roles) {
+/** Partner lists and the total use the same synergy rules as the team scoreboard. */
+function withTeamSynergy(heroData: HeroData, suggestions: Suggestions): Suggestions {
+  const ordered = ROLES.flatMap((role) => (suggestions[role] ?? []).map(([hero]) => hero));
+  const partners = synergyPartners(heroData, ordered);
+  const next: Suggestions = { ...suggestions };
+  let counters = 0;
+  let synergy = 0;
+  let fit = 0;
+
+  for (const role of ROLES) {
     const heroes = suggestions[role];
     if (!Array.isArray(heroes)) continue;
     next[role] = heroes.map((entry) => {
-      const [hero, score, countered = []] = entry;
-      const synergizesWith = new Set<string>(entry[3] ?? []);
-      for (const otherRole of roles) {
-        if (otherRole === role) continue;
-        for (const other of suggestions[otherRole] ?? []) {
-          const otherHero = other[0];
-          if (otherHero !== hero && synergizes(heroData, hero, otherHero)) {
-            synergizesWith.add(otherHero);
-          }
-        }
-      }
-      return [hero, score, countered, [...synergizesWith].sort()] as HeroScore;
+      const [hero, score = 0, countered = []] = entry;
+      const allies = partners[hero] ?? [];
+      counters += score;
+      synergy += allies.length * 0.5;
+      fit += suggestions.map_fit?.[hero] ?? 0;
+      return [hero, score, countered, allies] as HeroScore;
     });
   }
 
+  next.total_score = round(counters + synergy + fit);
+  next.synergy_bonus = round(synergy);
   return next;
 }
 

@@ -4,6 +4,28 @@ function roleCategory(role: Role): RoleCategory {
   return role === 'damage' ? 'damage' : (`${role}s` as RoleCategory);
 }
 
+/**
+ * Synergy partners within a lineup, in slot order.
+ * A pair counts when the earlier hero lists the later one, and both are credited.
+ */
+export function synergyPartners(heroData: HeroData, heroes: readonly string[]): Record<string, string[]> {
+  const partners: Record<string, string[]> = Object.fromEntries(heroes.map((hero) => [hero, [] as string[]]));
+  for (let i = 0; i < heroes.length; i += 1) {
+    const hero1 = heroes[i];
+    const links = heroData[hero1]?.synergizes_with;
+    if (!links) continue;
+    for (let j = i + 1; j < heroes.length; j += 1) {
+      const hero2 = heroes[j];
+      const role = heroData[hero2]?.role;
+      if (!role || !links[roleCategory(role)]?.includes(hero2)) continue;
+      partners[hero1].push(hero2);
+      partners[hero2].push(hero1);
+    }
+  }
+  for (const hero of heroes) partners[hero].sort();
+  return partners;
+}
+
 function emptyTeams(heroes: readonly (string | null)[]): boolean {
   return heroes.every((hero) => !hero);
 }
@@ -20,8 +42,7 @@ function scoreSide(
 
   const counterScores: Record<string, number> = {};
   const counteredHeroes: Record<string, string[]> = {};
-  const synergyScores: Record<string, number> = {};
-  const synergizingHeroes: Record<string, string[]> = {};
+  const synergizingHeroes = synergyPartners(heroData, attackersFilled);
 
   for (const hero of attackersFilled) {
     if (!heroData[hero]?.strong_against) continue;
@@ -39,34 +60,15 @@ function scoreSide(
     counteredHeroes[hero] = countered;
   }
 
-  for (let i = 0; i < attackersFilled.length; i += 1) {
-    const hero1 = attackersFilled[i];
-    if (!heroData[hero1]?.synergizes_with) continue;
-    let synergy = 0;
-    const partners: string[] = [];
-    for (let j = i + 1; j < attackersFilled.length; j += 1) {
-      const hero2 = attackersFilled[j];
-      const category = roleCategory(heroData[hero2].role);
-      if (heroData[hero1].synergizes_with?.[category]?.includes(hero2)) {
-        synergy += 0.5;
-        partners.push(hero2);
-        synergyScores[hero2] = (synergyScores[hero2] ?? 0) + 0.5;
-        synergizingHeroes[hero2] = [...(synergizingHeroes[hero2] ?? []), hero1];
-      }
-    }
-    synergyScores[hero1] = (synergyScores[hero1] ?? 0) + synergy;
-    synergizingHeroes[hero1] = [...(synergizingHeroes[hero1] ?? []), ...partners];
-  }
-
   const heroes: HeroScore[] = attackersFilled.map((hero) => {
     const counter = counterScores[hero] ?? 0;
-    const synergy = synergyScores[hero] ?? 0;
+    const partners = synergizingHeroes[hero] ?? [];
     const fit = fitBonus[hero] ?? 0;
     return [
       hero,
-      Math.round((counter + synergy + fit) * 10) / 10,
+      Math.round((counter + partners.length * 0.5 + fit) * 10) / 10,
       [...(counteredHeroes[hero] ?? [])].sort(),
-      [...(synergizingHeroes[hero] ?? [])].sort(),
+      partners,
     ];
   });
 

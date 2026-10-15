@@ -3,6 +3,7 @@ import { archetypesSheet, heroData, mapsSheet } from './data';
 import { CompDataProvider, fitBonus, fitScore } from './fit';
 import { getClosestMatch, normalizeHeroName } from './names';
 import { MatchSession } from './session';
+import { scoreTeams, synergyPartners } from './scores';
 import { suggestCounterTeam } from './suggest';
 import { validateSheets } from './validate';
 
@@ -50,6 +51,34 @@ describe('suggestCounterTeam', () => {
     expect(suggestions.tank?.[0][0]).toBe('doomfist');
     expect(suggestions.damage?.map(([hero]) => hero).sort()).toEqual(['mei', 'widowmaker']);
     expect(suggestions.map_fit).toBeUndefined();
+  });
+
+  it('credits the same synergy partners as the team scoreboard', () => {
+    const suggestions = suggestCounterTeam(heroData, enemy);
+    const picked = [
+      suggestions.tank?.[0][0],
+      ...(suggestions.damage ?? []).map(([hero]) => hero),
+      ...(suggestions.support ?? []).map(([hero]) => hero),
+    ];
+    const scored = scoreTeams(heroData, picked, enemy).current_scores;
+    const rows = [...(suggestions.tank ?? []), ...(suggestions.damage ?? []), ...(suggestions.support ?? [])];
+    expect(scored?.heroes.map(([, , , partners]) => partners)).toEqual(rows.map(([, , , partners]) => partners));
+    expect(suggestions.total_score).toBe(scored?.total_score);
+  });
+
+  it('credits both heroes for a one-way or same-role pair', () => {
+    const data = {
+      tracer: { role: 'damage' as const, strong_against: {}, synergizes_with: { damage: ['genji'], supports: ['kiriko'] } },
+      genji: { role: 'damage' as const, strong_against: {}, synergizes_with: { damage: ['tracer'] } },
+      kiriko: { role: 'support' as const, strong_against: {}, synergizes_with: { supports: ['lucio'] } },
+      lucio: { role: 'support' as const, strong_against: {}, synergizes_with: {} },
+    };
+    expect(synergyPartners(data, ['tracer', 'genji', 'kiriko', 'lucio'])).toEqual({
+      tracer: ['genji', 'kiriko'],
+      genji: ['tracer'],
+      kiriko: ['lucio', 'tracer'],
+      lucio: ['kiriko'],
+    });
   });
 
   it('prefers map-fitting heroes when scores tie', () => {

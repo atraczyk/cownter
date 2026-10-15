@@ -35,7 +35,10 @@ test.describe('counter picker', () => {
 
     await expect(page.getByRole('heading', { name: 'Suggested picks' })).toBeVisible();
     await expect(page.locator('.suggestion-block .hero-name')).toContainText(['doomfist', 'mei', 'widowmaker', 'kiriko', 'mercy']);
-    await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
+    const suggestedScores = await page.locator('.suggestion-block .score').allTextContents();
+    await page.getByRole('button', { name: 'Use suggested picks for your team' }).click();
+    await expect.poll(() => page.locator('.blue-team .current-score').allTextContents()).toEqual(suggestedScores);
+    await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', '13');
   });
 
   test('randomizes the enemy and uses the suggested picks', async ({ page }) => {
