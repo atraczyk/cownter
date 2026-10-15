@@ -2,6 +2,7 @@ import { API } from './api';
 import { findMap, findMode, mapsForMode } from './compFit';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
+import { setTip } from './tooltip';
 import { pageTeams, showStatus } from './teamManager';
 import type { CompData, MatchContext, Side } from './types';
 import { emptyContext, notifyViewChange, saveContext, viewState } from './viewState';
@@ -115,15 +116,19 @@ export const MatchContextBar = {
     const sidesField = root.querySelector('[data-part="sides-field"]') ?? sides;
     sidesField.toggleAttribute('hidden', !(mode?.sided && map));
 
-    const version = root.querySelector('[data-part="version"]');
+    const version = root.querySelector<HTMLElement>('[data-part="version"]');
     if (version) {
       const draft = data.maps.status === 'llm-draft' || data.archetypes.status === 'llm-draft';
       version.textContent = `v${__APP_VERSION__} · ${__GIT_HASH__}`;
-      version.setAttribute(
-        'title',
-        `Map data v${data.maps.version}, comp types v${data.archetypes.version}` +
-          (draft ? ' (unreviewed draft)' : ' (reviewed)'),
-      );
+      setTip(version, {
+        title: `Counter Picker v${__APP_VERSION__}`,
+        rows: [
+          ['Build', __GIT_HASH__],
+          ['Map data', `v${data.maps.version} · ${data.maps.status ?? 'unknown'}`],
+          ['Comp types', `v${data.archetypes.version} · ${data.archetypes.status ?? 'unknown'}`],
+        ],
+        note: draft ? 'Map and comp-type values are an unreviewed first draft.' : undefined,
+      });
     }
   },
 

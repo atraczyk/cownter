@@ -1,8 +1,13 @@
+import { breakdown, relationTip, rowScoreTip, totalTip } from './scoreTips';
+import { setTip } from './tooltip';
 import type { HeroScore, ScoreUpdate } from './types';
 import { iconList } from './utils';
+import { viewState } from './viewState';
+
+const fitApplies = () => Boolean(viewState.context.point);
 
 function paintHeroScore(select: HTMLSelectElement, entry: HeroScore, scoreClass: string): void {
-  const [, score, counteredHeroes, synergizingHeroes] = entry;
+  const [hero, score, counteredHeroes, synergizingHeroes] = entry;
   const row = select.closest('.player-row');
   if (!row) return;
 
@@ -10,12 +15,17 @@ function paintHeroScore(select: HTMLSelectElement, entry: HeroScore, scoreClass:
   const counteredDiv = row.querySelector<HTMLElement>('.countered-heroes');
   const synergizingDiv = row.querySelector<HTMLElement>('.synergizing-heroes');
 
-  if (scoreDiv) scoreDiv.textContent = String(score);
+  if (scoreDiv) {
+    scoreDiv.textContent = String(score);
+    setTip(scoreDiv, rowScoreTip(hero, score, counteredHeroes, synergizingHeroes, fitApplies()));
+  }
   if (counteredDiv && counteredHeroes) {
     counteredDiv.innerHTML = iconList(counteredHeroes, 'countered-hero-icon');
+    relationTip(counteredDiv, 'counters', counteredHeroes);
   }
   if (synergizingDiv && synergizingHeroes) {
     synergizingDiv.innerHTML = iconList(synergizingHeroes, 'synergizing-hero-icon');
+    relationTip(synergizingDiv, 'synergy', synergizingHeroes);
   }
 }
 
@@ -23,15 +33,15 @@ function clearTeamDisplay(team: 'counter' | 'enemy', scoreClass: string, totalSe
   document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`).forEach((select) => {
     const row = select.closest('.player-row');
     if (!row) return;
-    const score = row.querySelector(scoreClass);
-    const countered = row.querySelector('.countered-heroes');
-    const synergizing = row.querySelector('.synergizing-heroes');
-    if (score) score.textContent = '';
-    if (countered) countered.innerHTML = '';
-    if (synergizing) synergizing.innerHTML = '';
+    row.querySelectorAll<HTMLElement>(`${scoreClass}, .countered-heroes, .synergizing-heroes`).forEach((cell) => {
+      cell.innerHTML = '';
+      setTip(cell, null);
+    });
   });
 
-  document.querySelector(totalSelector)?.removeAttribute('data-score');
+  const total = document.querySelector<HTMLElement>(totalSelector);
+  total?.removeAttribute('data-score');
+  if (total) setTip(total, null);
 }
 
 function applyScores(
@@ -48,8 +58,11 @@ function applyScores(
     if (select) paintHeroScore(select, entry, scoreClass);
   });
 
-  const total = document.querySelector(totalSelector);
-  if (total) total.setAttribute('data-score', String(totalScore));
+  const total = document.querySelector<HTMLElement>(totalSelector);
+  if (!total) return;
+  total.setAttribute('data-score', String(totalScore));
+  const parts = heroes.map(([, score, countered, partners]) => breakdown(score, countered, partners));
+  setTip(total, totalTip(team === 'enemy' ? 'Enemy total' : 'Your total', totalScore, parts, fitApplies()));
 }
 
 export const ScoreManager = {

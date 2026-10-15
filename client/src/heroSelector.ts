@@ -1,4 +1,6 @@
-import { ARCHETYPE_LABELS, dominant, signed } from './compFit';
+import { dominant } from './compFit';
+import { fitTip } from './scoreTips';
+import { heroLabel, setTip } from './tooltip';
 import type { HeroesWithRoles, TeamName } from './types';
 import { getHeroIcon, getSelectedHeroes } from './utils';
 import { viewState } from './viewState';
@@ -14,17 +16,15 @@ export const HeroSelector = {
       const hero = icon.dataset.hero ?? '';
       const heroWeights = weights[hero];
       const fit = viewState.mapFit[hero];
-      icon.classList.remove('fits', 'misfits', 'arch-dive', 'arch-poke', 'arch-brawl');
+      icon.classList.remove('fits', 'misfits', 'neutral', 'arch-dive', 'arch-poke', 'arch-brawl');
       if (!heroWeights) {
-        icon.title = hero;
+        setTip(icon, { title: heroLabel(hero) });
         return;
       }
       const archetype = dominant(heroWeights);
       icon.classList.add(`arch-${archetype}`);
       if (fit !== undefined) icon.classList.add(fit > 0.1 ? 'fits' : fit < -0.1 ? 'misfits' : 'neutral');
-      icon.title = fit === undefined
-        ? `${hero} · ${ARCHETYPE_LABELS[archetype]}`
-        : `${hero} · ${ARCHETYPE_LABELS[archetype]} · ${signed(fit)} on this point`;
+      setTip(icon, fitTip(hero, fit, viewState.context.side));
     });
   },
 

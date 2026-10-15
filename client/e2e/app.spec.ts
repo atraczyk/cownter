@@ -75,9 +75,16 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'Attacking' }).click();
 
     await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
-    await expect(page.locator('[data-part="version"]')).toHaveAttribute('title', /Map data v\d/);
+    await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
     await expect(page.locator('.compass-verdict')).not.toHaveText(/Choose a mode/);
-    await expect(page.locator('.suggestion-block .board-note')).toHaveText('Counters + synergy + map fit');
+    await page.locator('.suggestion-block .score').first().hover();
+    const tip = page.getByRole('tooltip');
+    await expect(tip).toBeVisible();
+    await expect(tip).toContainText('Counters');
+    await expect(tip).toContainText(/Map fit[+±-]\d/);
+
+    await page.getByRole('button', { name: 'How picks are chosen' }).hover();
+    await expect(tip).toContainText('How picks are chosen');
     await expect(page.locator('.suggestion-block .fit-chip').first()).not.toBeEmpty();
   });
 });

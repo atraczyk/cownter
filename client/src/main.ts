@@ -8,6 +8,7 @@ import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
 import { renderTeamRows } from './teamRows';
 import { showStatus, TeamManager } from './teamManager';
+import { initTooltips } from './tooltip';
 import { loadContext, onViewChange, viewState } from './viewState';
 
 function bindClearButtons(): void {
@@ -64,6 +65,7 @@ function trackHeaderHeight(): void {
 renderTeamRows();
 bindClearButtons();
 trackHeaderHeight();
+initTooltips();
 window.addEventListener('load', () => {
   start().catch((error: unknown) => {
     console.error('Error initializing application:', error);
