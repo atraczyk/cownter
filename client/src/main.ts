@@ -69,6 +69,6 @@ initTooltips();
 window.addEventListener('load', () => {
   start().catch((error: unknown) => {
     console.error('Error initializing application:', error);
-    showStatus('Could not reach the counter API. Start it with "python main.py --serve" and reload.');
+    showStatus('Could not load the hero data. Reload the page to try again.');
   });
 });
