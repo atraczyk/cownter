@@ -38,6 +38,17 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
   });
 
+  test('keeps the total line height when scores fill in', async ({ page }) => {
+    const yourTotal = page.locator('.blue-team .total-score-display');
+    const totalHeight = async () => (await yourTotal.boundingBox())?.height;
+    const emptyHeight = await totalHeight();
+
+    await pick(page, 'counter', 0, 'doomfist');
+    await pick(page, 'enemy', 0, 'hazard');
+    await expect(yourTotal).toHaveAttribute('data-score', /\d/);
+    expect(await totalHeight()).toBe(emptyHeight);
+  });
+
   test('clearing a team resets both scoreboards', async ({ page }) => {
     page.on('dialog', (dialog) => void dialog.accept());
     const yourTotal = page.locator('.blue-team .total-score-display');

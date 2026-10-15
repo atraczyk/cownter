@@ -490,6 +490,7 @@ select.hero-select {
     padding: 8px 4px 0;
     border-top: 1px solid var(--line);
     font-size: 13px;
+    line-height: 22px;
     color: var(--muted);
 }
 
@@ -705,7 +706,7 @@ select.hero-select {
     .hero-selector { position: static; }
     .hero-grid { grid-template-columns: repeat(8, 1fr); }
     .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) 88px; }
-    .player-row .score-section { grid-column: 3 / -1; }
+    .player-row .score-section { grid-column: 3 / -1; min-height: 20px; }
     .compass-body { grid-template-columns: 1fr; }
 }
 
