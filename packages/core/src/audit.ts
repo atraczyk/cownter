@@ -30,13 +30,14 @@ export interface RosterSheet {
 
 export interface AuditFinding {
   level: 'missing' | 'extra' | 'warn';
-  kind: 'hero' | 'map' | 'icon' | 'archetype' | 'counters' | 'brand';
+  kind: 'hero' | 'map' | 'icon' | 'thumbnail' | 'archetype' | 'counters' | 'brand';
   id: string;
   message: string;
 }
 
 const DATA_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../data');
 const ICONS_DIR = path.resolve(DATA_DIR, '../../../resources/images/icons');
+const MAPS_DIR = path.resolve(DATA_DIR, '../../../resources/images/maps');
 
 export function loadRoster(dataDir = DATA_DIR): RosterSheet {
   return JSON.parse(fs.readFileSync(path.join(dataDir, 'roster.json'), 'utf8')) as RosterSheet;
@@ -55,6 +56,7 @@ export function auditData(
   archetypes: ArchetypesSheet,
   maps: MapsSheet,
   iconsDir = ICONS_DIR,
+  mapsDir = MAPS_DIR,
 ): AuditFinding[] {
   const findings: AuditFinding[] = [];
   const rosterHeroes = new Map(roster.heroes.map((hero) => [hero.id, hero]));
@@ -145,6 +147,23 @@ export function auditData(
         message: `missing from maps.json (${entry.name}, ${entry.mode}, ${entry.pool})`,
       });
     }
+
+    const thumbPath = path.join(mapsDir, `${entry.id}.jpg`);
+    if (!fs.existsSync(thumbPath)) {
+      findings.push({
+        level: 'warn',
+        kind: 'thumbnail',
+        id: entry.id,
+        message: `missing thumbnail at resources/images/maps/${entry.id}.jpg (run npm run grab-maps)`,
+      });
+    } else if (fs.statSync(thumbPath).size < 8192) {
+      findings.push({
+        level: 'warn',
+        kind: 'thumbnail',
+        id: entry.id,
+        message: `thumbnail looks like a stub (${fs.statSync(thumbPath).size} bytes); run node packages/core/scripts/grab-maps.mjs --force`,
+      });
+    }
   }
 
   for (const mapId of sheetMaps) {
@@ -188,7 +207,7 @@ export function formatAuditReport(findings: AuditFinding[], roster: RosterSheet)
     lines.push('');
   }
 
-  if (!findings.length) lines.push('Sheets match the roster and icons are present.');
+  if (!findings.length) lines.push('Sheets match the roster. Icons and map thumbnails are present.');
   return lines.join('\n').trimEnd();
 }
 

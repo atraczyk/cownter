@@ -18,7 +18,7 @@ The game rebranded from **Overwatch 2** to **Overwatch** in February 2026. Prefe
 | `packages/core/data/maps.json` | Modes, maps, points, and the comp each point favors | yes |
 | `packages/core/data/hero_data.json` | Role, `strong_against`, `synergizes_with` | no, keyed by hero id |
 
-Hero ids are lowercase with no spaces (`soldier76`, `wreckingball`, `jetpackcat`, `dmon`). Icons live at `resources/images/icons/icon-<id>.png`.
+Hero ids are lowercase with no spaces (`soldier76`, `wreckingball`, `jetpackcat`, `dmon`). Icons live at `resources/images/icons/icon-<id>.png`. Map thumbnails live at `resources/images/maps/<id>.jpg`, saved from the OverFast `screenshot` field (`grimsvotn` is requested as `watchpoint-grimsvotn`). A listed screenshot URL can still 404; `grab-maps` fails that id and `audit-data` keeps the warning. Do not substitute another image.
 
 `strong_against` / `synergizes_with` lists are keyed `tanks`, `damage`, `supports` (plural — the engine derives the key as `role + "s"`). A hero must sit in the list matching its current role; `validate-data` fails otherwise.
 
@@ -36,11 +36,13 @@ npm run audit-data      # gaps vs roster.json + missing icons + empty counters
 npm run scaffold-missing  # stub any roster heroes/maps not yet in the sheets
 npm run grab-icons      # download portraits into resources/images/icons/
 node packages/core/scripts/grab-icons.mjs --force   # refresh every icon
+npm run grab-maps       # download map thumbnails into resources/images/maps/
+node packages/core/scripts/grab-maps.mjs --force    # refresh every thumbnail
 npm test
 npm run test:e2e
 ```
 
-`scaffold-missing` creates **placeholders only**: empty counter lists, near-neutral archetype weights, and neutral map point comps. Always run `npm run grab-icons` after adding heroes, then draft counters/comps and keep `status: llm-draft` until reviewed.
+`scaffold-missing` creates **placeholders only**: empty counter lists, near-neutral archetype weights, and neutral map point comps. After adding heroes run `npm run grab-icons`; after adding maps run `npm run grab-maps`. Then draft counters/comps and keep `status: llm-draft` until reviewed.
 
 ## Workflow after a patch / season
 
@@ -51,7 +53,8 @@ npm run test:e2e
 - [ ] npm run scaffold-missing — only if you want stubs first
 - [ ] Draft hero_data counters/synergies and archetype weights
 - [ ] Draft map point comps (attack/defense on sided modes)
-- [ ] Add icons under resources/images/icons/
+- [ ] Add icons under resources/images/icons/ (`npm run grab-icons`)
+- [ ] Add map thumbnails under resources/images/maps/ (`npm run grab-maps`)
 - [ ] Bump sheet versions, set updated + status, CHANGELOG entries
 - [ ] npm run validate-data && npm test && npm run audit-data
 ```

@@ -21,7 +21,7 @@ npm install
 npm start
 ```
 
-Open `http://localhost:3000`.
+Open `http://127.0.0.1:3000`.
 
 ```bash
 npm test
@@ -30,7 +30,12 @@ npm run build
 npm run validate-data
 npm run audit-data
 npm run grab-icons
+npm run grab-maps
 ```
+
+## GitHub Pages
+
+Pushes to `main` publish the site with GitHub Actions (`.github/workflows/pages.yml`). Under Settings → Pages, set the source to **GitHub Actions**. The project site is `https://atraczyk.github.io/ow2-counter/`.
 
 ## CLI
 

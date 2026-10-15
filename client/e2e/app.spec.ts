@@ -25,6 +25,7 @@ test.describe('counter picker', () => {
     expect(heroCount).toBeGreaterThanOrEqual(42);
     await expect(page.locator('.load-error')).toBeHidden();
     await expect(page.locator('.map-panel')).toContainText('No map selected');
+    await expect(page.locator('.map-thumb')).toBeHidden();
   });
 
   test('suggests counters once the enemy team is full', async ({ page }) => {
@@ -109,6 +110,7 @@ test.describe('counter picker', () => {
     await expect(page.locator('.map-panel')).toContainText('Dorado');
     await expect(page.locator('.map-panel')).toContainText('First checkpoint');
     await expect(page.locator('.map-panel')).toContainText(/Poke \d+%/);
+    await expect(page.locator('.map-thumb')).toHaveAttribute('src', '/resources/images/maps/dorado.jpg');
     await page.locator('.suggestion-block .score').first().hover();
     const tip = page.getByRole('tooltip');
     await expect(tip).toBeVisible();

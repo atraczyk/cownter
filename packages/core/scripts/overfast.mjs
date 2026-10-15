@@ -11,8 +11,18 @@ export const API_KEYS = {
   wreckingball: 'wrecking-ball',
 };
 
+/** Our map ids -> OverFast map keys when underscore-to-hyphen is not enough. */
+export const MAP_API_KEYS = {
+  grimsvotn: 'watchpoint-grimsvotn',
+};
+
 export function apiKey(id) {
   return API_KEYS[id] ?? id;
+}
+
+/** `kings_row` -> `kings-row`, with the few ids OverFast names differently. */
+export function mapApiKey(id) {
+  return MAP_API_KEYS[id] ?? id.replaceAll('_', '-');
 }
 
 /** OverFast hero key -> our sheet id (`soldier-76` -> `soldier76`). */

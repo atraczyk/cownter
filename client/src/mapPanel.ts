@@ -1,5 +1,6 @@
 import { ARCHETYPES, ARCHETYPE_LABELS, dominant, findMap, findMode, percent, pointPreference } from './compFit';
 import type { Side } from './types';
+import { asset } from './utils';
 import { viewState } from './viewState';
 
 const SIDE_LABELS: Record<Side, string> = { attack: 'Attacking', defense: 'Defending' };
@@ -11,6 +12,7 @@ export const MapPanel = {
     const data = viewState.compData;
     if (!panel || !data) return;
 
+    const thumb = panel.querySelector<HTMLImageElement>('[data-part="thumb"]');
     const where = panel.querySelector('[data-part="where"]');
     const detail = panel.querySelector('[data-part="detail"]');
     const mix = panel.querySelector('[data-part="mix"]');
@@ -23,6 +25,18 @@ export const MapPanel = {
     const point = map?.points.find((entry) => entry.id === context.point);
     const preference = pointPreference(data, context);
 
+    if (thumb) {
+      thumb.hidden = !map;
+      thumb.onload = () => { thumb.hidden = false; };
+      thumb.onerror = () => { thumb.hidden = true; };
+      if (map) {
+        thumb.src = asset(`/resources/images/maps/${map.id}.jpg`);
+        thumb.alt = map.name;
+      } else {
+        thumb.removeAttribute('src');
+        thumb.alt = '';
+      }
+    }
     if (where) where.textContent = map?.name ?? 'No map selected';
     if (detail) {
       const parts = [mode?.name, point?.name, context.side ? SIDE_LABELS[context.side] : null].filter(Boolean);

@@ -471,9 +471,9 @@ h1, h2 { margin: 0; }
     opacity: 0.85;
 }
 
-.role-tank { background-image: url('/resources/images/roles/tank.svg'); }
-.role-damage { background-image: url('/resources/images/roles/damage.svg'); }
-.role-support { background-image: url('/resources/images/roles/support.svg'); }
+.role-tank { background-image: url('../../resources/images/roles/tank.svg'); }
+.role-damage { background-image: url('../../resources/images/roles/damage.svg'); }
+.role-support { background-image: url('../../resources/images/roles/support.svg'); }
 
 .hero-icon {
     width: 34px;
@@ -537,6 +537,27 @@ select.hero-select {
 
 .countered-hero-icon { box-shadow: 0 0 0 1px var(--enemy); }
 .synergizing-hero-icon { box-shadow: 0 0 0 1px var(--suggest); }
+
+.icon-more {
+    display: grid;
+    place-items: center;
+    flex: none;
+    height: 20px;
+    min-width: 20px;
+    margin-left: -7px;
+    padding: 0 3px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--font-data);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.countered-heroes .icon-more { box-shadow: 0 0 0 1px var(--enemy); }
+.synergizing-heroes .icon-more { box-shadow: 0 0 0 1px var(--suggest); }
 
 .empty-slot {
     min-height: 50px;
@@ -691,6 +712,19 @@ select.hero-select {
     border-radius: var(--radius);
     padding: 12px;
 }
+
+.map-thumb {
+    display: block;
+    width: 100%;
+    height: 72px;
+    object-fit: cover;
+    object-position: center;
+    margin: 0 0 8px;
+    border-radius: 4px;
+    background: var(--steel);
+}
+
+.map-thumb[hidden] { display: none; }
 
 .map-where { margin: 2px 0 0; font-weight: 600; }
 

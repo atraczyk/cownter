@@ -56,6 +56,7 @@ function serveResources(): Plugin {
 function contentType(filePath: string): string {
   if (filePath.endsWith('.svg')) return 'image/svg+xml';
   if (filePath.endsWith('.png')) return 'image/png';
+  if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) return 'image/jpeg';
   if (filePath.endsWith('.css')) return 'text/css';
   if (filePath.endsWith('.js')) return 'text/javascript';
   return 'application/octet-stream';
@@ -71,7 +72,17 @@ function copyDir(from: string, to: string): void {
   }
 }
 
+/** `/` locally. GitHub Pages sets VITE_BASE to the project path, such as `/ow2-counter`. */
+function siteBase(): string {
+  const raw = process.env.VITE_BASE?.trim();
+  if (!raw || raw === '/') return '/';
+  const collapsed = raw.replace(/\/{2,}/g, '/');
+  const withLead = collapsed.startsWith('/') ? collapsed : `/${collapsed}`;
+  return withLead.endsWith('/') ? withLead : `${withLead}/`;
+}
+
 export default defineConfig({
+  base: siteBase(),
   plugins: [serveResources()],
   define: {
     __APP_VERSION__: JSON.stringify(appVersion),
