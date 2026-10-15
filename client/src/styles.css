@@ -364,6 +364,27 @@ h1, h2 { margin: 0; }
 
 .clear-teams:hover { background: var(--steel); color: var(--ink); }
 
+.header-actions { display: flex; align-items: center; gap: 2px; }
+
+.icon-button {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.icon-button svg { width: 18px; height: 18px; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+.icon-button:hover { background: var(--steel); color: var(--ink); }
+
+.icon-button:hover svg { transform: rotate(-20deg) scale(1.1); }
+
 .vs-divider {
     display: flex;
     align-items: center;

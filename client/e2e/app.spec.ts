@@ -38,13 +38,20 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .total-score-display')).toHaveAttribute('data-score', '12');
   });
 
-  test('keeps the total line height when scores fill in', async ({ page }) => {
+  test('randomizes the enemy team', async ({ page }) => {
+    const enemySelects = page.locator('.hero-select[data-team="enemy"]');
     const yourTotal = page.locator('.blue-team .total-score-display');
     const totalHeight = async () => (await yourTotal.boundingBox())?.height;
     const emptyHeight = await totalHeight();
 
+    await page.getByRole('button', { name: 'Randomize enemy team' }).click();
+    for (const select of await enemySelects.all()) await expect(select).not.toHaveValue('');
+    const values = (selects: typeof enemySelects) =>
+      selects.evaluateAll((elements) => elements.map((element) => (element as HTMLSelectElement).value));
+    expect(new Set(await values(enemySelects)).size).toBe(5);
+
+    await expect(page.locator('.suggestion-block .hero-name').first()).toBeVisible();
     await pick(page, 'counter', 0, 'doomfist');
-    await pick(page, 'enemy', 0, 'hazard');
     await expect(yourTotal).toHaveAttribute('data-score', /\d/);
     expect(await totalHeight()).toBe(emptyHeight);
   });

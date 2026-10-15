@@ -20,6 +20,10 @@ export const API = {
     return Promise.resolve(session.restoreTeams(teams));
   },
 
+  getSuggestions() {
+    return Promise.resolve(session.suggestionsIfReady());
+  },
+
   getHeroesWithRoles() {
     return Promise.resolve(session.getHeroesWithRoles());
   },

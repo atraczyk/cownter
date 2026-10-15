@@ -79,6 +79,50 @@ export const TeamManager = {
       });
   },
 
+  /** Replace a whole team at once, e.g. a random enemy or the suggested picks. */
+  setTeam(team: TeamName, heroes: Array<string | null>): void {
+    const selects = document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`);
+    // Each dropdown hides heroes picked in sibling slots, so empty them all before refilling.
+    selects.forEach((select) => { select.value = ''; });
+    this.updateDropdowns();
+    selects.forEach((select) => {
+      select.value = heroes[Number(select.dataset.slot)] ?? '';
+      updateHeroIcon(select);
+    });
+    this.updateDropdowns();
+    notifyViewChange();
+    const teams = pageTeams();
+    this.saveTeams(teams);
+
+    void API.restoreTeams(teams).then((data) => {
+      showStatus(null);
+      ScoreManager.updateTeamScores({
+        current_scores: data.current_scores,
+        enemy_scores: data.enemy_scores,
+      });
+      if (team !== 'enemy') return;
+      return API.getSuggestions().then((suggestions) => {
+        if (suggestions) SuggestionManager.updateCounterSuggestions(suggestions);
+        else SuggestionManager.clear();
+      });
+    });
+  },
+
+  randomizeTeam(team: TeamName): void {
+    if (!heroRoles) return;
+    const roles = heroRoles;
+    const taken = new Set<string>();
+    const heroes = [...document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`)]
+      .sort((a, b) => Number(a.dataset.slot) - Number(b.dataset.slot))
+      .map((select) => {
+        const pool = Object.keys(roles).filter((hero) => roles[hero].role === select.dataset.role && !taken.has(hero));
+        const hero = pool[Math.floor(Math.random() * pool.length)] ?? null;
+        if (hero) taken.add(hero);
+        return hero;
+      });
+    this.setTeam(team, heroes);
+  },
+
   updateDropdowns(heroData: HeroesWithRoles | null = heroRoles): void {
     if (!heroData) return;
     heroRoles = heroData;

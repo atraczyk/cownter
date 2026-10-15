@@ -20,6 +20,12 @@ function bindClearButtons(): void {
       }
     });
   });
+  document.querySelectorAll<HTMLButtonElement>('[data-randomize-team]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const team = button.dataset.randomizeTeam;
+      if (team === 'enemy' || team === 'counter') TeamManager.randomizeTeam(team);
+    });
+  });
 }
 
 function refreshView(): void {

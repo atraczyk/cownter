@@ -79,7 +79,19 @@
             <div class="team red-team">
                 <div class="team-header-container">
                     <h2 class="team-header">Enemy team</h2>
-                    <button class="clear-teams" data-clear-team="enemy" type="button">Clear</button>
+                    <div class="header-actions">
+                        <button class="icon-button" data-randomize-team="enemy" type="button" aria-label="Randomize enemy team" data-tip='{"title":"Randomize","note":"Fill the enemy team with random heroes."}'>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3.5" y="3.5" width="17" height="17" rx="3.5" />
+                                <circle cx="8.5" cy="8.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="8.5" cy="15.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="15.5" cy="15.5" r="1.2" fill="currentColor" stroke="none" />
+                            </svg>
+                        </button>
+                        <button class="clear-teams" data-clear-team="enemy" type="button">Clear</button>
+                    </div>
                 </div>
                 <div class="team-rows" data-team="enemy"></div>
                 <div class="total-score-display"></div>
