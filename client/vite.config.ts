@@ -72,7 +72,7 @@ function copyDir(from: string, to: string): void {
   }
 }
 
-/** `/` locally. GitHub Pages sets VITE_BASE to the project path, such as `/ow2-counter`. */
+/** `/` locally. GitHub Pages sets VITE_BASE to the project path, such as `/cownter`. */
 function siteBase(): string {
   const raw = process.env.VITE_BASE?.trim();
   if (!raw || raw === '/') return '/';

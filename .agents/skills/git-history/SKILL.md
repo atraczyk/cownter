@@ -15,6 +15,14 @@ fix stale team scores after clearing a team
 
 On PowerShell there are no heredocs: pass the subject and each body paragraph as separate `-m` flags.
 
+Agent commits stay authored by the user and end with this trailer, after a blank line:
+
+```
+Co-authored-by: Cursor <cursoragent@cursor.com>
+```
+
+Pass it as its own `-m`. The Python history at `v1` (`9acb2ee`) does not get the trailer.
+
 ## Refs
 
 - `main` is the working branch; `master` / `v1` are the old Python app (`9acb2ee`)

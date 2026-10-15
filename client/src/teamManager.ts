@@ -109,11 +109,16 @@ export const TeamManager = {
     });
   },
 
-  randomizeTeam(team: TeamName): void {
-    if (!heroRoles) return;
+  teamPopulated(heroes: readonly (string | null)[] | undefined): boolean {
+    return Boolean(heroes?.some((hero) => hero));
+  },
+
+  /** A legal random lineup for the team's role slots. */
+  randomLineup(team: TeamName): Array<string | null> {
+    if (!heroRoles) return [null, null, null, null, null];
     const roles = heroRoles;
     const taken = new Set<string>();
-    const heroes = [...document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`)]
+    return [...document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${team}"]`)]
       .sort((a, b) => Number(a.dataset.slot) - Number(b.dataset.slot))
       .map((select) => {
         const pool = Object.keys(roles).filter((hero) => roles[hero].role === select.dataset.role && !taken.has(hero));
@@ -121,7 +126,11 @@ export const TeamManager = {
         if (hero) taken.add(hero);
         return hero;
       });
-    this.setTeam(team, heroes);
+  },
+
+  randomizeTeam(team: TeamName): void {
+    if (team === 'counter') SuggestionManager.setLinked(false);
+    this.setTeam(team, this.randomLineup(team));
   },
 
   updateDropdowns(heroData: HeroesWithRoles | null = heroRoles): void {

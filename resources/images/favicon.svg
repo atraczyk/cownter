@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="cownter">
+  <defs>
+    <clipPath id="mark">
+      <polygon points="16,3 29,29 3,29"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#mark)">
+    <path fill="#6a4cf5" d="M 16 16 L 40.000 57.569 A 48 48 0 0 1 -32.000 16.000 Z"/>
+    <path fill="#b5512a" d="M 16 16 L -32.000 16.000 A 48 48 0 0 1 40.000 -25.569 Z"/>
+    <path fill="#b07a00" d="M 16 16 L 40.000 -25.569 A 48 48 0 0 1 40.000 57.569 Z"/>
+  </g>
+</svg>

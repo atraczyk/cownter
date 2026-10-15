@@ -19,6 +19,17 @@ function button(label: string, pressed: boolean, onClick: () => void, className:
   return element;
 }
 
+export function randomContext(data: CompData): MatchContext {
+  const mode = data.maps.modes[Math.floor(Math.random() * data.maps.modes.length)];
+  if (!mode) return emptyContext();
+  const maps = mapsForMode(data, mode.id);
+  const map = maps[Math.floor(Math.random() * maps.length)];
+  if (!map) return { mode: mode.id, map: null, point: null, side: null };
+  const point = map.points[Math.floor(Math.random() * map.points.length)];
+  const side = mode.sided ? (Math.random() < 0.5 ? 'attack' : 'defense') : null;
+  return { mode: mode.id, map: map.id, point: point?.id ?? null, side };
+}
+
 /** Keep only the parts of a saved context that still exist in the data sheets. */
 function sanitize(data: CompData, context: MatchContext): MatchContext {
   const mode = findMode(data, context.mode);
@@ -121,7 +132,7 @@ export const MatchContextBar = {
       const draft = data.maps.status === 'llm-draft' || data.archetypes.status === 'llm-draft';
       version.textContent = `v${__APP_VERSION__} · ${__GIT_HASH__}`;
       setTip(version, {
-        title: `Counter Picker v${__APP_VERSION__}`,
+        title: `cownter v${__APP_VERSION__}`,
         rows: [
           ['Build', __GIT_HASH__],
           ['Map data', `v${data.maps.version} · ${data.maps.status ?? 'unknown'}`],

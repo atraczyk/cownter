@@ -4,13 +4,23 @@ import { Compass } from './compass';
 import { paintTeamFitChips } from './fitChip';
 import { HeroSelector } from './heroSelector';
 import { MapPanel } from './mapPanel';
-import { MatchContextBar } from './matchContext';
+import { MatchContextBar, randomContext } from './matchContext';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
 import { renderTeamRows } from './teamRows';
-import { showStatus, TeamManager } from './teamManager';
+import { pageTeams, showStatus, TeamManager } from './teamManager';
 import { initTooltips } from './tooltip';
-import { loadContext, onViewChange, viewState } from './viewState';
+import { contextPopulated, loadContext, onViewChange, viewState } from './viewState';
+
+function bindAbout(): void {
+  const dialog = document.querySelector<HTMLDialogElement>('[data-part="about"]');
+  const open = document.querySelector<HTMLButtonElement>('[data-part="help"]');
+  if (!dialog || !open) return;
+  open.addEventListener('click', () => dialog.showModal());
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
 
 function bindClearButtons(): void {
   document.querySelectorAll<HTMLButtonElement>('[data-clear-team]').forEach((button) => {
@@ -41,17 +51,23 @@ function refreshView(): void {
 }
 
 async function start(): Promise<void> {
-  const savedTeams = TeamManager.loadTeams();
   const [heroData, compData] = await Promise.all([API.getHeroesWithRoles(), API.getCompData()]);
   viewState.compData = compData;
   onViewChange(refreshView);
 
   HeroSelector.populateHeroSelector(heroData);
   TeamManager.updateDropdowns(heroData);
-  TeamManager.restoreTeamSelections(savedTeams);
+
+  const savedTeams = TeamManager.loadTeams();
+  const teams = {
+    counter: TeamManager.teamPopulated(savedTeams.counter) ? savedTeams.counter : TeamManager.randomLineup('counter'),
+    enemy: TeamManager.teamPopulated(savedTeams.enemy) ? savedTeams.enemy : TeamManager.randomLineup('enemy'),
+  };
+  TeamManager.restoreTeamSelections(teams);
+  TeamManager.saveTeams(pageTeams());
   TeamManager.initSelectionHandlers();
 
-  const restored = await API.restoreTeams(savedTeams);
+  const restored = await API.restoreTeams(pageTeams());
   if (restored.current_scores || restored.enemy_scores) {
     ScoreManager.updateTeamScores({
       current_scores: restored.current_scores,
@@ -59,8 +75,9 @@ async function start(): Promise<void> {
     });
   }
 
+  const savedContext = loadContext();
   const bar = document.querySelector<HTMLElement>('.app-header');
-  if (bar) await MatchContextBar.init(bar, loadContext());
+  if (bar) await MatchContextBar.init(bar, contextPopulated(savedContext) ? savedContext : randomContext(compData));
 }
 
 function trackHeaderHeight(): void {
@@ -74,6 +91,7 @@ function trackHeaderHeight(): void {
 }
 
 renderTeamRows();
+bindAbout();
 bindClearButtons();
 trackHeaderHeight();
 initTooltips();

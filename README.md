@@ -1,6 +1,6 @@
-# Overwatch Counter Picker
+# cownter
 
-Analyze Overwatch counter relationships and suggest team compositions, weighted by map and point (dive / poke / brawl).
+ow counter explorer. Analyze Overwatch counter relationships and suggest team compositions, weighted by map and point (dive / poke / brawl).
 
 Static TypeScript app: `npm start` is enough. No Python server.
 
@@ -35,7 +35,7 @@ npm run grab-maps
 
 ## GitHub Pages
 
-Pushes to `main` publish the site with GitHub Actions (`.github/workflows/pages.yml`). Under Settings → Pages, set the source to **GitHub Actions**. The project site is `https://atraczyk.github.io/ow2-counter/`.
+Pushes to `main` publish the site with GitHub Actions (`.github/workflows/pages.yml`). Under Settings → Pages, set the source to **GitHub Actions**. The project site is `https://atraczyk.github.io/cownter/`.
 
 ## CLI
 

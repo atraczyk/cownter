@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overwatch Counter Picker</title>
+    <title>ow counter explorer</title>
+    <link rel="icon" href="%BASE_URL%resources/images/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Saira+Condensed:wght@600;700;800&display=swap" />
@@ -13,9 +14,12 @@
         <div class="header-top">
             <div class="brand">
                 <span class="brand-mark" aria-hidden="true"></span>
-                <h1>Counter Picker</h1>
+                <h1>cownter</h1>
             </div>
-            <span class="data-version" data-part="version"></span>
+            <span class="version-cluster">
+                <span class="data-version" data-part="version"></span>
+                <button type="button" class="help-button" data-part="help" aria-label="About cownter" aria-haspopup="dialog" aria-controls="about-dialog">?</button>
+            </span>
             <button type="button" class="text-button" data-part="clear">Clear map</button>
         </div>
 
@@ -78,7 +82,19 @@
             <div class="team blue-team">
                 <div class="team-header-container">
                     <h2 class="team-header">Your team</h2>
-                    <button class="clear-teams" data-clear-team="counter" type="button">Clear</button>
+                    <div class="header-actions">
+                        <button class="icon-button" data-randomize-team="counter" type="button" aria-label="Randomize your team" data-tip='{"title":"Randomize","note":"Fill your team with random heroes."}'>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3.5" y="3.5" width="17" height="17" rx="3.5" />
+                                <circle cx="8.5" cy="8.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="8.5" cy="15.5" r="1.2" fill="currentColor" stroke="none" />
+                                <circle cx="15.5" cy="15.5" r="1.2" fill="currentColor" stroke="none" />
+                            </svg>
+                        </button>
+                        <button class="clear-teams" data-clear-team="counter" type="button">Clear</button>
+                    </div>
                 </div>
                 <div class="team-rows" data-team="counter"></div>
                 <div class="total-score-display"></div>
@@ -133,6 +149,21 @@
             <p class="compass-verdict" data-part="verdict"></p>
         </div>
     </main>
+
+    <dialog class="about-dialog" id="about-dialog" data-part="about" aria-labelledby="about-title">
+        <form method="dialog">
+            <div class="about-head">
+                <div>
+                    <h2 id="about-title">cownter</h2>
+                    <p class="about-kicker">ow counter explorer</p>
+                </div>
+                <button type="submit" class="about-close" aria-label="Close">Close</button>
+            </div>
+            <p>cownter is an unofficial fan project. It is not affiliated with, endorsed, sponsored, or approved by Blizzard Entertainment.</p>
+            <p>Overwatch and all related names, characters, maps, logos, and images are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries. All rights reserved.</p>
+            <p>Every Overwatch trademark and copyright shown here is owned by Blizzard Entertainment. This project claims no ownership of that intellectual property. Hero portraits and map images are shown only to identify the heroes and maps they depict.</p>
+        </form>
+    </dialog>
 
     <script type="module" src="/src/main.ts"></script>
 </body>

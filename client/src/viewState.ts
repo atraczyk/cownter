@@ -22,6 +22,10 @@ export function notifyViewChange(): void {
   listeners.forEach((listener) => listener());
 }
 
+export function contextPopulated(context: MatchContext): boolean {
+  return Boolean(context.mode || context.map || context.point || context.side);
+}
+
 export function loadContext(): MatchContext {
   try {
     const saved: unknown = JSON.parse(localStorage.getItem(CONTEXT_KEY) ?? 'null');

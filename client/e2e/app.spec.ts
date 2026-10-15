@@ -2,6 +2,8 @@ import { expect, test, type Page } from '@playwright/test';
 
 async function clearState(page: Page): Promise<void> {
   await page.addInitScript(() => {
+    if (sessionStorage.getItem('ow2_e2e_cleared')) return;
+    sessionStorage.setItem('ow2_e2e_cleared', '1');
     localStorage.removeItem('ow2_teams');
     localStorage.removeItem('ow2_context');
   });
@@ -11,11 +13,27 @@ async function pick(page: Page, team: 'enemy' | 'counter', slot: number, hero: s
   await page.locator(`.hero-select[data-team="${team}"][data-slot="${slot}"]`).selectOption(hero);
 }
 
+async function slotValues(page: Page, team: 'enemy' | 'counter'): Promise<string[]> {
+  return page.locator(`.hero-select[data-team="${team}"]`).evaluateAll((elements) =>
+    elements
+      .sort((a, b) => Number((a as HTMLSelectElement).dataset.slot) - Number((b as HTMLSelectElement).dataset.slot))
+      .map((element) => (element as HTMLSelectElement).value),
+  );
+}
+
 test.describe('counter picker', () => {
   test.beforeEach(async ({ page }) => {
     await clearState(page);
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Counter Picker' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'cownter' })).toBeVisible();
+    await expect(page).toHaveTitle('ow counter explorer');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/resources/images/favicon.svg');
+    await expect(page.locator('#map-select')).not.toHaveValue('');
+    await expect.poll(async () => {
+      const enemy = await slotValues(page, 'enemy');
+      const yours = await slotValues(page, 'counter');
+      return enemy.length === 5 && yours.length === 5 && [...enemy, ...yours].every(Boolean);
+    }).toBe(true);
   });
 
   test('loads the hero pool and match bar without a backend', async ({ page }) => {
@@ -24,11 +42,45 @@ test.describe('counter picker', () => {
     const heroCount = await page.locator('.hero-icon-select').count();
     expect(heroCount).toBeGreaterThanOrEqual(42);
     await expect(page.locator('.load-error')).toBeHidden();
-    await expect(page.locator('.map-panel')).toContainText('No map selected');
-    await expect(page.locator('.map-thumb')).toBeHidden();
+    const mapName = await page.locator('#map-select option:checked').textContent();
+    await expect(page.locator('.map-panel')).toContainText(mapName!.trim());
+    await expect.poll(() => slotValues(page, 'counter')).toHaveLength(5);
+    await expect.poll(() => slotValues(page, 'enemy')).toHaveLength(5);
+
+    const about = page.getByRole('dialog', { name: 'cownter' });
+    await page.getByRole('button', { name: 'About cownter' }).click();
+    await expect(about).toBeVisible();
+    await expect(about).toContainText('ow counter explorer');
+    await expect(about).toContainText('not affiliated with, endorsed, sponsored, or approved by Blizzard Entertainment');
+    await expect(about).toContainText('claims no ownership');
+    await about.getByRole('button', { name: 'Close' }).click();
+    await expect(about).toBeHidden();
+  });
+
+  test('keeps the match after reload and can randomize your team', async ({ page }) => {
+    const map = await page.locator('#map-select').inputValue();
+    const point = await page.locator('[data-part="points"] [aria-pressed="true"]').textContent();
+    const enemy = await slotValues(page, 'enemy');
+    const yours = await slotValues(page, 'counter');
+
+    await page.reload();
+    await expect(page.locator('#map-select')).toHaveValue(map);
+    await expect(page.locator('[data-part="points"] [aria-pressed="true"]')).toHaveText(point!);
+    await expect.poll(() => slotValues(page, 'enemy')).toEqual(enemy);
+    await expect.poll(() => slotValues(page, 'counter')).toEqual(yours);
+
+    const link = page.getByRole('button', { name: 'Link your team to the suggested picks' });
+    await link.click();
+    await expect(link).toHaveAttribute('aria-pressed', 'true');
+    await page.getByRole('button', { name: 'Randomize your team' }).click();
+    await expect(link).toHaveAttribute('aria-pressed', 'false');
+    await expect.poll(() => slotValues(page, 'counter')).not.toEqual(yours);
+    await expect.poll(async () => (await slotValues(page, 'counter')).every(Boolean)).toBe(true);
   });
 
   test('suggests counters once the enemy team is full', async ({ page }) => {
+    await page.getByRole('button', { name: 'Clear map' }).click();
+    await expect(page.locator('.map-panel')).toContainText('No map selected');
     await pick(page, 'enemy', 0, 'hazard');
     await pick(page, 'enemy', 1, 'echo');
     await pick(page, 'enemy', 2, 'genji');
