@@ -259,6 +259,17 @@ test('highlights the point style and totals the displayed map-fit bonuses', asyn
   await expect(page.locator('.playstyle-title')).toHaveText('Point play style');
 });
 
+test('sizes the point selector to its buttons', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+  const points = page.locator('[data-part="points"]');
+  const group = await points.boundingBox();
+  const last = await points.getByRole('button').last().boundingBox();
+  expect(Math.abs(group!.x + group!.width - last!.x - last!.width)).toBeLessThanOrEqual(1);
+});
+
 for (const width of [1440, 1024, 420]) {
   test(`loads without cumulative layout shift at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });

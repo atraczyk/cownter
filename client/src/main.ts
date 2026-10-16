@@ -1,4 +1,3 @@
-import './styles.css';
 import { API } from './api';
 import { Compass } from './compass';
 import { paintTeamFitChips } from './fitChip';

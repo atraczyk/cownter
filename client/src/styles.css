@@ -184,7 +184,7 @@ h1, h2 { margin: 0; }
 
 .match-bar { display: grid; grid-template-columns: 410px 180px minmax(0, 1fr) 190px auto; }
 .match-field { min-width: 0; }
-.chip-row { overflow-x: auto; }
+.chip-row { width: fit-content; max-width: 100%; overflow-x: auto; }
 .chip-row > * { flex-shrink: 0; }
 
 .match-field[hidden] { display: flex; visibility: hidden; }
