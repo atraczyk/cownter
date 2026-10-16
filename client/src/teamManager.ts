@@ -1,6 +1,7 @@
 import type { HeroesWithRoles, TeamName, TeamsState } from './types';
 import { API } from './api';
 import { ScoreManager } from './scoreManager';
+import { HeroPicker } from './heroPicker';
 import { SuggestionManager } from './suggestionManager';
 import { updateHeroIcon } from './utils';
 import { notifyViewChange } from './viewState';
@@ -176,6 +177,7 @@ export const TeamManager = {
 
       if (currentValue) select.value = currentValue;
     });
+    HeroPicker.syncAll();
   },
 
   initSelectionHandlers(): void {

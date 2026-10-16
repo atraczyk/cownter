@@ -126,6 +126,8 @@ test.describe('counter picker', () => {
     const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
     await page.getByRole('button', { name: 'Link your team to the suggested picks' }).click();
     await expect.poll(async () => (await values(yourSelects)).filter(Boolean)).toEqual(suggested);
+    await expect(page.locator('.hero-picker[data-team="counter"][data-slot="0"] img'))
+      .toHaveAttribute('src', `/resources/images/icons/icon-${suggested[0]}.png`);
     await expect(yourTotal).toHaveAttribute('data-score', /\d/);
     expect(await totalHeight()).toBe(emptyHeight);
   });
@@ -268,6 +270,59 @@ test('sizes the point selector to its buttons', async ({ page }) => {
   const group = await points.boundingBox();
   const last = await points.getByRole('button').last().boundingBox();
   expect(Math.abs(group!.x + group!.width - last!.x - last!.width)).toBeLessThanOrEqual(1);
+});
+
+test('uses an avatar picker without the hero pool on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await expect(page.locator('.hero-selector')).toBeHidden();
+  page.on('dialog', dialog => void dialog.accept());
+  await page.locator('[data-clear-team="counter"]').click();
+
+  const tank = page.locator('.hero-picker[data-team="counter"][data-slot="0"]');
+  await tank.click();
+  const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await search.fill('dva');
+  const option = page.getByRole('option', { name: 'Dva' });
+  await expect(option.locator('img')).toHaveAttribute('src', '/resources/images/icons/icon-dva.png');
+  await option.click();
+  await expect(page.locator('.hero-select[data-team="counter"][data-slot="0"]')).toHaveValue('dva');
+  await expect(tank).toContainText('Dva');
+  await expect(tank).toHaveAttribute('aria-label', 'Your Tank: Dva');
+  await expect(tank.locator('img')).toHaveAttribute('src', '/resources/images/icons/icon-dva.png');
+
+  const damage1 = page.locator('.hero-picker[data-team="counter"][data-slot="1"]');
+  await damage1.click();
+  await search.fill('genji');
+  await page.getByRole('option', { name: 'Genji' }).click();
+  const damage2 = page.locator('.hero-picker[data-team="counter"][data-slot="2"]');
+  await damage2.click();
+  await search.fill('genji');
+  await expect(page.getByRole('option', { name: 'Genji' })).toHaveCount(0);
+  await search.press('Escape');
+  await expect(damage2).toBeFocused();
+
+  await page.reload();
+  await expect(tank).toContainText('Dva');
+  await expect(damage1).toContainText('Genji');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('supports keyboard hero selection and keeps the pool on desktop', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  await expect(page.locator('.hero-selector')).toBeVisible();
+  page.on('dialog', dialog => void dialog.accept());
+  await page.locator('[data-clear-team="enemy"]').click();
+  const tank = page.locator('.hero-picker[data-team="enemy"][data-slot="0"]');
+  await tank.focus();
+  await tank.press('Enter');
+  const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await search.fill('winston');
+  await search.press('ArrowDown');
+  await search.press('Enter');
+  await expect(page.locator('.hero-select[data-team="enemy"][data-slot="0"]')).toHaveValue('winston');
+  await expect(tank).toContainText('Winston');
 });
 
 for (const width of [1440, 1024, 420]) {
