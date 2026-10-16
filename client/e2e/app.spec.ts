@@ -272,6 +272,32 @@ test('sizes the point selector to its buttons', async ({ page }) => {
   expect(Math.abs(group!.x + group!.width - last!.x - last!.width)).toBeLessThanOrEqual(1);
 });
 
+test('balances phone match controls without moving the board when a side disappears', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+
+  const modeButtons = await page.locator('.mode-tabs .mode-tab').all();
+  const boxes = await Promise.all(modeButtons.map(button => button.boundingBox()));
+  expect(boxes).toHaveLength(6);
+  expect(boxes.slice(0, 3).every(box => box!.y === boxes[0]!.y)).toBe(true);
+  expect(boxes.slice(3).every(box => box!.y === boxes[3]!.y)).toBe(true);
+  expect(boxes[3]!.y).toBeGreaterThan(boxes[0]!.y);
+  expect(Math.abs(boxes[0]!.width - boxes[3]!.width)).toBeLessThanOrEqual(1);
+
+  const mapField = await page.locator('.match-field').nth(1).boundingBox();
+  const modeField = await page.locator('.match-field').first().boundingBox();
+  expect(mapField!.width).toBe(modeField!.width);
+  const boardY = (await page.locator('.board-yours').boundingBox())!.y;
+
+  await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
+  await page.locator('#map-select').selectOption('blizzard_world');
+  await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
+  expect((await page.locator('.board-yours').boundingBox())!.y).toBe(boardY);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
 test('uses an avatar picker without the hero pool on phones', async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');

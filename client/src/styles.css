@@ -1032,12 +1032,17 @@ select.hero-select {
     .app-header { position: static; padding: 12px 16px; }
     .match-field { max-width: 100%; }
     .segmented { flex-wrap: wrap; }
-    .match-bar { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .match-bar { grid-template-columns: minmax(0, 1fr) auto; }
     .match-field:first-child { width: 100%; }
-    .mode-tabs { min-height: 62px; }
+    .mode-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 0; }
+    .mode-tab { padding-inline: 4px; }
+    .mode-tabs > :nth-child(3n + 1) { border-left: 0; }
+    .mode-tabs > :nth-child(n + 4) { border-top: 1px solid #3a4756; }
+    .match-field:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
     .match-field:nth-child(3) { grid-column: 1 / -1; grid-row: 3; }
+    .side-field { grid-column: 1; grid-row: 4; }
     .chip-row { flex-wrap: nowrap; }
-    .side-field .segmented { flex-wrap: nowrap; }
+    .side-field .segmented { align-self: flex-start; flex-wrap: nowrap; }
     .side-field .chip { padding-inline: 6px; }
     .map-select { min-width: 0; width: 100%; }
     .clear-map { grid-column: 2; grid-row: 4; }
