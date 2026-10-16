@@ -7,7 +7,7 @@ npm install
 npm start
 ```
 
-Open `http://127.0.0.1:3000`. Pushes to `main` publish [atraczyk.github.io/cownter](https://atraczyk.github.io/cownter/).
+Open `http://127.0.0.1:3000`. Pushes to `main` publish to GitHub Pages.
 
 ## Commands
 
