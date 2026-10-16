@@ -18,6 +18,7 @@ export const MapPanel = {
     const analysis = document.querySelector('.map-analysis');
     const mix = analysis?.querySelector('[data-part="mix"]');
     const note = analysis?.querySelector('[data-part="note"]');
+    const title = analysis?.querySelector('[data-part="dominant"]');
     const bar = analysis?.querySelector<HTMLElement>('[data-part="bar"]');
 
     const { context } = viewState;
@@ -25,6 +26,9 @@ export const MapPanel = {
     const map = findMap(data, context.map);
     const point = map?.points.find((entry) => entry.id === context.point);
     const preference = pointPreference(data, context);
+    const style = preference ? dominant(preference) : null;
+    if (analysis) analysis.className = `map-analysis${style ? ` arch-${style}` : ''}`;
+    if (title) title.textContent = style ? `${ARCHETYPE_LABELS[style]} favored` : 'Point play style';
 
     if (thumb) {
       thumb.hidden = !map;

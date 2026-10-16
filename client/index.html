@@ -20,7 +20,6 @@
                 <span class="data-version" data-part="version"></span>
                 <button type="button" class="help-button" data-part="help" aria-label="About cownter" aria-haspopup="dialog" aria-controls="about-dialog">?</button>
             </span>
-            <button type="button" class="text-button" data-part="clear">Clear map</button>
         </div>
 
         <nav class="match-bar" aria-label="Match setup">
@@ -40,6 +39,7 @@
                 <span class="field-label" id="side-label">Side</span>
                 <div class="segmented" data-part="sides" role="group" aria-labelledby="side-label"></div>
             </div>
+            <button type="button" class="text-button clear-map" data-part="clear">Clear map</button>
         </nav>
     </header>
 
@@ -129,17 +129,17 @@
         <div class="compass-card">
             <div class="compass-head">
                 <h2 class="team-header">Analysis</h2>
-                <section class="map-panel" aria-label="Map context">
-                    <div class="map-identity">
-                        <p class="map-where" data-part="where">No map selected</p>
-                        <p class="map-detail" data-part="detail"></p>
-                    </div>
-                    <img class="map-thumb" data-part="thumb" alt="" hidden>
-                </section>
             </div>
             <div class="compass-body">
                 <div class="compass-plot" data-part="plot"></div>
                 <div class="compass-legend" data-part="legend"></div>
+                <section class="map-panel" aria-label="Map context">
+                    <img class="map-thumb" data-part="thumb" alt="" hidden>
+                    <div class="map-identity">
+                        <p class="map-where" data-part="where">No map selected</p>
+                        <p class="map-detail" data-part="detail"></p>
+                    </div>
+                </section>
             </div>
             <div class="map-analysis">
                 <div class="map-bar" data-part="bar" hidden>
@@ -147,10 +147,18 @@
                     <span data-arch="poke" class="arch-poke"></span>
                     <span data-arch="brawl" class="arch-brawl"></span>
                 </div>
-                <p class="map-mix" data-part="mix"></p>
-                <p class="map-note" data-part="note">Choose a mode, map and point to see what the point favors.</p>
+                <div class="playstyle-callout">
+                    <div class="playstyle-heading">
+                        <strong class="playstyle-title" data-part="dominant">Point play style</strong>
+                        <p class="map-mix" data-part="mix"></p>
+                    </div>
+                    <p class="map-note" data-part="note">Choose a mode, map and point to see what the point favors.</p>
+                </div>
             </div>
-            <p class="compass-verdict" data-part="verdict"></p>
+            <div class="compass-verdict" data-part="verdict">
+                <span>Your team · map fit</span>
+                <strong data-part="fit-total">—</strong>
+            </div>
         </div>
     </main>
 

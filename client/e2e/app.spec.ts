@@ -53,6 +53,7 @@ test.describe('counter picker', () => {
     await expect(page.locator('.compass-card .map-panel')).toHaveCount(1);
     await expect(page.locator('.pool-column .map-panel')).toHaveCount(0);
     await expect(page.locator('.pool-hint strong')).toHaveText('Drag a hero onto a team slot.');
+    await expect(page.locator('.match-bar').getByRole('button', { name: 'Clear map', exact: true })).toBeVisible();
     await expect.poll(() => slotValues(page, 'counter')).toHaveLength(5);
     await expect.poll(() => slotValues(page, 'enemy')).toHaveLength(5);
 
@@ -167,7 +168,7 @@ test.describe('counter picker', () => {
 
     await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
     await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
-    await expect(page.locator('.compass-verdict')).not.toHaveText(/Choose a mode/);
+    await expect(page.locator('[data-part="fit-total"]')).not.toHaveText('—');
     await expect(page.locator('.map-panel')).toContainText('Dorado');
     await expect(page.locator('.map-panel')).toContainText('First checkpoint');
     await expect(page.getByRole('heading', { name: 'Analysis', exact: true })).toBeVisible();
@@ -206,6 +207,9 @@ test.describe('counter picker', () => {
         const pool = await page.locator('.pool-column').boundingBox();
         expect(pool!.y).toBe(filled[0].y);
         expect(pool!.y + pool!.height).toBe(filled[2].y + filled[2].height);
+        const footer = await page.locator('.compass-verdict').boundingBox();
+        const teamFooter = await page.locator('.red-team .total-score-display').boundingBox();
+        expect(footer!.y).toBe(teamFooter!.y);
       }
       await page.getByRole('button', { name: 'Clear map', exact: true }).click();
       await page.locator('[data-clear-team="enemy"]').click();
@@ -218,6 +222,41 @@ test.describe('counter picker', () => {
       expect(await geometry()).toEqual(filled);
     });
   }
+});
+
+test('highlights the point style and totals the displayed map-fit bonuses', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await clearState(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
+  await page.locator('#map-select').selectOption('blizzard_world');
+  await page.getByRole('button', { name: 'Point A capture', exact: true }).click();
+  await page.getByRole('button', { name: 'Attacking', exact: true }).click();
+  for (const [slot, hero] of ['reinhardt', 'mei', 'reaper', 'brigitte', 'lucio'].entries()) {
+    await pick(page, 'counter', slot, hero);
+  }
+  await expect(page.locator('.playstyle-title')).toHaveText('Brawl favored');
+  await expect(page.locator('.map-analysis')).toHaveClass(/arch-brawl/);
+  await expect(page.locator('.playstyle-callout .map-note')).toContainText('Group up close');
+  await expect(page.locator('.compass-body .map-panel')).toBeVisible();
+
+  const expectFitTotal = async () => {
+    const texts = await page.locator('.blue-team .fit-chip').allTextContents();
+    const total = Math.round(texts.reduce((sum, text) => {
+      const value = text.match(/([+−±-]?\d+(?:\.\d+)?)$/)?.[1] ?? '0';
+      return sum + Number(value.replace('±', '').replace('−', '-'));
+    }, 0) * 10) / 10;
+    const formatted = total === 0 ? '±0' : total > 0 ? `+${total}` : String(total);
+    await expect(page.locator('[data-part="fit-total"]')).toHaveText(formatted);
+  };
+  await expectFitTotal();
+  await page.locator('.compass-verdict').hover();
+  await expect(page.getByRole('tooltip')).toContainText('Already included in your team’s total score');
+  await page.locator('.hero-select[data-team="counter"][data-slot="4"]').selectOption('');
+  await expectFitTotal();
+  await page.getByRole('button', { name: 'Clear map', exact: true }).click();
+  await expect(page.locator('[data-part="fit-total"]')).toHaveText('—');
+  await expect(page.locator('.playstyle-title')).toHaveText('Point play style');
 });
 
 for (const width of [1440, 1024, 420]) {

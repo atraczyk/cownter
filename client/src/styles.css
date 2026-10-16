@@ -66,7 +66,7 @@ h1, h2 { margin: 0; }
     margin: 0 auto;
 }
 
-.header-top .text-button { margin-left: auto; align-self: center; padding: 2px 4px; }
+.clear-map { align-self: end; justify-self: end; padding: 6px 4px; white-space: nowrap; }
 
 .brand { display: flex; align-items: center; gap: 10px; }
 
@@ -182,7 +182,7 @@ h1, h2 { margin: 0; }
 
 .match-field { display: flex; flex-direction: column; gap: 4px; flex: none; }
 
-.match-bar { display: grid; grid-template-columns: 410px 180px minmax(0, 1fr) 190px; }
+.match-bar { display: grid; grid-template-columns: 410px 180px minmax(0, 1fr) 190px auto; }
 .match-field { min-width: 0; }
 .chip-row { overflow-x: auto; }
 .chip-row > * { flex-shrink: 0; }
@@ -740,16 +740,28 @@ select.hero-select {
 
 /* ---------- Analysis ---------- */
 
+.compass-card { display: flex; flex-direction: column; min-height: 375px; }
 .compass-body {
     display: grid;
-    grid-template-columns: minmax(140px, 160px) 1fr;
-    gap: 14px;
+    grid-template-columns: minmax(90px, 1fr) minmax(80px, 0.9fr) minmax(100px, 1fr);
+    gap: 12px;
     align-items: center;
+    height: 150px;
+    flex: none;
 }
-.compass-plot { aspect-ratio: 300 / 262; }
-.compass-head { height: 72px; align-items: center; }
-.map-analysis { min-height: 64px; }
-.compass-verdict { min-height: 42px; }
+.compass-plot { aspect-ratio: 300 / 262; width: 100%; max-width: 160px; justify-self: center; }
+.compass-head { height: 35px; flex: none; align-items: center; }
+.map-analysis { min-height: 105px; flex: none; }
+.playstyle-callout {
+    border-left: 3px solid var(--arch, var(--line));
+    padding: 7px 9px;
+    background: color-mix(in srgb, var(--arch, var(--line)) 8%, var(--panel));
+    border-radius: 0 4px 4px 0;
+}
+.playstyle-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.playstyle-title { color: var(--arch, var(--ink)); font-size: 15px; white-space: nowrap; }
+.playstyle-callout .map-note { color: var(--ink); font-size: 14px; line-height: 1.4; margin-top: 4px; }
+.playstyle-callout .map-mix { font-size: 10px; white-space: nowrap; }
 
 .compass-svg { width: 100%; height: auto; display: block; overflow: visible; }
 
@@ -788,20 +800,25 @@ select.hero-select {
 .legend-key.marker-yours { background: var(--yours); }
 .legend-key.marker-enemy { background: var(--enemy); }
 
-.legend-label { font-size: 12px; color: var(--muted); }
+.legend-label { font-size: 11px; line-height: 15px; color: var(--muted); }
 
-.legend-value { font-weight: 600; }
+.legend-value { font-weight: 600; font-size: 13px; line-height: 17px; }
 
 .compass-verdict {
-    margin: 10px 0 0;
-    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: none;
+    margin: auto 0 0;
+    padding: 8px 4px 0;
     border-top: 1px solid var(--line);
     font-size: 13px;
+    line-height: 22px;
     color: var(--muted);
 }
-
-.compass-verdict.is-good { color: var(--suggest); font-weight: 600; }
-.compass-verdict.is-bad { color: var(--enemy); font-weight: 600; }
+.compass-verdict strong { font-family: var(--font-data); font-size: 16px; font-weight: 600; }
+.compass-verdict.is-good strong { color: var(--suggest); }
+.compass-verdict.is-bad strong { color: var(--enemy); }
 
 /* ---------- Hero pool ---------- */
 
@@ -834,17 +851,16 @@ select.hero-select {
 
 .map-panel {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-    flex: 1;
+    flex-direction: column;
+    align-self: start;
+    gap: 4px;
     min-width: 0;
 }
-.map-identity { min-width: 0; text-align: right; }
+.map-identity { min-width: 0; }
 
 .map-thumb {
     display: block;
-    width: 80px;
+    width: 100%;
     height: 64px;
     flex: none;
     object-fit: cover;
@@ -856,7 +872,7 @@ select.hero-select {
 
 .map-thumb[hidden] { display: block; visibility: hidden; }
 
-.map-where { margin: 2px 0 0; font-weight: 600; }
+.map-where { margin: 2px 0 0; font-weight: 600; font-size: 13px; line-height: 16px; }
 
 .map-detail, .map-mix, .map-note {
     margin: 2px 0 0;
@@ -865,7 +881,7 @@ select.hero-select {
     color: var(--muted);
 }
 
-.map-detail { min-height: 33px; }
+.map-detail { min-height: 33px; font-size: 11px; }
 .map-mix { min-height: 17px; }
 
 .map-bar {
@@ -953,7 +969,7 @@ select.hero-select {
 /* ---------- Responsive and motion ---------- */
 
 @media (max-width: 1240px) {
-    .match-bar { grid-template-columns: 180px minmax(0, 1fr) 190px; }
+    .match-bar { grid-template-columns: 180px minmax(0, 1fr) 190px auto; }
     .match-field:first-child { grid-column: 1 / -1; width: 410px; }
     .main-container {
         grid-template-rows: none;
@@ -981,7 +997,7 @@ select.hero-select {
     .side-field .segmented { flex-wrap: nowrap; }
     .side-field .chip { padding-inline: 6px; }
     .map-select { min-width: 0; width: 100%; }
-    .map-thumb { width: 56px; }
+    .clear-map { grid-column: 2; grid-row: 4; }
     .main-container {
         --board-height: 530px;
         grid-template-columns: 1fr;
@@ -1001,8 +1017,10 @@ select.hero-select {
     .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) 88px; }
     .player-row .score-section { grid-column: 3 / -1; min-height: 20px; }
     .player-row { min-height: 81px; }
-    .compass-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .legend-value { min-height: 38px; line-height: 19px; }
+    .compass-card { min-height: 0; }
+    .compass-body { height: 165px; }
+    .playstyle-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
+    .map-analysis { min-height: 145px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
