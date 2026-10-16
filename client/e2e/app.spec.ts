@@ -192,6 +192,7 @@ test.describe('counter picker', () => {
     test(`keeps panels stable at ${width}px when context and teams change`, async ({ page }) => {
       page.on('dialog', dialog => void dialog.accept());
       await page.setViewportSize({ width, height: 1000 });
+      if (width === 420) await page.locator('.match-toggle').click();
       await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
       await page.locator('#map-select').selectOption('blizzard_world');
       await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
@@ -275,6 +276,7 @@ test('sizes the point selector to its buttons', async ({ page }) => {
 test('balances phone match controls without moving the board when a side disappears', async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
+  await page.locator('.match-toggle').click();
   await page.getByRole('button', { name: 'Clash', exact: true }).click();
   await page.locator('#map-select').selectOption('hanaoka');
 
@@ -296,6 +298,31 @@ test('balances phone match controls without moving the board when a side disappe
   await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
   expect((await page.locator('.board-yours').boundingBox())!.y).toBe(boardY);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('collapses match setup into a live summary on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const toggle = page.locator('.match-toggle');
+  const bar = page.getByRole('navigation', { name: 'Match setup' });
+  await expect(toggle).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(bar).toBeHidden();
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(bar).toBeVisible();
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+  await page.getByRole('button', { name: 'Outer points', exact: true }).click();
+  await toggle.click();
+  await expect(bar).toBeHidden();
+  await expect(page.locator('.match-summary')).toHaveText('Clash · Hanaoka · Outer points');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await expect(toggle).toBeHidden();
+  await expect(bar).toBeVisible();
 });
 
 test('uses an avatar picker without the hero pool on phones', async ({ page }) => {

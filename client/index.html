@@ -23,7 +23,15 @@
             </span>
         </div>
 
-        <nav class="match-bar" aria-label="Match setup">
+        <button type="button" class="match-toggle" data-part="match-toggle" aria-expanded="false" aria-controls="match-controls">
+            <span class="match-toggle-copy">
+                <span class="field-label">Match setup</span>
+                <span class="match-summary" data-part="match-summary">Choose a mode</span>
+            </span>
+            <span class="match-toggle-chevron" aria-hidden="true"></span>
+        </button>
+
+        <nav class="match-bar" id="match-controls" aria-label="Match setup">
             <div class="match-field">
                 <span class="field-label" id="mode-label">Mode</span>
                 <div class="segmented mode-tabs" data-part="modes" role="group" aria-labelledby="mode-label"></div>
