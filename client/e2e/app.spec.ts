@@ -12,6 +12,10 @@ async function clearState(page: Page): Promise<void> {
 }
 
 async function pick(page: Page, team: 'enemy' | 'counter', slot: number, hero: string): Promise<void> {
+  // Startup teams are random; free a hero already occupying another slot.
+  for (const select of await page.locator(`.hero-select[data-team="${team}"]:not([data-slot="${slot}"])`).all()) {
+    if (await select.inputValue() === hero) await select.selectOption('');
+  }
   await page.locator(`.hero-select[data-team="${team}"][data-slot="${slot}"]`).selectOption(hero);
 }
 
@@ -46,6 +50,10 @@ test.describe('counter picker', () => {
     await expect(page.locator('.load-error')).toBeHidden();
     const mapName = await page.locator('#map-select option:checked').textContent();
     await expect(page.locator('.map-panel')).toContainText(mapName!.trim());
+    await expect(page.locator('.compass-card .map-panel')).toHaveCount(1);
+    await expect(page.locator('.pool-column .map-panel')).toHaveCount(0);
+    await expect(page.locator('.pool-hint strong')).toHaveText('Drag a hero onto a team slot.');
+    await expect(page.locator('.match-bar').getByRole('button', { name: 'Clear map', exact: true })).toBeVisible();
     await expect.poll(() => slotValues(page, 'counter')).toHaveLength(5);
     await expect.poll(() => slotValues(page, 'enemy')).toHaveLength(5);
 
@@ -160,10 +168,12 @@ test.describe('counter picker', () => {
 
     await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
     await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
-    await expect(page.locator('.compass-verdict')).not.toHaveText(/Choose a mode/);
+    await expect(page.locator('[data-part="fit-total"]')).not.toHaveText('—');
     await expect(page.locator('.map-panel')).toContainText('Dorado');
     await expect(page.locator('.map-panel')).toContainText('First checkpoint');
-    await expect(page.locator('.map-panel')).toContainText(/Poke \d+%/);
+    await expect(page.getByRole('heading', { name: 'Analysis', exact: true })).toBeVisible();
+    await expect(page.locator('.compass-card')).toContainText(/Poke \d+%/);
+    await expect(page.locator('.map-panel')).not.toContainText(/Poke \d+%/);
     await expect(page.locator('.map-thumb')).toHaveAttribute('src', '/resources/images/maps/dorado.jpg');
     await page.locator('.suggestion-block .score').first().hover();
     const tip = page.getByRole('tooltip');
@@ -175,4 +185,105 @@ test.describe('counter picker', () => {
     await expect(tip).toContainText('How picks are chosen');
     await expect(page.locator('.suggestion-block .fit-chip').first()).not.toBeEmpty();
   });
+
+  for (const width of [1440, 1024, 420]) {
+    test(`keeps panels stable at ${width}px when context and teams change`, async ({ page }) => {
+      page.on('dialog', dialog => void dialog.accept());
+      await page.setViewportSize({ width, height: 1000 });
+      await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
+      await page.locator('#map-select').selectOption('blizzard_world');
+      await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
+      const geometry = () => page.locator('.board-yours, .board-enemy, .right-column, .compass-card')
+        .evaluateAll(elements => elements.map(element => {
+          const rect = element.getBoundingClientRect();
+          return { x: rect.x, y: rect.y + scrollY, width: rect.width, height: rect.height };
+        }));
+      const filled = await geometry();
+      if (width === 1440) {
+        expect(filled[0].y).toBe(filled[1].y);
+        expect(filled[0].height).toBe(filled[1].height);
+        expect(filled[2].y).toBe(filled[3].y);
+        expect(filled[2].height).toBe(filled[3].height);
+        const pool = await page.locator('.pool-column').boundingBox();
+        expect(pool!.y).toBe(filled[0].y);
+        expect(pool!.y + pool!.height).toBe(filled[2].y + filled[2].height);
+        const footer = await page.locator('.compass-verdict').boundingBox();
+        const teamFooter = await page.locator('.red-team .total-score-display').boundingBox();
+        expect(footer!.y).toBe(teamFooter!.y);
+      }
+      await page.getByRole('button', { name: 'Clear map', exact: true }).click();
+      await page.locator('[data-clear-team="enemy"]').click();
+      await page.locator('[data-clear-team="counter"]').click();
+      await expect(page.locator('.suggestion-block')).toHaveClass(/is-empty/);
+      expect(await geometry()).toEqual(filled);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+      await page.getByRole('button', { name: 'Randomize enemy team' }).click();
+      await expect(page.locator('.suggestion-block')).toBeVisible();
+      expect(await geometry()).toEqual(filled);
+    });
+  }
 });
+
+test('highlights the point style and totals the displayed map-fit bonuses', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await clearState(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
+  await page.locator('#map-select').selectOption('blizzard_world');
+  await page.getByRole('button', { name: 'Point A capture', exact: true }).click();
+  await page.getByRole('button', { name: 'Attacking', exact: true }).click();
+  for (const [slot, hero] of ['reinhardt', 'mei', 'reaper', 'brigitte', 'lucio'].entries()) {
+    await pick(page, 'counter', slot, hero);
+  }
+  await expect(page.locator('.playstyle-title')).toHaveText('Brawl favored');
+  await expect(page.locator('.map-analysis')).toHaveClass(/arch-brawl/);
+  await expect(page.locator('.playstyle-callout .map-note')).toContainText('Group up close');
+  await expect(page.locator('.compass-body .map-panel')).toBeVisible();
+
+  const expectFitTotal = async () => {
+    const texts = await page.locator('.blue-team .fit-chip').allTextContents();
+    const total = Math.round(texts.reduce((sum, text) => {
+      const value = text.match(/([+−±-]?\d+(?:\.\d+)?)$/)?.[1] ?? '0';
+      return sum + Number(value.replace('±', '').replace('−', '-'));
+    }, 0) * 10) / 10;
+    const formatted = total === 0 ? '±0' : total > 0 ? `+${total}` : String(total);
+    await expect(page.locator('[data-part="fit-total"]')).toHaveText(formatted);
+  };
+  await expectFitTotal();
+  await page.locator('.compass-verdict').hover();
+  await expect(page.getByRole('tooltip')).toContainText('Already included in your team’s total score');
+  await page.locator('.hero-select[data-team="counter"][data-slot="4"]').selectOption('');
+  await expectFitTotal();
+  await page.getByRole('button', { name: 'Clear map', exact: true }).click();
+  await expect(page.locator('[data-part="fit-total"]')).toHaveText('—');
+  await expect(page.locator('.playstyle-title')).toHaveText('Point play style');
+});
+
+test('sizes the point selector to its buttons', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+  const points = page.locator('[data-part="points"]');
+  const group = await points.boundingBox();
+  const last = await points.getByRole('button').last().boundingBox();
+  expect(Math.abs(group!.x + group!.width - last!.x - last!.width)).toBeLessThanOrEqual(1);
+});
+
+for (const width of [1440, 1024, 420]) {
+  test(`loads without cumulative layout shift at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.addInitScript(() => {
+      (window as any).layoutShifts = 0;
+      new PerformanceObserver(list => {
+        for (const entry of list.getEntries() as any[]) {
+          if (!entry.hadRecentInput) (window as any).layoutShifts += entry.value;
+        }
+      }).observe({ type: 'layout-shift', buffered: true });
+    });
+    await page.goto('/');
+    await expect(page.locator('body')).not.toHaveClass('app-loading');
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    expect(await page.evaluate(() => (window as any).layoutShifts)).toBe(0);
+  });
+}

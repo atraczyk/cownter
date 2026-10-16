@@ -2,7 +2,6 @@ import {
   ARCHETYPE_LABELS,
   ARCHETYPES,
   dominant,
-  findMap,
   percent,
   pointPreference,
   signed,
@@ -10,7 +9,7 @@ import {
   ternaryPoint,
   type Vec,
 } from './compFit';
-import type { Tip } from './tooltip';
+import { heroLabel, setTip, type Tip } from './tooltip';
 import type { Archetype, CompWeights } from './types';
 import { getSelectedHeroes } from './utils';
 import { viewState } from './viewState';
@@ -106,10 +105,11 @@ function drawTriangle(map: CompWeights | null, yours: CompWeights | null, enemy:
   return root;
 }
 
-function averageFit(heroes: string[]): number | null {
+function totalFit(heroes: string[]): number | null {
   const fits = heroes.map((hero) => viewState.mapFit[hero]).filter((value): value is number => value !== undefined);
   if (fits.length === 0) return null;
-  return fits.reduce((total, value) => total + value, 0) / fits.length;
+  // Sum the displayed contributions, matching the rounded hero rows and chips.
+  return fits.reduce((total, value) => total + Math.round(value * 10) / 10, 0);
 }
 
 export const Compass = {
@@ -124,17 +124,10 @@ export const Compass = {
     const yours = teamLean(heroWeights, yourHeroes);
     const enemy = teamLean(heroWeights, getSelectedHeroes('enemy'));
 
-    const map = findMap(data, viewState.context.map);
-    const point = map?.points.find((entry) => entry.id === viewState.context.point);
-    const heading = card.querySelector('[data-part="where"]');
-    if (heading) {
-      heading.textContent = map && point ? `${map.name} · ${point.name}` : 'No map selected';
-    }
-
     const plot = card.querySelector('[data-part="plot"]');
     plot?.replaceChildren(drawTriangle(preference, yours, enemy));
 
-    const fit = averageFit(yourHeroes);
+    const fit = totalFit(yourHeroes);
     const readouts: Array<[string, string, string]> = [
       ['marker-map', 'This point favors', preference ? leanText(preference, '') : 'Pick a map and point'],
       ['marker-yours', 'Your team', leanText(yours, 'No picks yet')],
@@ -150,13 +143,22 @@ export const Compass = {
       }),
     );
 
-    const verdict = card.querySelector('[data-part="verdict"]');
+    const verdict = card.querySelector<HTMLElement>('[data-part="verdict"]');
     if (verdict) {
-      verdict.textContent = preference && fit !== null
-        ? `Your picks fit this point ${signed(fit)} per hero`
-        : preference
-          ? 'Add heroes to your team to see how well they fit this point.'
-          : 'Choose a mode, map and point to weigh suggestions by comp type.';
+      const value = verdict.querySelector('[data-part="fit-total"]');
+      if (value) value.textContent = preference && fit !== null ? signed(fit) : '—';
+      setTip(verdict, {
+        title: 'Your team’s map-fit total',
+        rows: preference && fit !== null
+          ? yourHeroes.filter(hero => viewState.mapFit[hero] !== undefined)
+            .map(hero => [heroLabel(hero), signed(viewState.mapFit[hero])] as [string, string])
+          : undefined,
+        note: !preference
+          ? 'Choose a map and point to see the map-fit contribution.'
+          : fit === null
+            ? 'Add heroes to your team to see their map-fit contribution.'
+            : `Sum of the displayed map-fit bonuses for ${yourHeroes.length} picked heroes. Already included in your team’s total score.`,
+      });
       verdict.className = `compass-verdict${fit !== null && preference ? (fit >= 0 ? ' is-good' : ' is-bad') : ''}`;
     }
   },

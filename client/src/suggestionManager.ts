@@ -96,7 +96,21 @@ export const SuggestionManager = {
   clear(): void {
     this.latest = null;
     const rightColumn = document.querySelector('.right-column');
-    if (rightColumn) rightColumn.innerHTML = '';
+    if (rightColumn) {
+      const empty = document.createElement('div');
+      empty.className = 'suggestion-block is-empty';
+      empty.innerHTML = `
+        <div class="team-header-container"><h2 class="team-header">Suggested picks</h2></div>
+        ${ROLES.flatMap(role => Array.from({ length: MAX_SLOTS[role] }, () => `
+          <div class="player-row">
+            <div class="role-icon role-${role}" aria-hidden="true"></div>
+            <span class="empty-pick">${ROLE_LABELS[role]} suggestion</span>
+          </div>
+        `)).join('')}
+        <p class="suggestion-empty-note">Fill all five enemy slots to see suggested picks.</p>
+      `;
+      rightColumn.replaceChildren(empty);
+    }
     const button = linkButton();
     if (button) button.hidden = true;
   },
