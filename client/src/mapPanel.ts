@@ -5,7 +5,7 @@ import { viewState } from './viewState';
 
 const SIDE_LABELS: Record<Side, string> = { attack: 'Attacking', defense: 'Defending' };
 
-/** The point's comp mix, kept under the hero pool so the bright icons have a key. */
+/** Map identity and composition guidance within the team analysis. */
 export const MapPanel = {
   render(): void {
     const panel = document.querySelector('.map-panel');
@@ -15,9 +15,10 @@ export const MapPanel = {
     const thumb = panel.querySelector<HTMLImageElement>('[data-part="thumb"]');
     const where = panel.querySelector('[data-part="where"]');
     const detail = panel.querySelector('[data-part="detail"]');
-    const mix = panel.querySelector('[data-part="mix"]');
-    const note = panel.querySelector('[data-part="note"]');
-    const bar = panel.querySelector<HTMLElement>('[data-part="bar"]');
+    const analysis = document.querySelector('.map-analysis');
+    const mix = analysis?.querySelector('[data-part="mix"]');
+    const note = analysis?.querySelector('[data-part="note"]');
+    const bar = analysis?.querySelector<HTMLElement>('[data-part="bar"]');
 
     const { context } = viewState;
     const mode = findMode(data, context.mode);
@@ -27,7 +28,6 @@ export const MapPanel = {
 
     if (thumb) {
       thumb.hidden = !map;
-      thumb.onload = () => { thumb.hidden = false; };
       thumb.onerror = () => { thumb.hidden = true; };
       if (map) {
         thumb.src = asset(`/resources/images/maps/${map.id}.jpg`);

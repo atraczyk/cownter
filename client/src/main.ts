@@ -95,9 +95,15 @@ bindAbout();
 bindClearButtons();
 trackHeaderHeight();
 initTooltips();
-window.addEventListener('load', () => {
-  start().catch((error: unknown) => {
+// Reveal the populated layout once fonts have settled, so startup and font
+// loading cannot move controls that the user has already started reading.
+void Promise.all([start(), document.fonts.ready])
+  .catch((error: unknown) => {
     console.error('Error initializing application:', error);
     showStatus('Could not load the hero data. Reload the page to try again.');
+  })
+  .finally(() => {
+    const header = document.querySelector<HTMLElement>('.app-header');
+    if (header) document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+    requestAnimationFrame(() => document.body.classList.remove('app-loading'));
   });
-});

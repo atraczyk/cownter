@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Saira+Condensed:wght@600;700;800&display=swap" />
 </head>
-<body>
+<body class="app-loading">
     <header class="app-header">
         <div class="header-top">
             <div class="brand">
@@ -49,33 +49,22 @@
         <div class="pool-column">
             <aside class="hero-selector" aria-label="Hero pool">
                 <h2 class="pool-title">Hero pool</h2>
-                <p class="pool-hint">Drag a hero onto a slot. Bright icons fit the selected point.</p>
-                <div class="role-section" data-role="tank">
-                    <div class="role-header"><div class="role-icon role-tank"></div><span>Tank</span></div>
-                    <div class="hero-grid"></div>
-                </div>
-                <div class="role-section" data-role="damage">
-                    <div class="role-header"><div class="role-icon role-damage"></div><span>Damage</span></div>
-                    <div class="hero-grid"></div>
-                </div>
-                <div class="role-section" data-role="support">
-                    <div class="role-header"><div class="role-icon role-support"></div><span>Support</span></div>
-                    <div class="hero-grid"></div>
+                <p class="pool-hint"><strong>Drag a hero onto a team slot.</strong><span>Bright portraits fit this point. Dimmed portraits are a weaker fit.</span><span>Hover an underlined score for its breakdown.</span></p>
+                <div class="hero-roster">
+                    <div class="role-section" data-role="tank">
+                        <div class="role-header"><div class="role-icon role-tank"></div><span>Tank</span></div>
+                        <div class="hero-grid"></div>
+                    </div>
+                    <div class="role-section" data-role="damage">
+                        <div class="role-header"><div class="role-icon role-damage"></div><span>Damage</span></div>
+                        <div class="hero-grid"></div>
+                    </div>
+                    <div class="role-section" data-role="support">
+                        <div class="role-header"><div class="role-icon role-support"></div><span>Support</span></div>
+                        <div class="hero-grid"></div>
+                    </div>
                 </div>
             </aside>
-            <section class="map-panel" aria-label="Map">
-                <img class="map-thumb" data-part="thumb" alt="" hidden>
-                <h2 class="pool-title">Map</h2>
-                <p class="map-where" data-part="where">No map selected</p>
-                <p class="map-detail" data-part="detail"></p>
-                <div class="map-bar" data-part="bar" hidden>
-                    <span data-arch="dive" class="arch-dive"></span>
-                    <span data-arch="poke" class="arch-poke"></span>
-                    <span data-arch="brawl" class="arch-brawl"></span>
-                </div>
-                <p class="map-mix" data-part="mix"></p>
-                <p class="map-note" data-part="note">Choose a mode, map and point to see what the point favors.</p>
-            </section>
         </div>
 
         <div class="scoreboard board-yours">
@@ -139,12 +128,27 @@
 
         <div class="compass-card">
             <div class="compass-head">
-                <h2 class="team-header">Comp read</h2>
-                <span class="compass-where" data-part="where"></span>
+                <h2 class="team-header">Analysis</h2>
+                <section class="map-panel" aria-label="Map context">
+                    <div class="map-identity">
+                        <p class="map-where" data-part="where">No map selected</p>
+                        <p class="map-detail" data-part="detail"></p>
+                    </div>
+                    <img class="map-thumb" data-part="thumb" alt="" hidden>
+                </section>
             </div>
             <div class="compass-body">
                 <div class="compass-plot" data-part="plot"></div>
                 <div class="compass-legend" data-part="legend"></div>
+            </div>
+            <div class="map-analysis">
+                <div class="map-bar" data-part="bar" hidden>
+                    <span data-arch="dive" class="arch-dive"></span>
+                    <span data-arch="poke" class="arch-poke"></span>
+                    <span data-arch="brawl" class="arch-brawl"></span>
+                </div>
+                <p class="map-mix" data-part="mix"></p>
+                <p class="map-note" data-part="note">Choose a mode, map and point to see what the point favors.</p>
             </div>
             <p class="compass-verdict" data-part="verdict"></p>
         </div>

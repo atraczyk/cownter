@@ -2,7 +2,6 @@ import {
   ARCHETYPE_LABELS,
   ARCHETYPES,
   dominant,
-  findMap,
   percent,
   pointPreference,
   signed,
@@ -123,13 +122,6 @@ export const Compass = {
     const yourHeroes = getSelectedHeroes('counter');
     const yours = teamLean(heroWeights, yourHeroes);
     const enemy = teamLean(heroWeights, getSelectedHeroes('enemy'));
-
-    const map = findMap(data, viewState.context.map);
-    const point = map?.points.find((entry) => entry.id === viewState.context.point);
-    const heading = card.querySelector('[data-part="where"]');
-    if (heading) {
-      heading.textContent = map && point ? `${map.name} · ${point.name}` : 'No map selected';
-    }
 
     const plot = card.querySelector('[data-part="plot"]');
     plot?.replaceChildren(drawTriangle(preference, yours, enemy));
