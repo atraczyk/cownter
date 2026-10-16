@@ -85,6 +85,15 @@ export const MatchContextBar = {
     const { context } = viewState;
     const mode = findMode(data, context.mode);
     const map = findMap(data, context.map);
+    const point = map?.points.find((entry) => entry.id === context.point);
+
+    const summary = root.querySelector<HTMLElement>('[data-part="match-summary"]');
+    if (summary) {
+      summary.textContent = mode
+        ? [mode.name, map?.name ?? 'Choose a map', point?.name, context.side ? SIDE_LABELS[context.side] : null]
+          .filter(Boolean).join(' · ')
+        : 'Choose a mode';
+    }
 
     const modes = root.querySelector('[data-part="modes"]');
     const mapField = root.querySelector<HTMLSelectElement>('[data-part="map"]');
@@ -145,6 +154,11 @@ export const MatchContextBar = {
 
   async init(root: HTMLElement, saved: MatchContext): Promise<void> {
     this.root = root;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-part="match-toggle"]');
+    toggle?.addEventListener('click', () => {
+      const expanded = root.classList.toggle('match-expanded');
+      toggle.setAttribute('aria-expanded', String(expanded));
+    });
     const mapField = root.querySelector<HTMLSelectElement>('[data-part="map"]');
     mapField?.addEventListener('change', () => {
       void this.apply({ ...viewState.context, map: mapField.value || null, point: null });

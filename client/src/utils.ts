@@ -17,7 +17,12 @@ export function updateHeroIcon(select: HTMLSelectElement): void {
   if (!iconDiv) return;
 
   const hero = select.value;
-  iconDiv.style.backgroundImage = hero ? `url('${getHeroIcon(hero)}')` : 'none';
+  if (iconDiv instanceof HTMLImageElement) {
+    if (hero) iconDiv.src = getHeroIcon(hero);
+    else iconDiv.removeAttribute('src');
+  } else {
+    iconDiv.style.backgroundImage = hero ? `url('${getHeroIcon(hero)}')` : 'none';
+  }
 }
 
 export function getHeroRole(hero: string, heroData: HeroesWithRoles): string {

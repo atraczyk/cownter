@@ -2,6 +2,7 @@ import { API } from './api';
 import { Compass } from './compass';
 import { paintTeamFitChips } from './fitChip';
 import { HeroSelector } from './heroSelector';
+import { HeroPicker } from './heroPicker';
 import { MapPanel } from './mapPanel';
 import { MatchContextBar, randomContext } from './matchContext';
 import { ScoreManager } from './scoreManager';
@@ -65,6 +66,7 @@ async function start(): Promise<void> {
   TeamManager.restoreTeamSelections(teams);
   TeamManager.saveTeams(pageTeams());
   TeamManager.initSelectionHandlers();
+  HeroPicker.init();
 
   const restored = await API.restoreTeams(pageTeams());
   if (restored.current_scores || restored.enemy_scores) {

@@ -18,10 +18,16 @@ export function renderTeamRows(): void {
     container.innerHTML = SLOTS.map(({ role, label }, slot) => `
       <div class="player-row">
         <div class="role-icon role-${role}" data-tip='${JSON.stringify({ title: label })}'></div>
-        <div class="hero-icon"></div>
-        <select class="hero-select" data-team="${team}" data-slot="${slot}" data-role="${role}" aria-label="${teamLabel} ${label}">
-          <option value="">${label}</option>
-        </select>
+        <div class="hero-picker-field">
+          <select class="hero-select" data-team="${team}" data-slot="${slot}" data-role="${role}" aria-label="${teamLabel} ${label}" aria-hidden="true" tabindex="-1">
+            <option value="">${label}</option>
+          </select>
+          <button type="button" class="hero-picker" data-team="${team}" data-slot="${slot}" aria-label="${teamLabel} ${label}" aria-haspopup="listbox" aria-expanded="false" aria-controls="hero-picker-options">
+            <img class="hero-icon" alt="" />
+            <span class="hero-picker-label">${label}</span>
+            <span class="hero-picker-caret" aria-hidden="true"></span>
+          </button>
+        </div>
         <div class="fit-chip"></div>
         <div class="score-section">
           <div class="countered-heroes"></div>

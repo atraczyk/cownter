@@ -68,6 +68,8 @@ h1, h2 { margin: 0; }
 
 .clear-map { align-self: end; justify-self: end; padding: 6px 4px; white-space: nowrap; }
 
+.match-toggle { display: none; }
+
 .brand { display: flex; align-items: center; gap: 10px; }
 
 .brand h1 {
@@ -572,6 +574,8 @@ h1, h2 { margin: 0; }
 
 .player-row:hover { border-color: var(--line); }
 
+.team .player-row { grid-template-columns: 22px minmax(0, 1fr) 88px 132px; }
+
 .role-icon {
     width: 22px;
     height: 22px;
@@ -598,16 +602,57 @@ h1, h2 { margin: 0; }
     text-transform: capitalize;
 }
 
+.hero-picker-field { position: relative; min-width: 0; }
+
 select.hero-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hero-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     min-width: 0;
-    padding: 6px 8px;
+    height: 34px;
+    padding: 2px 8px 2px 2px;
     border: 1px solid var(--line);
     border-radius: 4px;
     background: #fff;
-    text-transform: capitalize;
+    text-align: left;
     cursor: pointer;
 }
+.hero-picker:hover, .hero-picker[aria-expanded="true"] { border-color: var(--yours); }
+.hero-picker .hero-icon { display: block; flex: none; width: 28px; height: 28px; object-fit: cover; }
+.hero-picker-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hero-picker-caret { flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-2px) rotate(45deg); }
+.hero-picker[aria-expanded="true"] .hero-picker-caret { transform: translateY(2px) rotate(225deg); }
+
+.hero-picker-popup {
+    position: fixed;
+    z-index: 60;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--panel);
+    box-shadow: 0 12px 36px rgba(22, 32, 43, 0.25);
+}
+.hero-picker-popup[hidden] { display: none; }
+.hero-picker-popup input { width: 100%; height: 38px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+.hero-picker-popup [role="listbox"] { overflow-y: auto; margin-top: 6px; }
+.hero-picker-option { display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+.hero-picker-option img, .hero-picker-empty-icon { width: 32px; height: 32px; flex: none; border-radius: 3px; object-fit: cover; background: var(--steel); }
+.hero-picker-option:hover, .hero-picker-option.is-active { background: #e9effb; }
+.hero-picker-option[aria-selected="true"] { font-weight: 600; color: var(--yours); }
+.hero-picker-no-results { margin: 12px 8px; color: var(--muted); }
 
 .score-section {
     display: flex;
@@ -987,14 +1032,49 @@ select.hero-select {
 
 @media (max-width: 760px) {
     .app-header { position: static; padding: 12px 16px; }
+    .match-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        min-height: 48px;
+        padding: 7px 12px;
+        border: 1px solid #3a4756;
+        border-radius: 5px;
+        background: #1d2935;
+        color: #eef2f7;
+        text-align: left;
+        cursor: pointer;
+    }
+    .match-toggle:hover { background: #2a3746; }
+    .match-toggle-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .match-summary { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .match-toggle-chevron {
+        flex: none;
+        width: 9px;
+        height: 9px;
+        margin-right: 3px;
+        border-right: 2px solid #c4cdd8;
+        border-bottom: 2px solid #c4cdd8;
+        transform: rotate(45deg);
+        transition: transform 0.15s ease;
+    }
+    .match-toggle[aria-expanded="true"] .match-toggle-chevron { transform: rotate(225deg); }
+    .app-header:not(.match-expanded) .match-bar { display: none; }
     .match-field { max-width: 100%; }
     .segmented { flex-wrap: wrap; }
-    .match-bar { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .match-bar { grid-template-columns: minmax(0, 1fr) auto; }
     .match-field:first-child { width: 100%; }
-    .mode-tabs { min-height: 62px; }
+    .mode-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 0; }
+    .mode-tab { padding-inline: 4px; }
+    .mode-tabs > :nth-child(3n + 1) { border-left: 0; }
+    .mode-tabs > :nth-child(n + 4) { border-top: 1px solid #3a4756; }
+    .match-field:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
     .match-field:nth-child(3) { grid-column: 1 / -1; grid-row: 3; }
+    .side-field { grid-column: 1; grid-row: 4; }
     .chip-row { flex-wrap: nowrap; }
-    .side-field .segmented { flex-wrap: nowrap; }
+    .side-field .segmented { align-self: flex-start; flex-wrap: nowrap; }
     .side-field .chip { padding-inline: 6px; }
     .map-select { min-width: 0; width: 100%; }
     .clear-map { grid-column: 2; grid-row: 4; }
@@ -1002,7 +1082,6 @@ select.hero-select {
         --board-height: 530px;
         grid-template-columns: 1fr;
         grid-template-areas:
-            "pool"
             "yours"
             "vs"
             "enemy"
@@ -1011,11 +1090,11 @@ select.hero-select {
         padding: 16px;
     }
     .insight-gap { display: none; }
-    .pool-column { position: static; max-height: none; }
-    .hero-selector { max-height: none; overflow: visible; }
-    .hero-grid { grid-template-columns: repeat(8, 1fr); }
-    .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) 88px; }
-    .player-row .score-section { grid-column: 3 / -1; min-height: 20px; }
+    .pool-column { display: none; }
+    .suggestion-block .player-row { grid-template-columns: 22px 30px minmax(0, 1fr) 88px; }
+    .suggestion-block .player-row .score-section { grid-column: 3 / -1; min-height: 20px; }
+    .team .player-row { grid-template-columns: 22px minmax(0, 1fr) 88px; }
+    .team .player-row .score-section { grid-column: 2 / -1; min-height: 20px; }
     .player-row { min-height: 81px; }
     .compass-card { min-height: 0; }
     .compass-body { height: 165px; }

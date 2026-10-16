@@ -126,6 +126,8 @@ test.describe('counter picker', () => {
     const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
     await page.getByRole('button', { name: 'Link your team to the suggested picks' }).click();
     await expect.poll(async () => (await values(yourSelects)).filter(Boolean)).toEqual(suggested);
+    await expect(page.locator('.hero-picker[data-team="counter"][data-slot="0"] img'))
+      .toHaveAttribute('src', `/resources/images/icons/icon-${suggested[0]}.png`);
     await expect(yourTotal).toHaveAttribute('data-score', /\d/);
     expect(await totalHeight()).toBe(emptyHeight);
   });
@@ -190,6 +192,7 @@ test.describe('counter picker', () => {
     test(`keeps panels stable at ${width}px when context and teams change`, async ({ page }) => {
       page.on('dialog', dialog => void dialog.accept());
       await page.setViewportSize({ width, height: 1000 });
+      if (width === 420) await page.locator('.match-toggle').click();
       await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
       await page.locator('#map-select').selectOption('blizzard_world');
       await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
@@ -268,6 +271,111 @@ test('sizes the point selector to its buttons', async ({ page }) => {
   const group = await points.boundingBox();
   const last = await points.getByRole('button').last().boundingBox();
   expect(Math.abs(group!.x + group!.width - last!.x - last!.width)).toBeLessThanOrEqual(1);
+});
+
+test('balances phone match controls without moving the board when a side disappears', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await page.locator('.match-toggle').click();
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+
+  const modeButtons = await page.locator('.mode-tabs .mode-tab').all();
+  const boxes = await Promise.all(modeButtons.map(button => button.boundingBox()));
+  expect(boxes).toHaveLength(6);
+  expect(boxes.slice(0, 3).every(box => box!.y === boxes[0]!.y)).toBe(true);
+  expect(boxes.slice(3).every(box => box!.y === boxes[3]!.y)).toBe(true);
+  expect(boxes[3]!.y).toBeGreaterThan(boxes[0]!.y);
+  expect(Math.abs(boxes[0]!.width - boxes[3]!.width)).toBeLessThanOrEqual(1);
+
+  const mapField = await page.locator('.match-field').nth(1).boundingBox();
+  const modeField = await page.locator('.match-field').first().boundingBox();
+  expect(mapField!.width).toBe(modeField!.width);
+  const boardY = (await page.locator('.board-yours').boundingBox())!.y;
+
+  await page.getByRole('button', { name: 'Hybrid', exact: true }).click();
+  await page.locator('#map-select').selectOption('blizzard_world');
+  await expect(page.getByRole('button', { name: 'Attacking', exact: true })).toBeVisible();
+  expect((await page.locator('.board-yours').boundingBox())!.y).toBe(boardY);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('collapses match setup into a live summary on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const toggle = page.locator('.match-toggle');
+  const bar = page.getByRole('navigation', { name: 'Match setup' });
+  await expect(toggle).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(bar).toBeHidden();
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(bar).toBeVisible();
+  await page.getByRole('button', { name: 'Clash', exact: true }).click();
+  await page.locator('#map-select').selectOption('hanaoka');
+  await page.getByRole('button', { name: 'Outer points', exact: true }).click();
+  await toggle.click();
+  await expect(bar).toBeHidden();
+  await expect(page.locator('.match-summary')).toHaveText('Clash · Hanaoka · Outer points');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await expect(toggle).toBeHidden();
+  await expect(bar).toBeVisible();
+});
+
+test('uses an avatar picker without the hero pool on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await expect(page.locator('.hero-selector')).toBeHidden();
+  page.on('dialog', dialog => void dialog.accept());
+  await page.locator('[data-clear-team="counter"]').click();
+
+  const tank = page.locator('.hero-picker[data-team="counter"][data-slot="0"]');
+  await tank.click();
+  const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await search.fill('dva');
+  const option = page.getByRole('option', { name: 'Dva' });
+  await expect(option.locator('img')).toHaveAttribute('src', '/resources/images/icons/icon-dva.png');
+  await option.click();
+  await expect(page.locator('.hero-select[data-team="counter"][data-slot="0"]')).toHaveValue('dva');
+  await expect(tank).toContainText('Dva');
+  await expect(tank).toHaveAttribute('aria-label', 'Your Tank: Dva');
+  await expect(tank.locator('img')).toHaveAttribute('src', '/resources/images/icons/icon-dva.png');
+
+  const damage1 = page.locator('.hero-picker[data-team="counter"][data-slot="1"]');
+  await damage1.click();
+  await search.fill('genji');
+  await page.getByRole('option', { name: 'Genji' }).click();
+  const damage2 = page.locator('.hero-picker[data-team="counter"][data-slot="2"]');
+  await damage2.click();
+  await search.fill('genji');
+  await expect(page.getByRole('option', { name: 'Genji' })).toHaveCount(0);
+  await search.press('Escape');
+  await expect(damage2).toBeFocused();
+
+  await page.reload();
+  await expect(tank).toContainText('Dva');
+  await expect(damage1).toContainText('Genji');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('supports keyboard hero selection and keeps the pool on desktop', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  await expect(page.locator('.hero-selector')).toBeVisible();
+  page.on('dialog', dialog => void dialog.accept());
+  await page.locator('[data-clear-team="enemy"]').click();
+  const tank = page.locator('.hero-picker[data-team="enemy"][data-slot="0"]');
+  await tank.focus();
+  await tank.press('Enter');
+  const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await search.fill('winston');
+  await search.press('ArrowDown');
+  await search.press('Enter');
+  await expect(page.locator('.hero-select[data-team="enemy"][data-slot="0"]')).toHaveValue('winston');
+  await expect(tank).toContainText('Winston');
 });
 
 for (const width of [1440, 1024, 420]) {
