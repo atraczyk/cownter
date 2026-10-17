@@ -555,16 +555,24 @@ test('anchors suggested total to the mobile panel footer', async ({ page }) => {
   expect(total!.y).toBe(yours!.y);
 });
 
-for (const height of [600, 700, 800, 900]) {
-  test(`fits mobile analysis in a ${height}px viewport`, async ({ page }) => {
-    await page.setViewportSize({ width: 420, height });
+for (const [width, height] of [[375, 667], [420, 600], [420, 900]]) {
+  test(`keeps mobile analysis readable at ${width}x${height}`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
     await page.goto('/');
     await expect(page.locator('body')).not.toHaveClass(/app-loading/);
-    const panel = await page.locator('.compass-card').boundingBox();
-    expect(panel!.y + panel!.height).toBeLessThanOrEqual(height + 1);
-    expect(await page.locator('.compass-card').evaluate(el => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(1);
     const plot = await page.locator('.compass-plot').boundingBox();
+    const legend = await page.locator('.compass-legend').boundingBox();
+    const total = await page.locator('.compass-verdict').boundingBox();
     expect(plot!.width).toBeGreaterThanOrEqual(150);
+    expect(total!.y).toBeGreaterThanOrEqual(Math.max(plot!.y + plot!.height, legend!.y + legend!.height));
+    if (height <= 800) expect(legend!.x).toBeGreaterThanOrEqual(plot!.x + plot!.width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    await page.getByRole('tab', { name: 'Suggestions', exact: true }).click();
+    const lastRow = await page.locator('.suggestion-block .player-row').last().boundingBox();
+    const score = await page.locator('.suggestion-block .total-score-display').boundingBox();
+    expect(score!.y).toBeGreaterThanOrEqual(lastRow!.y + lastRow!.height);
+    const panel = await page.locator('.suggestion-block').boundingBox();
+    expect(panel!.y + panel!.height).toBeGreaterThanOrEqual(score!.y + score!.height);
   });
 }
 
@@ -590,3 +598,35 @@ test('puts mobile map guidance before the smaller triangle', async ({ page }) =>
   expect(guidance!.y + guidance!.height).toBeLessThanOrEqual(plot!.y);
   expect(plot!.width).toBeLessThanOrEqual(280);
 });
+
+test('fits compact phone team cards with consistent row sizing', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto('/');
+  for (const name of ['Enemy', 'Your team', 'Suggestions']) {
+    await page.getByRole('tab', { name, exact: true }).click();
+    const panel = page.getByRole('tabpanel', { name, exact: true });
+    const rows = await panel.locator('.player-row').evaluateAll(elements => elements.map(el => el.getBoundingClientRect().height));
+    expect(rows).toHaveLength(5);
+    expect(rows.every(height => height === rows[0])).toBe(true);
+    const total = await panel.locator('.total-score-display').boundingBox();
+    expect(total!.y + total!.height).toBeLessThanOrEqual(667);
+  }
+});
+
+for (const viewport of [{ width: 375, height: 667 }, { width: 420, height: 900 }]) {
+  test(`keeps team and suggested row heights equal at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    let expected: number[] | undefined;
+    for (const name of ['Enemy', 'Your team', 'Suggestions']) {
+      await page.getByRole('tab', { name, exact: true }).click();
+      const panel = page.getByRole('tabpanel', { name, exact: true });
+      await expect(panel.locator('.player-row')).toHaveCount(5);
+      const heights = await panel.locator('.player-row').evaluateAll(rows => rows.map(row => row.getBoundingClientRect().height));
+      const gaps = await panel.locator('.player-row').evaluateAll(rows => rows.slice(1).map((row, index) => row.getBoundingClientRect().top - rows[index].getBoundingClientRect().bottom));
+      expect(gaps).toEqual([6, 6, 6, 6]);
+      if (expected) expect(heights).toEqual(expected);
+      expected = heights;
+    }
+  });
+}
