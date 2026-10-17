@@ -323,7 +323,10 @@ h1, h2 { margin: 0; }
     padding: 14px 16px 12px;
 }
 
-.team { border-top: 4px solid var(--board, var(--ink)); }
+.team { display: flex; flex-direction: column; border-top: 4px solid var(--board, var(--ink)); }
+.team-rows { flex: 1; }
+.team-rows > .player-row:first-child { margin-top: 0; }
+.team-rows > .player-row:last-child { margin-bottom: 0; }
 .blue-team { --board: var(--yours); }
 .red-team { --board: var(--enemy); }
 .suggestion-block { --board: var(--suggest); border-top: 4px solid var(--suggest); }
