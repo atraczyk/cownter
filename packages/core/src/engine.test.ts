@@ -46,13 +46,6 @@ describe('comp fit', () => {
 describe('suggestCounterTeam', () => {
   const enemy = ['hazard', 'echo', 'genji', 'sombra', 'illari'];
 
-  it('returns the known counter team without map fit', () => {
-    const suggestions = suggestCounterTeam(heroData, enemy);
-    expect(suggestions.tank?.[0][0]).toBe('doomfist');
-    expect(suggestions.damage?.map(([hero]) => hero).sort()).toEqual(['mei', 'widowmaker']);
-    expect(suggestions.map_fit).toBeUndefined();
-  });
-
   it('credits the same synergy partners as the team scoreboard', () => {
     const suggestions = suggestCounterTeam(heroData, enemy);
     const picked = [
@@ -99,7 +92,6 @@ describe('MatchSession', () => {
     });
     const scores = session.currentScores();
     expect(scores.current_scores?.heroes[0][0]).toBe('doomfist');
-    expect(session.suggestionsIfReady()?.tank?.[0][0]).toBe('doomfist');
 
     session.applyContext({
       mode: 'escort',

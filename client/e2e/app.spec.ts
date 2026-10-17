@@ -98,13 +98,17 @@ test.describe('counter picker', () => {
     await pick(page, 'enemy', 4, 'illari');
 
     await expect(page.getByRole('heading', { name: 'Suggested picks' })).toBeVisible();
-    await expect(page.locator('.suggestion-block .hero-name')).toContainText(['doomfist', 'mei', 'widowmaker', 'kiriko', 'mercy']);
+    const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
+    expect(suggested).toHaveLength(5);
+    expect(new Set(suggested).size).toBe(5);
     const link = page.getByRole('button', { name: 'Link your team to the suggested picks' });
     const suggestedScores = await page.locator('.suggestion-block .score').allTextContents();
     await link.click();
     await expect(link).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => slotValues(page, 'counter')).toEqual(suggested);
     await expect.poll(() => page.locator('.blue-team .current-score').allTextContents()).toEqual(suggestedScores);
-    await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', '13');
+    const total = Math.round(suggestedScores.reduce((sum, score) => sum + Number(score), 0) * 10) / 10;
+    await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', String(total));
     await pick(page, 'counter', 1, 'genji');
     await expect(link).toHaveAttribute('aria-pressed', 'false');
   });

@@ -7,7 +7,9 @@
  *
  * Role changes also move the hero between the tanks / damage / supports lists
  * of every other hero, so counters and synergies keep working.
- * New heroes are only added to the roster; run scaffold-missing for stubs.
+ * New heroes are only added to the roster; run scaffold-missing for stubs,
+ * then sync-matchups.mjs --write to regenerate all Overpicker matchups.
+ * Roster/roles come from OverFast; matchup ratings come from Overpicker.
  * Heroes missing from the API are reported, never removed.
  */
 import fs from 'node:fs';
