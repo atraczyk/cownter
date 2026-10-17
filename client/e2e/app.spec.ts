@@ -630,3 +630,19 @@ for (const viewport of [{ width: 375, height: 667 }, { width: 420, height: 900 }
     }
   });
 }
+
+test('keeps mobile chrome together as the viewport height changes', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+  for (const height of [640, 780, 700]) {
+    await page.setViewportSize({ width: 360, height });
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    const chrome = await page.locator('.app-chrome').boundingBox();
+    const header = await page.locator('.app-header').boundingBox();
+    const tabs = await page.getByRole('tablist', { name: 'Team views' }).boundingBox();
+    expect(chrome!.y).toBe(0);
+    expect(header!.y).toBe(chrome!.y);
+    expect(tabs!.y).toBe(header!.y + header!.height);
+  }
+});

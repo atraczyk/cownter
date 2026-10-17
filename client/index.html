@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Saira+Condensed:wght@600;700;800&display=swap" />
 </head>
 <body class="app-loading">
+    <div class="app-chrome">
     <header class="app-header">
         <div class="header-top">
             <div class="brand">
@@ -58,14 +59,16 @@
         </nav>
     </header>
 
-    <p class="load-error" role="alert" hidden></p>
-
     <nav class="mobile-section-tabs" role="tablist" aria-label="Team views">
         <button type="button" role="tab" id="tab-analysis" aria-controls="panel-analysis" aria-selected="true" data-view="analysis">Analysis</button>
         <button type="button" role="tab" id="tab-enemy" aria-controls="panel-enemy" aria-selected="false" tabindex="-1" data-view="enemy">Enemy</button>
         <button type="button" role="tab" id="tab-yours" aria-controls="panel-yours" aria-selected="false" tabindex="-1" data-view="yours">Your team</button>
         <button type="button" role="tab" id="tab-suggestions" aria-controls="panel-suggestions" aria-selected="false" tabindex="-1" data-view="suggestions">Suggestions</button>
     </nav>
+    </div>
+
+    <p class="load-error" role="alert" hidden></p>
+
     <main class="main-container">
         <div class="pool-column">
             <aside class="hero-selector" aria-label="Hero pool">
