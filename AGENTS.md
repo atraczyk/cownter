@@ -24,6 +24,9 @@ npm run build        # tsc + vite build
 npm run validate-data
 npm run audit-data
 npm run sync-roster
+npm run sync-data       # check live roster and Overpicker matchup drift (no writes)
+npm run test:data-sync  # offline source parity + importer tests
+node packages/core/scripts/sync-matchups.mjs --write
 ```
 
 Pushes to `main` publish `client/dist` to GitHub Pages (`.github/workflows/pages.yml`). The build sets Vite's base from the Pages path, so asset URLs stay under the project site.
@@ -40,6 +43,8 @@ On Windows PowerShell, `npm run <script> -- --flag` can drop the flag. Call the 
 ## Data
 
 Hero/map data lives in `packages/core/data/`. Follow `.agents/skills/ow-data-sheets/SKILL.md` for any change there. Never invent heroes, maps or roles; check the live roster with `npm run sync-roster`.
+
+Counter/synergy lists in `hero_data.json` are generated from every positive directed Overpicker rating for the whole roster. Regenerate with `sync-matchups.mjs --write`; do not hand-edit or cap those lists. `matchup_sources.json` preserves complete numeric matrices and provenance. Roles come from OverFast; archetype/map weights are maintained separately. `npm test` checks offline parity; `npm run sync-data` checks live drift.
 
 ## Commits
 

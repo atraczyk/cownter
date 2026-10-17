@@ -17,6 +17,12 @@ description: Change how heroes and teams are scored (counters, synergy, map fit,
 
 Counter/synergy lists are keyed `tanks` / `damage` / `supports`; look up a hero's list with `role + "s"` (damage stays `damage`).
 
+## Matchup data source
+
+`hero_data.json` counter/synergy lists are generated for the whole roster from Overpicker by `scripts/sync-matchups.mjs`. Every positive rating becomes a binary directed link; complete raw scores and provenance live in `data/matchup_sources.json`. Do not hand-edit generated lists or introduce per-hero import cutoffs. `npm run sync-data` checks live drift; `npm run test:data-sync` checks offline parity. Roles remain sourced from OverFast. Archetype/map weights are separate.
+
+Overpicker ratings can be asymmetric. The existing synergy implementation reads the earlier slot's link and credits both partners. Preserve published direction in the importer; changing slot semantics or adding source strength/negative penalties is a separate engine change requiring tests. Do not promise Overpicker score/ranking parity from binary link parity.
+
 ## Rules
 
 - Every `ScoreUpdate` is a full snapshot of both boards. A `null` block means "nothing to show", so the client clears that board. Scoring needs heroes on both teams.

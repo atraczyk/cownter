@@ -82,7 +82,7 @@ function drawTriangle(map: CompWeights | null, yours: CompWeights | null, enemy:
     const at = ternaryPoint(map, CORNERS);
     root.append(svg('circle', { cx: at.x, cy: at.y, r: 26, class: 'compass-zone' }));
     const marker = svg('rect', { x: at.x - 7, y: at.y - 7, width: 14, height: 14, class: 'marker-map', transform: `rotate(45 ${at.x} ${at.y})` });
-    marker.setAttribute('data-tip', mixTip('This point favors', map));
+    marker.setAttribute('data-tip', mixTip('Favors', map));
     root.append(marker);
   }
 
@@ -129,7 +129,7 @@ export const Compass = {
 
     const fit = totalFit(yourHeroes);
     const readouts: Array<[string, string, string]> = [
-      ['marker-map', 'This point favors', preference ? leanText(preference, '') : 'Pick a map and point'],
+      ['marker-map', 'Favors', preference ? leanText(preference, '') : 'Pick a map and point'],
       ['marker-yours', 'Your team', leanText(yours, 'No picks yet')],
       ['marker-enemy', 'Enemy team', leanText(enemy, 'No picks yet')],
     ];

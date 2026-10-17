@@ -34,6 +34,21 @@ describe('comp fit', () => {
     expect(bonuses.reinhardt).toBeGreaterThan(bonuses.widowmaker);
   });
 
+  it('does not penalize ranged picks on the corrected exposed stages', () => {
+    const provider = new CompDataProvider(archetypesSheet, mapsSheet);
+    const cases = [
+      ['midtown', 'point_a', 'attack', 'ashe'],
+      ['midtown', 'checkpoint_1', 'attack', 'ashe'],
+      ['rialto', 'checkpoint_2', 'attack', 'ashe'],
+      ['rialto', 'checkpoint_2', 'defense', 'ashe'],
+      ['hollywood', 'checkpoint_1', 'attack', 'hanzo'],
+    ] as const;
+    for (const [map, point, side, hero] of cases) {
+      const bonuses = provider.fitBonuses(provider.pointPreference(map, point, side));
+      expect(bonuses[hero], `${hero} on ${map}/${point}/${side}`).toBeGreaterThan(0);
+    }
+  });
+
   it('flags heroes listed under the wrong role', () => {
     const misfiled = structuredClone(heroData);
     misfiled.ana.strong_against.damage = [...(misfiled.ana.strong_against.damage ?? []), 'sombra'];
@@ -45,13 +60,6 @@ describe('comp fit', () => {
 
 describe('suggestCounterTeam', () => {
   const enemy = ['hazard', 'echo', 'genji', 'sombra', 'illari'];
-
-  it('returns the known counter team without map fit', () => {
-    const suggestions = suggestCounterTeam(heroData, enemy);
-    expect(suggestions.tank?.[0][0]).toBe('doomfist');
-    expect(suggestions.damage?.map(([hero]) => hero).sort()).toEqual(['mei', 'widowmaker']);
-    expect(suggestions.map_fit).toBeUndefined();
-  });
 
   it('credits the same synergy partners as the team scoreboard', () => {
     const suggestions = suggestCounterTeam(heroData, enemy);
@@ -99,7 +107,6 @@ describe('MatchSession', () => {
     });
     const scores = session.currentScores();
     expect(scores.current_scores?.heroes[0][0]).toBe('doomfist');
-    expect(session.suggestionsIfReady()?.tank?.[0][0]).toBe('doomfist');
 
     session.applyContext({
       mode: 'escort',

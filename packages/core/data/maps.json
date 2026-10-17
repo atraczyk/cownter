@@ -1,7 +1,7 @@
 {
   "sheet": "maps",
-  "version": "0.2.0",
-  "updated": "2026-10-14",
+  "version": "0.2.1",
+  "updated": "2026-10-17",
   "status": "llm-draft",
   "notes": "Preferred comp per map point. Sided modes give separate attack and defense preferences. Weights per preference sum to 1.",
   "modes": [
@@ -561,9 +561,9 @@
           "name": "First checkpoint",
           "comp": {
             "attack": {
-              "dive": 0.4,
-              "poke": 0.2,
-              "brawl": 0.4
+              "dive": 0.35,
+              "poke": 0.4,
+              "brawl": 0.25
             },
             "defense": {
               "dive": 0.3,
@@ -778,8 +778,8 @@
           "name": "Point A capture",
           "comp": {
             "attack": {
-              "dive": 0.4,
-              "poke": 0.3,
+              "dive": 0.3,
+              "poke": 0.4,
               "brawl": 0.3
             },
             "defense": {
@@ -794,9 +794,9 @@
           "name": "First checkpoint",
           "comp": {
             "attack": {
-              "dive": 0.4,
-              "poke": 0.2,
-              "brawl": 0.4
+              "dive": 0.3,
+              "poke": 0.4,
+              "brawl": 0.3
             },
             "defense": {
               "dive": 0.3,
@@ -1132,13 +1132,13 @@
           "name": "Second checkpoint",
           "comp": {
             "attack": {
-              "dive": 0.5,
-              "poke": 0.2,
-              "brawl": 0.3
+              "dive": 0.3,
+              "poke": 0.5,
+              "brawl": 0.2
             },
             "defense": {
-              "dive": 0.4,
-              "poke": 0.3,
+              "dive": 0.2,
+              "poke": 0.5,
               "brawl": 0.3
             }
           }

@@ -11,7 +11,8 @@
   "scripts": {
     "start": "npm start --workspace ow-counters-client",
     "build": "npm run build --workspace ow-counters-client",
-    "test": "npm test --workspace @ow/core && npm test --workspace ow-counters-client",
+    "test": "npm run test:data-sync && npm test --workspace @ow/core && npm test --workspace ow-counters-client",
+    "test:data-sync": "node --test packages/core/scripts/overpicker-checks.mjs && node packages/core/scripts/sync-matchups.mjs --offline",
     "test:e2e": "npm run test:e2e --workspace ow-counters-client",
     "preview": "npm run preview --workspace ow-counters-client",
     "validate-data": "node packages/core/bin/ow.js validate-data",
@@ -20,6 +21,8 @@
     "grab-icons": "node packages/core/scripts/grab-icons.mjs",
     "grab-maps": "node packages/core/scripts/grab-maps.mjs",
     "sync-roster": "node packages/core/scripts/sync-roster.mjs",
+    "sync-matchups": "node packages/core/scripts/sync-matchups.mjs",
+    "sync-data": "npm run sync-roster && npm run sync-matchups",
     "ow": "node packages/core/bin/ow.js"
   }
 }

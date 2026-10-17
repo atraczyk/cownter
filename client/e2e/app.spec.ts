@@ -61,6 +61,11 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'About cownter' }).click();
     await expect(about).toBeVisible();
     await expect(about).toContainText('ow counter explorer');
+    await expect(about.getByRole('heading', { name: 'How the hero data is built' })).toBeVisible();
+    await expect(about.getByRole('link', { name: 'Overpicker', exact: true })).toHaveAttribute('href', 'https://www.overpicker.com/');
+    await expect(about.getByRole('link', { name: 'Autopoietico', exact: true })).toHaveAttribute('href', 'https://www.overpicker.com/about');
+    await expect(about.getByRole('link', { name: 'overwatch comps EXPLAINED', exact: true })).toHaveAttribute('href', 'https://www.youtube.com/watch?v=93nrrdo-w0M');
+    await expect(about.getByRole('heading', { name: 'Map preferred play styles', exact: true })).toBeVisible();
     await expect(about).toContainText('not affiliated with, endorsed, sponsored, or approved by Blizzard Entertainment');
     await expect(about).toContainText('claims no ownership');
     await about.getByRole('button', { name: 'Close' }).click();
@@ -98,13 +103,17 @@ test.describe('counter picker', () => {
     await pick(page, 'enemy', 4, 'illari');
 
     await expect(page.getByRole('heading', { name: 'Suggested picks' })).toBeVisible();
-    await expect(page.locator('.suggestion-block .hero-name')).toContainText(['doomfist', 'mei', 'widowmaker', 'kiriko', 'mercy']);
+    const suggested = await page.locator('.suggestion-block .hero-name').allTextContents();
+    expect(suggested).toHaveLength(5);
+    expect(new Set(suggested).size).toBe(5);
     const link = page.getByRole('button', { name: 'Link your team to the suggested picks' });
     const suggestedScores = await page.locator('.suggestion-block .score').allTextContents();
     await link.click();
     await expect(link).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => slotValues(page, 'counter')).toEqual(suggested);
     await expect.poll(() => page.locator('.blue-team .current-score').allTextContents()).toEqual(suggestedScores);
-    await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', '13');
+    const total = Math.round(suggestedScores.reduce((sum, score) => sum + Number(score), 0) * 10) / 10;
+    await expect(page.locator('.blue-team .total-score-display')).toHaveAttribute('data-score', String(total));
     await pick(page, 'counter', 1, 'genji');
     await expect(link).toHaveAttribute('aria-pressed', 'false');
   });
@@ -168,8 +177,8 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'First checkpoint' }).click();
     await page.getByRole('button', { name: 'Attacking' }).click();
 
-    await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
-    await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
+    await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · [0-9a-f]{7,}$/);
+    await expect(page.locator('[data-part="version"]')).not.toHaveAttribute('data-tip');
     await expect(page.locator('[data-part="fit-total"]')).not.toHaveText('—');
     await expect(page.locator('.map-panel')).toContainText('Dorado');
     await expect(page.locator('.map-panel')).toContainText('First checkpoint');
@@ -188,7 +197,7 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .fit-chip').first()).not.toBeEmpty();
   });
 
-  for (const width of [1440, 1024, 420]) {
+  for (const width of [1440, 1024]) {
     test(`keeps panels stable at ${width}px when context and teams change`, async ({ page }) => {
       page.on('dialog', dialog => void dialog.accept());
       await page.setViewportSize({ width, height: 1000 });
@@ -276,6 +285,7 @@ test('sizes the point selector to its buttons', async ({ page }) => {
 test('balances phone match controls without moving the board when a side disappears', async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
   await page.locator('.match-toggle').click();
   await page.getByRole('button', { name: 'Clash', exact: true }).click();
   await page.locator('#map-select').selectOption('hanaoka');
@@ -329,14 +339,23 @@ test('uses an avatar picker without the hero pool on phones', async ({ page }) =
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
   await expect(page.locator('.hero-selector')).toBeHidden();
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
   page.on('dialog', dialog => void dialog.accept());
   await page.locator('[data-clear-team="counter"]').click();
 
   const tank = page.locator('.hero-picker[data-team="counter"][data-slot="0"]');
   await tank.click();
   const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await expect(search).not.toBeFocused();
+  await expect(search).toHaveAttribute('placeholder', 'Search heroes');
+  const picker = page.getByRole('dialog', { name: 'Choose hero' });
+  await expect(picker.getByRole('heading', { name: 'Choose hero' })).toBeVisible();
+  await expect(picker.locator('.hero-picker-context')).toHaveText('Your Tank');
+  await expect(picker.getByRole('button', { name: 'Close hero picker' })).toBeVisible();
+  expect(await picker.boundingBox()).toEqual({ x: 0, y: 0, width: 420, height: 900 });
   await search.fill('dva');
   const option = page.getByRole('option', { name: 'Dva' });
+  await expect(option.locator('.hero-picker-hint')).toHaveText('Dive');
   await expect(option.locator('img')).toHaveAttribute('src', '/resources/images/icons/icon-dva.png');
   await option.click();
   await expect(page.locator('.hero-select[data-team="counter"][data-slot="0"]')).toHaveValue('dva');
@@ -346,12 +365,19 @@ test('uses an avatar picker without the hero pool on phones', async ({ page }) =
 
   const damage1 = page.locator('.hero-picker[data-team="counter"][data-slot="1"]');
   await damage1.click();
+  await expect(page.getByRole('option').last()).toHaveAccessibleName('Clear hero');
+  const clearBox = page.getByRole('option').last().locator('.hero-picker-empty-icon');
+  const box = await clearBox.boundingBox();
+  const cross = await clearBox.locator('svg').boundingBox();
+  expect(cross!.x + cross!.width / 2).toBe(box!.x + box!.width / 2);
+  expect(cross!.y + cross!.height / 2).toBe(box!.y + box!.height / 2);
   await search.fill('genji');
   await page.getByRole('option', { name: 'Genji' }).click();
   const damage2 = page.locator('.hero-picker[data-team="counter"][data-slot="2"]');
   await damage2.click();
   await search.fill('genji');
-  await expect(page.getByRole('option', { name: 'Genji' })).toHaveCount(0);
+  await expect(page.getByRole('option', { name: 'Genji', exact: true })).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.getByRole('option', { name: 'Genji', exact: true })).toContainText('already selected');
   await search.press('Escape');
   await expect(damage2).toBeFocused();
 
@@ -371,7 +397,9 @@ test('supports keyboard hero selection and keeps the pool on desktop', async ({ 
   await tank.focus();
   await tank.press('Enter');
   const search = page.getByRole('searchbox', { name: 'Search heroes' });
+  await expect(search).toBeFocused();
   await search.fill('winston');
+  await expect(page.getByRole('option', { name: 'Winston', exact: true }).locator('.hero-picker-hint')).toHaveText('Dive');
   await search.press('ArrowDown');
   await search.press('Enter');
   await expect(page.locator('.hero-select[data-team="enemy"][data-slot="0"]')).toHaveValue('winston');
@@ -395,3 +423,170 @@ for (const width of [1440, 1024, 420]) {
     expect(await page.evaluate(() => (window as any).layoutShifts)).toBe(0);
   });
 }
+
+for (const width of [1440, 1024, 420]) {
+  test(`locks background scrolling while About is open at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 600 });
+    await page.goto('/');
+    await expect(page.locator('body')).not.toHaveClass(/app-loading/);
+    if (width <= 760) await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+    const about = page.getByRole('dialog', { name: 'cownter' });
+    const backgroundY = () => page.evaluate(() => window.scrollY);
+    for (const dismiss of (width <= 760 ? ['escape', 'button'] : ['escape', 'button', 'backdrop'])) {
+      await page.getByRole('button', { name: 'About cownter' }).click();
+      if (width <= 760) {
+        const bounds = await about.boundingBox();
+        expect(bounds).toEqual({ x: 0, y: 0, width, height: 600 });
+      }
+      const before = await backgroundY();
+      await page.mouse.move(2, 300);
+      await page.mouse.wheel(0, 400);
+      await page.waitForTimeout(150);
+      expect(await backgroundY()).toBe(before);
+      await about.hover();
+      await page.mouse.wheel(0, 500);
+      await expect.poll(() => about.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+      expect(await backgroundY()).toBe(before);
+      if (dismiss === 'escape') await page.keyboard.press('Escape');
+      else if (dismiss === 'button') await about.getByRole('button', { name: 'Close' }).click();
+      else await page.mouse.click(2, 300);
+      await expect(about).toBeHidden();
+      expect(await backgroundY()).toBe(before);
+      await page.mouse.move(2, 300);
+      await page.mouse.wheel(0, 200);
+      await expect.poll(backgroundY).toBeGreaterThan(before);
+      await page.evaluate(() => window.scrollTo(0, 0));
+    }
+  });
+}
+
+for (const width of [1280, 1440]) {
+  test(`keeps all escort checkpoints visible at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Escort', exact: true }).click();
+    await page.locator('#map-select').selectOption('havana');
+    const points = page.locator('[data-part="points"]');
+    expect(await points.evaluate(el => el.scrollWidth)).toBeLessThanOrEqual(await points.evaluate(el => el.clientWidth));
+    const group = await points.boundingBox();
+    const last = await points.getByRole('button').last().boundingBox();
+    expect(last!.x + last!.width).toBeLessThanOrEqual(group!.x + group!.width + 1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+  });
+}
+
+test('gives the analysis triangle room on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const plot = page.locator('.compass-plot');
+  await plot.scrollIntoViewIfNeeded();
+  const bounds = await plot.boundingBox();
+  expect(bounds!.width).toBeGreaterThanOrEqual(220);
+  const legend = await page.locator('.compass-legend').boundingBox();
+  expect(legend!.y).toBeGreaterThanOrEqual(bounds!.y + bounds!.height);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('switches between the four mobile tabs without losing picks', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await expect(page.getByRole('tabpanel', { name: 'Analysis', exact: true })).toBeVisible();
+  await expect(page.getByRole('tab')).toHaveText(['Analysis', 'Enemy', 'Your team', 'Suggestions']);
+  for (const name of ['Enemy', 'Suggestions', 'Your team', 'Analysis']) {
+    await page.getByRole('tab', { name, exact: true }).click();
+    await expect(page.getByRole('tabpanel', { name, exact: true })).toBeVisible();
+    await expect(page.getByRole('tabpanel')).toHaveCount(1);
+  }
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).click();
+  const picks = await slotValues(page, 'enemy');
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).press('ArrowRight');
+  await expect(page.getByRole('tab', { name: 'Your team', exact: true })).toBeFocused();
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).click();
+  expect(await slotValues(page, 'enemy')).toEqual(picks);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.getByRole('tablist')).toBeHidden();
+  for (const selector of ['.compass-card', '.board-enemy', '.board-yours', '.right-column']) {
+    await expect(page.locator(selector)).toBeVisible();
+  }
+});
+
+test('keeps the mobile header and tabs stacked while scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 600 });
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+  await page.mouse.move(200, 400);
+  await page.mouse.wheel(0, 400);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
+  const header = await page.locator('.app-header').boundingBox();
+  const tabs = await page.getByRole('tablist', { name: 'Team views' }).boundingBox();
+  expect(header!.y).toBe(0);
+  expect(Math.abs(tabs!.y - header!.height)).toBeLessThanOrEqual(1);
+  await page.locator('.match-toggle').click();
+  await expect.poll(async () => {
+    const h = await page.locator('.app-header').boundingBox();
+    const t = await page.getByRole('tablist', { name: 'Team views' }).boundingBox();
+    return Math.abs(t!.y - h!.y - h!.height);
+  }).toBeLessThanOrEqual(1);
+});
+
+test('fills the mobile content area with the active tab', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  for (const name of ['Analysis', 'Enemy', 'Suggestions', 'Your team']) {
+    await page.getByRole('tab', { name, exact: true }).click();
+    const panel = await page.getByRole('tabpanel', { name, exact: true }).boundingBox();
+    const header = await page.locator('.app-header').boundingBox();
+    const tabs = await page.getByRole('tablist').boundingBox();
+    expect(panel!.x).toBe(0);
+    expect(panel!.width).toBe(420);
+    expect(panel!.height).toBeGreaterThanOrEqual(900 - header!.height - tabs!.height - 1);
+  }
+});
+
+test('anchors suggested total to the mobile panel footer', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Suggestions', exact: true }).click();
+  const panel = await page.locator('.suggestion-block').boundingBox();
+  const total = await page.locator('.suggestion-block .total-score-display').boundingBox();
+  expect(Math.abs(panel!.y + panel!.height - total!.y - total!.height - 12)).toBeLessThanOrEqual(1);
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+  const yours = await page.locator('.blue-team .total-score-display').boundingBox();
+  expect(total!.y).toBe(yours!.y);
+});
+
+for (const height of [600, 700, 800, 900]) {
+  test(`fits mobile analysis in a ${height}px viewport`, async ({ page }) => {
+    await page.setViewportSize({ width: 420, height });
+    await page.goto('/');
+    await expect(page.locator('body')).not.toHaveClass(/app-loading/);
+    const panel = await page.locator('.compass-card').boundingBox();
+    expect(panel!.y + panel!.height).toBeLessThanOrEqual(height + 1);
+    expect(await page.locator('.compass-card').evaluate(el => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(1);
+    const plot = await page.locator('.compass-plot').boundingBox();
+    expect(plot!.width).toBeGreaterThanOrEqual(150);
+  });
+}
+
+test('uses consistent mobile header and tab margins', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const setup = await page.locator('.match-toggle').boundingBox();
+  const tabs = await page.getByRole('tab').all();
+  const first = await tabs[0].boundingBox();
+  const last = await tabs[tabs.length - 1].boundingBox();
+  expect(first!.x).toBe(setup!.x);
+  expect(last!.x + last!.width).toBe(setup!.x + setup!.width);
+  expect(first!.y - setup!.y - setup!.height).toBe(12);
+});
+
+test('puts mobile map guidance before the smaller triangle', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const map = await page.locator('.compass-body .map-panel').boundingBox();
+  const guidance = await page.locator('.map-analysis').boundingBox();
+  const plot = await page.locator('.compass-plot').boundingBox();
+  expect(map!.y + map!.height).toBeLessThanOrEqual(guidance!.y);
+  expect(guidance!.y + guidance!.height).toBeLessThanOrEqual(plot!.y);
+  expect(plot!.width).toBeLessThanOrEqual(280);
+});

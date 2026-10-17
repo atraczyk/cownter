@@ -1,0 +1,6699 @@
+{
+  "summary": {
+    "source_maps": 31,
+    "local_maps": 33,
+    "missing_maps": [
+      "Hanaoka",
+      "Throne of Anubis"
+    ],
+    "source_updated": "2026-10-13",
+    "fetched": "2026-10-17",
+    "direct": {
+      "aligned": 33,
+      "mixed": 59,
+      "opposed": 21,
+      "placeholder": 12,
+      "unmapped": 0,
+      "no variation": 0
+    },
+    "contextual": {
+      "aligned": 4,
+      "mixed": 4,
+      "opposed": 2,
+      "placeholder": 0,
+      "unmapped": 0,
+      "no variation": 0
+    },
+    "all": {
+      "aligned": 37,
+      "mixed": 63,
+      "opposed": 23,
+      "placeholder": 12,
+      "unmapped": 6,
+      "no variation": 0
+    },
+    "relative_direct": {
+      "aligned": 28,
+      "mixed": 69,
+      "opposed": 16,
+      "placeholder": 12,
+      "unmapped": 0,
+      "no variation": 0
+    },
+    "evaluated_direct": 113,
+    "persistent_opposed": 16,
+    "baseline_sensitive_opposed": 5,
+    "excluded_neutral_heroes": [
+      "anran",
+      "dmon",
+      "doctrine",
+      "domina",
+      "emre",
+      "freja",
+      "jetpackcat",
+      "mizuki",
+      "shion",
+      "sierra",
+      "vendetta",
+      "wuyang"
+    ]
+  },
+  "hero_rating_baselines": {
+    "ana": -2.5591397849462365,
+    "anran": 1.182795698924731,
+    "ashe": 0.9032258064516127,
+    "baptiste": 0.6236559139784945,
+    "bastion": 0.39784946236559127,
+    "brigitte": -1.3655913978494625,
+    "cassidy": 0.7741935483870966,
+    "dva": 1.4301075268817203,
+    "dmon": -0.34408602150537626,
+    "doctrine": -0.967741935483871,
+    "domina": 0.03225806451612892,
+    "doomfist": 1.3440860215053765,
+    "echo": -0.752688172043011,
+    "emre": 1.182795698924731,
+    "freja": 1.9032258064516125,
+    "genji": 0.44086021505376327,
+    "hanzo": 1.010752688172043,
+    "hazard": -1.7419354838709675,
+    "illari": 1.0430107526881718,
+    "jetpackcat": -0.8494623655913978,
+    "junkerqueen": -0.5053763440860213,
+    "junkrat": -1.1075268817204302,
+    "juno": 1.2580645161290323,
+    "kiriko": 1.4086021505376347,
+    "lifeweaver": 2.236559139784947,
+    "lucio": -4.354838709677419,
+    "mauga": 1.32258064516129,
+    "mei": -0.24731182795698933,
+    "mercy": 1.096774193548387,
+    "mizuki": -0.6666666666666667,
+    "moira": -0.3548387096774192,
+    "orisa": 0.3870967741935484,
+    "pharah": -5.645161290322582,
+    "ramattra": 0.7634408602150536,
+    "reaper": -1.1935483870967734,
+    "reinhardt": -1.1720430107526882,
+    "roadhog": -1.860215053763441,
+    "sierra": 0.9247311827956987,
+    "sigma": -1.731182795698925,
+    "shion": 2.46236559139785,
+    "sojourn": 0.8387096774193548,
+    "soldier76": 1.827956989247312,
+    "sombra": 0.9247311827956989,
+    "symmetra": -1.6236559139784945,
+    "torbjorn": 1.7419354838709682,
+    "tracer": -0.6666666666666667,
+    "vendetta": 1.6344086021505377,
+    "venture": -0.8602150537634409,
+    "widowmaker": -4.602150537634408,
+    "winston": 1.3440860215053763,
+    "wreckingball": -0.7419354838709679,
+    "wuyang": -0.8064516129032259,
+    "zarya": -0.36559139784946243,
+    "zenyatta": 1.2365591397849462
+  },
+  "results": [
+    {
+      "map": "aatlis",
+      "map_name": "Aatlis",
+      "point": "first_point",
+      "point_name": "First point",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Station",
+        "Bazaar",
+        "Resort",
+        "Town Center",
+        "Garden"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.421,
+      "relative_rho": 0.385,
+      "rho_without_sombra": 0.385,
+      "style_associations": {
+        "dive": 0.421,
+        "poke": -0.589,
+        "brawl": 0.161
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 18,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 16,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "aatlis",
+      "map_name": "Aatlis",
+      "point": "later_points",
+      "point_name": "Later points",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Station",
+        "Bazaar",
+        "Resort",
+        "Town Center",
+        "Garden"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.542,
+      "relative_rho": 0.495,
+      "rho_without_sombra": 0.513,
+      "style_associations": {
+        "dive": 0.421,
+        "poke": -0.589,
+        "brawl": 0.161
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 18,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 16,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "antarctic_peninsula",
+      "map_name": "Antarctic Peninsula",
+      "point": "icebreaker",
+      "point_name": "Icebreaker",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Icebreaker"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.238,
+      "relative_rho": -0.296,
+      "rho_without_sombra": -0.366,
+      "style_associations": {
+        "dive": -0.012,
+        "poke": -0.426,
+        "brawl": 0.492
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "junkerqueen",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "antarctic_peninsula",
+      "map_name": "Antarctic Peninsula",
+      "point": "labs",
+      "point_name": "Labs",
+      "side": null,
+      "mapping": "unmapped point",
+      "source_points": [],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.1,
+        "brawl": 0.7
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "antarctic_peninsula",
+      "map_name": "Antarctic Peninsula",
+      "point": "sublevel",
+      "point_name": "Sublevel",
+      "side": null,
+      "mapping": "unmapped point",
+      "source_points": [],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.375,
+      "relative_rho": -0.325,
+      "rho_without_sombra": -0.377,
+      "style_associations": {
+        "dive": -0.197,
+        "poke": 0.41,
+        "brawl": -0.277
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "widowmaker",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.4,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "poke",
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.245,
+      "relative_rho": 0.269,
+      "rho_without_sombra": 0.247,
+      "style_associations": {
+        "dive": -0.245,
+        "poke": 0.397,
+        "brawl": -0.228
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "kiriko",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.157,
+      "relative_rho": -0.158,
+      "rho_without_sombra": -0.136,
+      "style_associations": {
+        "dive": -0.157,
+        "poke": 0.412,
+        "brawl": -0.333
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.265,
+      "relative_rho": 0.161,
+      "rho_without_sombra": 0.27,
+      "style_associations": {
+        "dive": -0.21,
+        "poke": 0.265,
+        "brawl": -0.139
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.323,
+      "relative_rho": -0.173,
+      "rho_without_sombra": -0.329,
+      "style_associations": {
+        "dive": -0.12,
+        "poke": 0.35,
+        "brawl": -0.278
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "widowmaker",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "blizzard_world",
+      "map_name": "Blizzard World",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.344,
+      "relative_rho": -0.291,
+      "rho_without_sombra": -0.364,
+      "style_associations": {
+        "dive": -0.056,
+        "poke": 0.348,
+        "brawl": -0.344
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "widowmaker",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "busan",
+      "map_name": "Busan",
+      "point": "downtown",
+      "point_name": "Downtown",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Downtown"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.22,
+      "relative_rho": 0.161,
+      "rho_without_sombra": 0.142,
+      "style_associations": {
+        "dive": 0.22,
+        "poke": -0.524,
+        "brawl": 0.31
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "baptiste",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "busan",
+      "map_name": "Busan",
+      "point": "sanctuary",
+      "point_name": "Sanctuary",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Sanctuary"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.474,
+      "relative_rho": 0.529,
+      "rho_without_sombra": 0.455,
+      "style_associations": {
+        "dive": 0.198,
+        "poke": -0.474,
+        "brawl": 0.211
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "busan",
+      "map_name": "Busan",
+      "point": "meka_base",
+      "point_name": "MEKA Base",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "MEKA Base"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.1,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.264,
+      "relative_rho": 0.335,
+      "rho_without_sombra": 0.276,
+      "style_associations": {
+        "dive": 0.151,
+        "poke": -0.309,
+        "brawl": 0.153
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 10,
+          "cownter_fit": -0.46
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.7,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.447,
+      "relative_rho": 0.376,
+      "rho_without_sombra": 0.375,
+      "style_associations": {
+        "dive": -0.308,
+        "poke": 0.457,
+        "brawl": -0.135
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.49
+        },
+        {
+          "hero": "mei",
+          "source_rating": 10,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.8,
+        "brawl": 0.1
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.517,
+      "relative_rho": 0.485,
+      "rho_without_sombra": 0.48,
+      "style_associations": {
+        "dive": -0.304,
+        "poke": 0.517,
+        "brawl": -0.199
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.7
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.583,
+      "relative_rho": 0.522,
+      "rho_without_sombra": 0.539,
+      "style_associations": {
+        "dive": -0.277,
+        "poke": 0.583,
+        "brawl": -0.285
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.6,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.58,
+      "relative_rho": 0.552,
+      "rho_without_sombra": 0.545,
+      "style_associations": {
+        "dive": -0.31,
+        "poke": 0.58,
+        "brawl": -0.273
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.3,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.145,
+      "relative_rho": -0.087,
+      "rho_without_sombra": -0.234,
+      "style_associations": {
+        "dive": -0.247,
+        "poke": 0.54,
+        "brawl": -0.258
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.19
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "circuit_royal",
+      "map_name": "Circuit Royal",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.573,
+      "relative_rho": 0.539,
+      "rho_without_sombra": 0.547,
+      "style_associations": {
+        "dive": -0.325,
+        "poke": 0.573,
+        "brawl": -0.255
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "colosseo",
+      "map_name": "Colosseo",
+      "point": "center",
+      "point_name": "Center fight",
+      "side": null,
+      "mapping": "center/Mid",
+      "source_points": [
+        "Mid"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.356,
+      "relative_rho": 0.279,
+      "rho_without_sombra": 0.283,
+      "style_associations": {
+        "dive": 0.338,
+        "poke": -0.107,
+        "brawl": -0.29
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "junkerqueen",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "colosseo",
+      "map_name": "Colosseo",
+      "point": "deep_push",
+      "point_name": "Deep push",
+      "side": null,
+      "mapping": "context only: Ally/Enemy",
+      "source_points": [
+        "Ally",
+        "Enemy"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.4,
+      "relative_rho": -0.396,
+      "rho_without_sombra": -0.445,
+      "style_associations": {
+        "dive": 0.465,
+        "poke": -0.112,
+        "brawl": -0.483
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "sojourn",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "tracer",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.055,
+      "relative_rho": -0.002,
+      "rho_without_sombra": -0.042,
+      "style_associations": {
+        "dive": -0.113,
+        "poke": 0.083,
+        "brawl": -0.055
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.059,
+      "relative_rho": 0.004,
+      "rho_without_sombra": 0.07,
+      "style_associations": {
+        "dive": -0.096,
+        "poke": 0.038,
+        "brawl": -0.006
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "reaper",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "dva",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "sombra",
+          "source_rating": 10,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "wreckingball",
+          "source_rating": 10,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.122,
+      "relative_rho": -0.129,
+      "rho_without_sombra": -0.16,
+      "style_associations": {
+        "dive": -0.126,
+        "poke": 0.1,
+        "brawl": -0.038
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.069,
+      "relative_rho": -0.017,
+      "rho_without_sombra": 0.06,
+      "style_associations": {
+        "dive": -0.064,
+        "poke": 0.033,
+        "brawl": -0.069
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "reaper",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.22
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.02,
+      "relative_rho": 0.051,
+      "rho_without_sombra": 0.046,
+      "style_associations": {
+        "dive": -0.18,
+        "poke": 0.084,
+        "brawl": 0.02
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "wreckingball",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "dorado",
+      "map_name": "Dorado",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.049,
+      "relative_rho": -0.015,
+      "rho_without_sombra": -0.042,
+      "style_associations": {
+        "dive": -0.132,
+        "poke": 0.117,
+        "brawl": -0.049
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.2,
+        "brawl": 0.7
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.064,
+      "relative_rho": -0.027,
+      "rho_without_sombra": -0.122,
+      "style_associations": {
+        "dive": -0.232,
+        "poke": 0.328,
+        "brawl": -0.128
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.58
+        },
+        {
+          "hero": "pharah",
+          "source_rating": 20,
+          "cownter_fit": -0.52
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 10,
+          "cownter_fit": -0.52
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.5,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.184,
+      "relative_rho": 0.17,
+      "rho_without_sombra": 0.161,
+      "style_associations": {
+        "dive": -0.186,
+        "poke": 0.28,
+        "brawl": -0.133
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "genji",
+          "source_rating": 10,
+          "cownter_fit": -0.61
+        },
+        {
+          "hero": "wreckingball",
+          "source_rating": 10,
+          "cownter_fit": -0.61
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.084,
+      "relative_rho": -0.046,
+      "rho_without_sombra": -0.128,
+      "style_associations": {
+        "dive": -0.179,
+        "poke": 0.277,
+        "brawl": -0.084
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "pharah",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.3,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.044,
+      "relative_rho": 0.078,
+      "rho_without_sombra": -0.134,
+      "style_associations": {
+        "dive": -0.092,
+        "poke": 0.117,
+        "brawl": -0.074
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "pharah",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "genji",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "wreckingball",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "checkpoint_2",
+      "point_name": "Castle",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.1,
+        "brawl": 0.8
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.038,
+      "relative_rho": 0.092,
+      "rho_without_sombra": -0.093,
+      "style_associations": {
+        "dive": -0.043,
+        "poke": 0.1,
+        "brawl": -0.038
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.7
+        },
+        {
+          "hero": "pharah",
+          "source_rating": 20,
+          "cownter_fit": -0.7
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.7
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.7
+        }
+      ]
+    },
+    {
+      "map": "eichenwalde",
+      "map_name": "Eichenwalde",
+      "point": "checkpoint_2",
+      "point_name": "Castle",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.048,
+      "relative_rho": 0.041,
+      "rho_without_sombra": -0.118,
+      "style_associations": {
+        "dive": -0.217,
+        "poke": 0.337,
+        "brawl": -0.048
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "esperanca",
+      "map_name": "Esperança",
+      "point": "center",
+      "point_name": "Center fight",
+      "side": null,
+      "mapping": "center/Mid",
+      "source_points": [
+        "Mid"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.558,
+      "relative_rho": 0.574,
+      "rho_without_sombra": 0.522,
+      "style_associations": {
+        "dive": 0.558,
+        "poke": -0.326,
+        "brawl": -0.313
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "esperanca",
+      "map_name": "Esperança",
+      "point": "deep_push",
+      "point_name": "Deep push",
+      "side": null,
+      "mapping": "context only: Ally/Enemy",
+      "source_points": [
+        "Ally",
+        "Enemy"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.176,
+      "relative_rho": -0.165,
+      "rho_without_sombra": -0.209,
+      "style_associations": {
+        "dive": 0.518,
+        "poke": -0.267,
+        "brawl": -0.331
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.383,
+        "poke": 0.161,
+        "brawl": 0.235
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": []
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.385,
+        "poke": 0.193,
+        "brawl": 0.215
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": []
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.418,
+        "poke": 0.232,
+        "brawl": 0.193
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.458,
+        "poke": 0.338,
+        "brawl": 0.141
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.393,
+        "poke": 0.222,
+        "brawl": 0.182
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "grimsvotn",
+      "map_name": "Grímsvötn",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.456,
+        "poke": 0.329,
+        "brawl": 0.14
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "hanaoka",
+      "map_name": "Hanaoka",
+      "point": "middle",
+      "point_name": "Middle point",
+      "side": null,
+      "mapping": "missing map",
+      "source_points": [],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "hanaoka",
+      "map_name": "Hanaoka",
+      "point": "outer",
+      "point_name": "Outer points",
+      "side": null,
+      "mapping": "missing map",
+      "source_points": [],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.6,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.482,
+      "relative_rho": 0.538,
+      "rho_without_sombra": 0.463,
+      "style_associations": {
+        "dive": -0.369,
+        "poke": 0.482,
+        "brawl": -0.161
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "hazard",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "kiriko",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.7,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.602,
+      "relative_rho": 0.587,
+      "rho_without_sombra": 0.59,
+      "style_associations": {
+        "dive": -0.371,
+        "poke": 0.592,
+        "brawl": -0.205
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "kiriko",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.444,
+      "relative_rho": -0.43,
+      "rho_without_sombra": -0.432,
+      "style_associations": {
+        "dive": -0.444,
+        "poke": 0.671,
+        "brawl": -0.224
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "baptiste",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.412,
+      "relative_rho": 0.407,
+      "rho_without_sombra": 0.39,
+      "style_associations": {
+        "dive": -0.343,
+        "poke": 0.561,
+        "brawl": -0.189
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "hazard",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.4,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "poke",
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.336,
+      "relative_rho": 0.328,
+      "rho_without_sombra": 0.303,
+      "style_associations": {
+        "dive": -0.336,
+        "poke": 0.466,
+        "brawl": -0.123
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "kiriko",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "havana",
+      "map_name": "Havana",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.6,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.532,
+      "relative_rho": 0.504,
+      "rho_without_sombra": 0.499,
+      "style_associations": {
+        "dive": -0.366,
+        "poke": 0.532,
+        "brawl": -0.183
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.07,
+      "relative_rho": -0.012,
+      "rho_without_sombra": -0.061,
+      "style_associations": {
+        "dive": -0.193,
+        "poke": 0.302,
+        "brawl": 0.011
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.5,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.469,
+      "relative_rho": 0.46,
+      "rho_without_sombra": 0.446,
+      "style_associations": {
+        "dive": -0.343,
+        "poke": 0.485,
+        "brawl": -0.087
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "dva",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.19
+        }
+      ]
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.429,
+      "relative_rho": -0.416,
+      "rho_without_sombra": -0.401,
+      "style_associations": {
+        "dive": -0.178,
+        "poke": 0.429,
+        "brawl": -0.211
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.007,
+      "relative_rho": 0.087,
+      "rho_without_sombra": -0.036,
+      "style_associations": {
+        "dive": -0.198,
+        "poke": 0.262,
+        "brawl": -0.007
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.299,
+      "relative_rho": -0.224,
+      "rho_without_sombra": -0.294,
+      "style_associations": {
+        "dive": -0.192,
+        "poke": 0.477,
+        "brawl": -0.183
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.127,
+      "relative_rho": -0.093,
+      "rho_without_sombra": -0.15,
+      "style_associations": {
+        "dive": -0.003,
+        "poke": 0.216,
+        "brawl": -0.127
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "ilios",
+      "map_name": "Ilios",
+      "point": "lighthouse",
+      "point_name": "Lighthouse",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Lighthouse"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.197,
+      "relative_rho": 0.186,
+      "rho_without_sombra": 0.182,
+      "style_associations": {
+        "dive": 0.38,
+        "poke": -0.537,
+        "brawl": 0.12
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "roadhog",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "torbjorn",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "brigitte",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "ilios",
+      "map_name": "Ilios",
+      "point": "ruins",
+      "point_name": "Ruins",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Ruins"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.314,
+      "relative_rho": 0.32,
+      "rho_without_sombra": 0.323,
+      "style_associations": {
+        "dive": 0.088,
+        "poke": -0.391,
+        "brawl": 0.314
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "pharah",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "doomfist",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "genji",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "ilios",
+      "map_name": "Ilios",
+      "point": "well",
+      "point_name": "Well",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Well"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.4,
+        "brawl": 0.1
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.16,
+      "relative_rho": 0.093,
+      "rho_without_sombra": 0.091,
+      "style_associations": {
+        "dive": 0.42,
+        "poke": -0.439,
+        "brawl": -0.056
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "roadhog",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "lucio",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.34
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.6,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.429,
+      "relative_rho": 0.323,
+      "rho_without_sombra": 0.437,
+      "style_associations": {
+        "dive": -0.241,
+        "poke": 0.429,
+        "brawl": -0.24
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "wreckingball",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.1,
+        "poke": 0.7,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.316,
+      "relative_rho": 0.264,
+      "rho_without_sombra": 0.332,
+      "style_associations": {
+        "dive": -0.264,
+        "poke": 0.399,
+        "brawl": -0.19
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "wreckingball",
+          "source_rating": 20,
+          "cownter_fit": -0.67
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.7
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.312,
+      "relative_rho": 0.168,
+      "rho_without_sombra": 0.317,
+      "style_associations": {
+        "dive": -0.062,
+        "poke": 0.289,
+        "brawl": -0.312
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.392,
+      "relative_rho": 0.342,
+      "rho_without_sombra": 0.408,
+      "style_associations": {
+        "dive": -0.026,
+        "poke": 0.266,
+        "brawl": -0.309
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "wreckingball",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 10,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.3,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.241,
+      "relative_rho": -0.091,
+      "rho_without_sombra": -0.26,
+      "style_associations": {
+        "dive": -0.129,
+        "poke": 0.36,
+        "brawl": -0.335
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "wreckingball",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 10,
+          "cownter_fit": -0.19
+        }
+      ]
+    },
+    {
+      "map": "junkertown",
+      "map_name": "Junkertown",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.5,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.28,
+      "relative_rho": 0.242,
+      "rho_without_sombra": 0.283,
+      "style_associations": {
+        "dive": -0.247,
+        "poke": 0.305,
+        "brawl": -0.1
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "wreckingball",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "moira",
+          "source_rating": 20,
+          "cownter_fit": -0.19
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.1,
+        "brawl": 0.7
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.033,
+      "relative_rho": 0.08,
+      "rho_without_sombra": 0.004,
+      "style_associations": {
+        "dive": -0.265,
+        "poke": 0.201,
+        "brawl": 0.082
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.61
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 20,
+          "cownter_fit": -0.58
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 10,
+          "cownter_fit": -0.7
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.3,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.206,
+      "relative_rho": 0.3,
+      "rho_without_sombra": 0.121,
+      "style_associations": {
+        "dive": -0.34,
+        "poke": 0.197,
+        "brawl": 0.105
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "sojourn",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.19
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "checkpoint_1",
+      "point_name": "Streets",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.04,
+      "relative_rho": 0.04,
+      "rho_without_sombra": 0.036,
+      "style_associations": {
+        "dive": -0.304,
+        "poke": 0.164,
+        "brawl": 0.102
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.22
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "checkpoint_1",
+      "point_name": "Streets",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.024,
+      "relative_rho": 0.091,
+      "rho_without_sombra": -0.027,
+      "style_associations": {
+        "dive": -0.315,
+        "poke": 0.228,
+        "brawl": 0.024
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "checkpoint_2",
+      "point_name": "Factory",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.1,
+        "brawl": 0.7
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.09,
+      "relative_rho": -0.031,
+      "rho_without_sombra": -0.136,
+      "style_associations": {
+        "dive": -0.249,
+        "poke": 0.276,
+        "brawl": -0.051
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.61
+        },
+        {
+          "hero": "echo",
+          "source_rating": 20,
+          "cownter_fit": -0.52
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "doomfist",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "kings_row",
+      "map_name": "King's Row",
+      "point": "checkpoint_2",
+      "point_name": "Factory",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.003,
+      "relative_rho": 0.049,
+      "rho_without_sombra": -0.028,
+      "style_associations": {
+        "dive": -0.199,
+        "poke": 0.216,
+        "brawl": 0.003
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "doomfist",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "lijiang_tower",
+      "map_name": "Lijiang Tower",
+      "point": "night_market",
+      "point_name": "Night Market",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Night Market"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.1,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.528,
+      "relative_rho": 0.566,
+      "rho_without_sombra": 0.538,
+      "style_associations": {
+        "dive": 0.278,
+        "poke": -0.634,
+        "brawl": 0.382
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "lijiang_tower",
+      "map_name": "Lijiang Tower",
+      "point": "garden",
+      "point_name": "Garden",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Garden"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.071,
+      "relative_rho": 0.016,
+      "rho_without_sombra": 0.122,
+      "style_associations": {
+        "dive": 0.071,
+        "poke": -0.331,
+        "brawl": 0.314
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "torbjorn",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "lijiang_tower",
+      "map_name": "Lijiang Tower",
+      "point": "control_center",
+      "point_name": "Control Center",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Control Center"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.388,
+      "relative_rho": 0.462,
+      "rho_without_sombra": 0.433,
+      "style_associations": {
+        "dive": 0.298,
+        "poke": -0.431,
+        "brawl": 0.189
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.561,
+      "relative_rho": -0.562,
+      "rho_without_sombra": -0.534,
+      "style_associations": {
+        "dive": -0.561,
+        "poke": 0.639,
+        "brawl": 0
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.409,
+      "relative_rho": 0.392,
+      "rho_without_sombra": 0.417,
+      "style_associations": {
+        "dive": -0.599,
+        "poke": 0.671,
+        "brawl": 0.018
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mei",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "dva",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "zarya",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.611,
+      "relative_rho": -0.601,
+      "rho_without_sombra": -0.61,
+      "style_associations": {
+        "dive": -0.549,
+        "poke": 0.611,
+        "brawl": 0.01
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.542,
+      "relative_rho": 0.499,
+      "rho_without_sombra": 0.53,
+      "style_associations": {
+        "dive": -0.513,
+        "poke": 0.542,
+        "brawl": 0.021
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.019,
+      "relative_rho": 0.034,
+      "rho_without_sombra": -0.015,
+      "style_associations": {
+        "dive": -0.596,
+        "poke": 0.532,
+        "brawl": 0.192
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.239,
+      "relative_rho": 0.272,
+      "rho_without_sombra": 0.222,
+      "style_associations": {
+        "dive": -0.539,
+        "poke": 0.428,
+        "brawl": 0.239
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "sojourn",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.329,
+        "poke": 0.328,
+        "brawl": -0.063
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.404,
+        "poke": 0.282,
+        "brawl": 0.076
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.335,
+        "poke": 0.285,
+        "brawl": 0.005
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.323,
+        "poke": 0.268,
+        "brawl": 0.046
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.346,
+        "poke": 0.222,
+        "brawl": 0.093
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "neon_junction",
+      "map_name": "Neon Junction",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.34,
+        "poke": 0.33,
+        "brawl": 0.33
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "placeholder",
+      "relative_status": "placeholder",
+      "heroes_compared": 42,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": -0.235,
+        "poke": 0.248,
+        "brawl": -0.006
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": []
+    },
+    {
+      "map": "nepal",
+      "map_name": "Nepal",
+      "point": "village",
+      "point_name": "Village",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Village"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.412,
+      "relative_rho": 0.419,
+      "rho_without_sombra": 0.398,
+      "style_associations": {
+        "dive": 0.033,
+        "poke": -0.242,
+        "brawl": 0.319
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "nepal",
+      "map_name": "Nepal",
+      "point": "shrine",
+      "point_name": "Shrine",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Shrine"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.077,
+      "relative_rho": 0.076,
+      "rho_without_sombra": 0.116,
+      "style_associations": {
+        "dive": 0.077,
+        "poke": -0.466,
+        "brawl": 0.432
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "junkrat",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "reinhardt",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "nepal",
+      "map_name": "Nepal",
+      "point": "sanctum",
+      "point_name": "Sanctum",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Sanctum"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.1,
+        "brawl": 0.7
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.382,
+      "relative_rho": 0.446,
+      "rho_without_sombra": 0.391,
+      "style_associations": {
+        "dive": 0.295,
+        "poke": -0.564,
+        "brawl": 0.305
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 10,
+          "cownter_fit": -0.61
+        },
+        {
+          "hero": "wreckingball",
+          "source_rating": 10,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "new_junk_city",
+      "map_name": "New Junk City",
+      "point": "first_point",
+      "point_name": "First point",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Arena",
+        "Ducts",
+        "Refinery",
+        "Junkyard",
+        "Bomb Flats"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.283,
+      "relative_rho": 0.261,
+      "rho_without_sombra": 0.204,
+      "style_associations": {
+        "dive": 0.283,
+        "poke": -0.44,
+        "brawl": 0.124
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "junkerqueen",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 16,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "illari",
+          "source_rating": 14,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "new_junk_city",
+      "map_name": "New Junk City",
+      "point": "later_points",
+      "point_name": "Later points",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Arena",
+        "Ducts",
+        "Refinery",
+        "Junkyard",
+        "Bomb Flats"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.16,
+      "relative_rho": 0.125,
+      "rho_without_sombra": 0.071,
+      "style_associations": {
+        "dive": 0.283,
+        "poke": -0.44,
+        "brawl": 0.124
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "junkerqueen",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 16,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "illari",
+          "source_rating": 14,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "brigitte",
+          "source_rating": 14,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "new_queen_street",
+      "map_name": "New Queen Street",
+      "point": "center",
+      "point_name": "Center fight",
+      "side": null,
+      "mapping": "center/Mid",
+      "source_points": [
+        "Mid"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.022,
+      "relative_rho": 0.14,
+      "rho_without_sombra": -0.003,
+      "style_associations": {
+        "dive": 0.633,
+        "poke": -0.52,
+        "brawl": -0.223
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "new_queen_street",
+      "map_name": "New Queen Street",
+      "point": "deep_push",
+      "point_name": "Deep push",
+      "side": null,
+      "mapping": "context only: Ally/Enemy",
+      "source_points": [
+        "Ally",
+        "Enemy"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.263,
+      "relative_rho": -0.215,
+      "rho_without_sombra": -0.216,
+      "style_associations": {
+        "dive": 0.599,
+        "poke": -0.443,
+        "brawl": -0.263
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "doomfist",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "sombra",
+          "source_rating": 15,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.241,
+      "relative_rho": 0.148,
+      "rho_without_sombra": 0.248,
+      "style_associations": {
+        "dive": -0.115,
+        "poke": 0.347,
+        "brawl": -0.241
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.183,
+      "relative_rho": 0.117,
+      "rho_without_sombra": 0.169,
+      "style_associations": {
+        "dive": -0.126,
+        "poke": 0.242,
+        "brawl": -0.093
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "dva",
+          "source_rating": 10,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "winston",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.078,
+      "relative_rho": -0.152,
+      "rho_without_sombra": -0.071,
+      "style_associations": {
+        "dive": -0.199,
+        "poke": 0.366,
+        "brawl": -0.126
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.161,
+      "relative_rho": 0.054,
+      "rho_without_sombra": 0.153,
+      "style_associations": {
+        "dive": 0.002,
+        "poke": 0.163,
+        "brawl": -0.161
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "hazard",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.351,
+      "relative_rho": -0.3,
+      "rho_without_sombra": -0.323,
+      "style_associations": {
+        "dive": -0.268,
+        "poke": 0.351,
+        "brawl": -0.01
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "numbani",
+      "map_name": "Numbani",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.13,
+      "relative_rho": -0.087,
+      "rho_without_sombra": -0.085,
+      "style_associations": {
+        "dive": -0.13,
+        "poke": 0.315,
+        "brawl": -0.129
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "oasis",
+      "map_name": "Oasis",
+      "point": "city_center",
+      "point_name": "City Center",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "City Center"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.22,
+      "relative_rho": 0.208,
+      "rho_without_sombra": 0.229,
+      "style_associations": {
+        "dive": 0.22,
+        "poke": -0.524,
+        "brawl": 0.358
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "torbjorn",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "junkerqueen",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "reaper",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "oasis",
+      "map_name": "Oasis",
+      "point": "gardens",
+      "point_name": "Gardens",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Gardens"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.387,
+      "relative_rho": 0.407,
+      "rho_without_sombra": 0.376,
+      "style_associations": {
+        "dive": 0.438,
+        "poke": -0.573,
+        "brawl": 0.197
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "oasis",
+      "map_name": "Oasis",
+      "point": "university",
+      "point_name": "University",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "University"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.334,
+      "relative_rho": 0.299,
+      "rho_without_sombra": 0.345,
+      "style_associations": {
+        "dive": 0.186,
+        "poke": -0.412,
+        "brawl": 0.325
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.25
+        },
+        {
+          "hero": "roadhog",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 10,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.106,
+      "relative_rho": -0.09,
+      "rho_without_sombra": -0.09,
+      "style_associations": {
+        "dive": -0.028,
+        "poke": 0.106,
+        "brawl": -0.085
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "bastion",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.161,
+      "relative_rho": 0.144,
+      "rho_without_sombra": 0.169,
+      "style_associations": {
+        "dive": 0.025,
+        "poke": 0.161,
+        "brawl": -0.198
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "moira",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.099,
+      "relative_rho": 0.07,
+      "rho_without_sombra": 0.122,
+      "style_associations": {
+        "dive": 0.094,
+        "poke": 0.038,
+        "brawl": -0.132
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.08,
+      "relative_rho": 0.038,
+      "rho_without_sombra": 0.094,
+      "style_associations": {
+        "dive": 0.08,
+        "poke": 0.073,
+        "brawl": -0.14
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.118,
+      "relative_rho": -0.081,
+      "rho_without_sombra": -0.108,
+      "style_associations": {
+        "dive": 0.033,
+        "poke": 0.092,
+        "brawl": -0.089
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "echo",
+          "source_rating": 10,
+          "cownter_fit": -0.22
+        }
+      ]
+    },
+    {
+      "map": "paraiso",
+      "map_name": "Paraíso",
+      "point": "checkpoint_2",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.174,
+      "relative_rho": -0.119,
+      "rho_without_sombra": -0.178,
+      "style_associations": {
+        "dive": -0.086,
+        "poke": 0.317,
+        "brawl": -0.174
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "echo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.37,
+      "relative_rho": -0.301,
+      "rho_without_sombra": -0.376,
+      "style_associations": {
+        "dive": -0.368,
+        "poke": 0.588,
+        "brawl": -0.202
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.3,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.076,
+      "relative_rho": 0.137,
+      "rho_without_sombra": -0.059,
+      "style_associations": {
+        "dive": -0.514,
+        "poke": 0.603,
+        "brawl": -0.095
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.19
+        },
+        {
+          "hero": "juno",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.556,
+      "relative_rho": -0.567,
+      "rho_without_sombra": -0.487,
+      "style_associations": {
+        "dive": -0.45,
+        "poke": 0.542,
+        "brawl": -0.058
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.394,
+      "relative_rho": -0.449,
+      "rho_without_sombra": -0.336,
+      "style_associations": {
+        "dive": -0.394,
+        "poke": 0.649,
+        "brawl": -0.272
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "baptiste",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "illari",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.311,
+      "relative_rho": -0.206,
+      "rho_without_sombra": -0.314,
+      "style_associations": {
+        "dive": -0.466,
+        "poke": 0.626,
+        "brawl": -0.121
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "ana",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.723,
+      "relative_rho": 0.667,
+      "rho_without_sombra": 0.702,
+      "style_associations": {
+        "dive": -0.413,
+        "poke": 0.723,
+        "brawl": -0.283
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "doomfist",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.377,
+      "relative_rho": 0.336,
+      "rho_without_sombra": 0.366,
+      "style_associations": {
+        "dive": -0.176,
+        "poke": 0.382,
+        "brawl": -0.198
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mei",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "hazard",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.6,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.387,
+      "relative_rho": 0.328,
+      "rho_without_sombra": 0.381,
+      "style_associations": {
+        "dive": -0.103,
+        "poke": 0.387,
+        "brawl": -0.242
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hazard",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "dva",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "moira",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "mei",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.348,
+      "relative_rho": -0.361,
+      "rho_without_sombra": -0.354,
+      "style_associations": {
+        "dive": -0.248,
+        "poke": 0.345,
+        "brawl": -0.067
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.37
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.339,
+      "relative_rho": 0.281,
+      "rho_without_sombra": 0.351,
+      "style_associations": {
+        "dive": -0.1,
+        "poke": 0.402,
+        "brawl": -0.339
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "orisa",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "reaper",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.207,
+      "relative_rho": -0.112,
+      "rho_without_sombra": -0.229,
+      "style_associations": {
+        "dive": -0.188,
+        "poke": 0.418,
+        "brawl": -0.207
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "route_66",
+      "map_name": "Route 66",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.48,
+      "relative_rho": 0.396,
+      "rho_without_sombra": 0.472,
+      "style_associations": {
+        "dive": -0.164,
+        "poke": 0.403,
+        "brawl": -0.28
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "winston",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "dva",
+          "source_rating": 10,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "runasapi",
+      "map_name": "Runasapi",
+      "point": "center",
+      "point_name": "Center fight",
+      "side": null,
+      "mapping": "center/Mid",
+      "source_points": [
+        "Mid"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.257,
+      "relative_rho": -0.341,
+      "rho_without_sombra": -0.305,
+      "style_associations": {
+        "dive": 0.195,
+        "poke": -0.44,
+        "brawl": 0.257
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "junkerqueen",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "lucio",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "reinhardt",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "runasapi",
+      "map_name": "Runasapi",
+      "point": "deep_push",
+      "point_name": "Deep push",
+      "side": null,
+      "mapping": "context only: Ally/Enemy",
+      "source_points": [
+        "Ally",
+        "Enemy"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.037,
+      "relative_rho": 0.071,
+      "rho_without_sombra": 0.062,
+      "style_associations": {
+        "dive": 0.184,
+        "poke": -0.213,
+        "brawl": 0.037
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "tracer",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "samoa",
+      "map_name": "Samoa",
+      "point": "beach",
+      "point_name": "Beach",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Beach"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.024,
+      "relative_rho": 0.021,
+      "rho_without_sombra": -0.022,
+      "style_associations": {
+        "dive": 0.164,
+        "poke": -0.23,
+        "brawl": 0.099
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "mauga",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "brigitte",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "junkerqueen",
+          "source_rating": 10,
+          "cownter_fit": -0.31
+        }
+      ]
+    },
+    {
+      "map": "samoa",
+      "map_name": "Samoa",
+      "point": "downtown",
+      "point_name": "Downtown",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Downtown"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.2,
+      "relative_rho": 0.251,
+      "rho_without_sombra": 0.199,
+      "style_associations": {
+        "dive": 0.069,
+        "poke": -0.198,
+        "brawl": 0.082
+      },
+      "strongest_style_signal": "brawl",
+      "conflicts": [
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "juno",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "tracer",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "pharah",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "samoa",
+      "map_name": "Samoa",
+      "point": "volcano",
+      "point_name": "Volcano",
+      "side": null,
+      "mapping": "direct named point",
+      "source_points": [
+        "Volcano"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.224,
+      "relative_rho": 0.184,
+      "rho_without_sombra": 0.197,
+      "style_associations": {
+        "dive": 0.279,
+        "poke": -0.199,
+        "brawl": -0.11
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "illari",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "zarya",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 10,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "roadhog",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.037,
+      "relative_rho": 0.027,
+      "rho_without_sombra": -0.091,
+      "style_associations": {
+        "dive": -0.361,
+        "poke": 0.39,
+        "brawl": -0.037
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "poke"
+      ],
+      "status": "aligned",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.352,
+      "relative_rho": 0.274,
+      "rho_without_sombra": 0.338,
+      "style_associations": {
+        "dive": -0.294,
+        "poke": 0.352,
+        "brawl": -0.051
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "venture",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "zarya",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "opposed",
+      "relative_status": "opposed",
+      "heroes_compared": 42,
+      "rho": -0.23,
+      "relative_rho": -0.219,
+      "rho_without_sombra": -0.181,
+      "style_associations": {
+        "dive": -0.252,
+        "poke": 0.16,
+        "brawl": 0.122
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.31
+        },
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "symmetra",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.07,
+      "relative_rho": 0.034,
+      "rho_without_sombra": 0.137,
+      "style_associations": {
+        "dive": -0.09,
+        "poke": 0.344,
+        "brawl": -0.222
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "ramattra",
+          "source_rating": 20,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.2,
+        "poke": 0.2,
+        "brawl": 0.6
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.055,
+      "relative_rho": 0.14,
+      "rho_without_sombra": 0.013,
+      "style_associations": {
+        "dive": -0.291,
+        "poke": 0.274,
+        "brawl": 0.055
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hanzo",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "echo",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "shambali_monastery",
+      "map_name": "Shambali Monastery",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.3,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.216,
+      "relative_rho": -0.112,
+      "rho_without_sombra": -0.271,
+      "style_associations": {
+        "dive": -0.139,
+        "poke": 0.378,
+        "brawl": -0.216
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "mercy",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "zenyatta",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "hanzo",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "suravasa",
+      "map_name": "Suravasa",
+      "point": "first_point",
+      "point_name": "First point",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Market",
+        "Gardens",
+        "Palace",
+        "Temple",
+        "Ruins"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.438,
+      "relative_rho": 0.406,
+      "rho_without_sombra": 0.396,
+      "style_associations": {
+        "dive": 0.407,
+        "poke": -0.42,
+        "brawl": 0.005
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "soldier76",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 10,
+          "cownter_fit": -0.25
+        }
+      ]
+    },
+    {
+      "map": "suravasa",
+      "map_name": "Suravasa",
+      "point": "later_points",
+      "point_name": "Later points",
+      "side": null,
+      "mapping": "context only: all five objectives",
+      "source_points": [
+        "Market",
+        "Gardens",
+        "Palace",
+        "Temple",
+        "Ruins"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "aligned",
+      "relative_status": "aligned",
+      "heroes_compared": 42,
+      "rho": 0.42,
+      "relative_rho": 0.368,
+      "rho_without_sombra": 0.393,
+      "style_associations": {
+        "dive": 0.407,
+        "poke": -0.42,
+        "brawl": 0.005
+      },
+      "strongest_style_signal": "dive",
+      "conflicts": [
+        {
+          "hero": "soldier76",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        },
+        {
+          "hero": "cassidy",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "throne_of_anubis",
+      "map_name": "Throne of Anubis",
+      "point": "middle",
+      "point_name": "Middle point",
+      "side": null,
+      "mapping": "missing map",
+      "source_points": [],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "throne_of_anubis",
+      "map_name": "Throne of Anubis",
+      "point": "outer",
+      "point_name": "Outer points",
+      "side": null,
+      "mapping": "missing map",
+      "source_points": [],
+      "weights": {
+        "dive": 0.3,
+        "poke": 0.2,
+        "brawl": 0.5
+      },
+      "dominant": [
+        "brawl"
+      ],
+      "status": "unmapped",
+      "relative_status": "unmapped",
+      "heroes_compared": 0,
+      "rho": null,
+      "relative_rho": null,
+      "rho_without_sombra": null,
+      "style_associations": {
+        "dive": null,
+        "poke": null,
+        "brawl": null
+      },
+      "strongest_style_signal": null,
+      "conflicts": []
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.213,
+      "relative_rho": 0.142,
+      "rho_without_sombra": 0.16,
+      "style_associations": {
+        "dive": 0.064,
+        "poke": 0.172,
+        "brawl": -0.255
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 20,
+          "cownter_fit": -0.13
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "A"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.4,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive",
+        "poke"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.251,
+      "relative_rho": 0.167,
+      "rho_without_sombra": 0.234,
+      "style_associations": {
+        "dive": 0.065,
+        "poke": 0.155,
+        "brawl": -0.251
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "hazard",
+          "source_rating": 20,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.6,
+        "poke": 0.2,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.05,
+      "relative_rho": 0.003,
+      "rho_without_sombra": -0.017,
+      "style_associations": {
+        "dive": 0.05,
+        "poke": 0.242,
+        "brawl": -0.309
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        }
+      ]
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "B"
+      ],
+      "weights": {
+        "dive": 0.5,
+        "poke": 0.3,
+        "brawl": 0.2
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": 0.205,
+      "relative_rho": 0.176,
+      "rho_without_sombra": 0.131,
+      "style_associations": {
+        "dive": 0.075,
+        "poke": 0.166,
+        "brawl": -0.268
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.22
+        },
+        {
+          "hero": "widowmaker",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "attack",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "dominant": [
+        "dive",
+        "brawl"
+      ],
+      "status": "opposed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.235,
+      "relative_rho": -0.177,
+      "rho_without_sombra": -0.278,
+      "style_associations": {
+        "dive": 0.049,
+        "poke": 0.235,
+        "brawl": -0.256
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "widowmaker",
+          "source_rating": 10,
+          "cownter_fit": -0.4
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 10,
+          "cownter_fit": -0.34
+        },
+        {
+          "hero": "sigma",
+          "source_rating": 10,
+          "cownter_fit": -0.28
+        },
+        {
+          "hero": "lifeweaver",
+          "source_rating": 10,
+          "cownter_fit": -0.16
+        }
+      ]
+    },
+    {
+      "map": "watchpoint_gibraltar",
+      "map_name": "Watchpoint: Gibraltar",
+      "point": "checkpoint_3",
+      "point_name": "Final stretch",
+      "side": "defense",
+      "mapping": "direct stage",
+      "source_points": [
+        "C"
+      ],
+      "weights": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "dominant": [
+        "dive"
+      ],
+      "status": "mixed",
+      "relative_status": "mixed",
+      "heroes_compared": 42,
+      "rho": -0.049,
+      "relative_rho": -0.098,
+      "rho_without_sombra": -0.05,
+      "style_associations": {
+        "dive": -0.049,
+        "poke": 0.344,
+        "brawl": -0.281
+      },
+      "strongest_style_signal": "poke",
+      "conflicts": [
+        {
+          "hero": "lifeweaver",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "soldier76",
+          "source_rating": 20,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "ashe",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        },
+        {
+          "hero": "orisa",
+          "source_rating": 10,
+          "cownter_fit": -0.1
+        }
+      ]
+    }
+  ]
+}
