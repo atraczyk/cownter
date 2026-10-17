@@ -107,6 +107,7 @@ roster.heroes.sort((a, b) => a.id.localeCompare(b.id));
 const previous = roster.version;
 roster.version = bump(previous, added.length || roleChanges.length ? 'minor' : 'patch');
 roster.updated = today();
+roster.status = 'llm-draft';
 fs.writeFileSync(ROSTER, formatRoster(roster), 'utf8');
 fs.writeFileSync(HERO_DATA, `${JSON.stringify(heroData, null, 2)}\n`, 'utf8');
 
@@ -123,6 +124,6 @@ fs.writeFileSync(
 );
 
 console.log(`\nroster.json ${previous} -> ${roster.version}`);
-if (added.length) console.log('Next: npm run scaffold-missing && npm run grab-icons, then draft counters.');
-if (roleChanges.length) console.log('Next: review archetype weights and counters for the changed roles.');
+if (added.length) console.log('Next: npm run scaffold-missing && npm run grab-icons, then node packages/core/scripts/sync-matchups.mjs --write.');
+if (roleChanges.length) console.log('Next: review archetype weights for the changed roles and regenerate Overpicker matchups.');
 console.log('Then: npm run validate-data && npm run audit-data && npm test');

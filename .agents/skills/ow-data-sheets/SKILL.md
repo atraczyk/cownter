@@ -61,15 +61,9 @@ npm run test:e2e
 - [ ] Draft map point comps (attack/defense on sided modes)
 - [ ] Add icons under resources/images/icons/ (`npm run grab-icons`)
 - [ ] Add map thumbnails under resources/images/maps/ (`npm run grab-maps`)
-- [ ] Bump sheet versions, set updated + status, CHANGELOG entries
+- [ ] Record source, date, review status and rationale in the data changelog
 - [ ] npm run validate-data && npm test && npm run audit-data
 ```
-
-### Version bumps
-
-- **patch**: weight tweaks, display-name fixes
-- **minor**: new heroes, maps, points or modes
-- **major**: schema change that needs code changes in `packages/core/src/`
 
 ### Status
 
@@ -116,3 +110,7 @@ Use `packages/core/scripts/sync-matchups.mjs` for counters and synergies. Defaul
 - Sombra's archetype weights still need review after her support rework; her matchup lists now follow Overpicker.
 
 Run `npm run sync-data` and `npm run audit-data` rather than trusting a static roster list.
+
+## Keep updates simple
+
+The UI shows one app version from client/package.json, followed by the short Git commit hash, with no version popup. Bump that version and its package-lock.json workspace entry when shipping an update. Record data sources, dates and the reason for changes in the existing data changelog, then run validation and tests. Do not add separate release governance, version enforcement scripts or an ADR for routine data updates.

@@ -156,6 +156,8 @@ function open(select: HTMLSelectElement, button: HTMLButtonElement, initialQuery
   activeSelect = select;
   activeButton = button;
   button.setAttribute('aria-expanded', 'true');
+  const context = popup.querySelector('.hero-picker-context');
+  if (context) context.textContent = select.getAttribute('aria-label') ?? '';
   popup.hidden = false;
   search.value = initialQuery;
   renderOptions();
@@ -175,7 +177,7 @@ export const HeroPicker = {
     popup.setAttribute('aria-label', 'Choose hero');
     popup.className = 'hero-picker-popup';
     popup.hidden = true;
-    popup.innerHTML = '<button type="button" class="hero-picker-close" autofocus>Close</button><input placeholder="Search heroes" type="search" aria-label="Search heroes" aria-controls="hero-picker-options" autocomplete="off" spellcheck="false"><div id="hero-picker-options" role="listbox" aria-label="Available heroes"></div>';
+    popup.innerHTML = '<div class="hero-picker-head"><div><span class="hero-picker-context"></span><h2>Choose hero</h2></div><button type="button" class="hero-picker-close" aria-label="Close hero picker" autofocus><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div><input placeholder="Search heroes" type="search" aria-label="Search heroes" aria-controls="hero-picker-options" autocomplete="off" spellcheck="false"><div id="hero-picker-options" role="listbox" aria-label="Available heroes"></div>';
     document.body.append(popup);
     popup.querySelector('.hero-picker-close')?.addEventListener('click', () => close(true));
     popup.addEventListener('cancel', event => { event.preventDefault(); close(true); });

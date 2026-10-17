@@ -177,8 +177,8 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'First checkpoint' }).click();
     await page.getByRole('button', { name: 'Attacking' }).click();
 
-    await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · ([0-9a-f]{7,}(-dirty)?|unknown)$/);
-    await expect(page.locator('[data-part="version"]')).toHaveAttribute('data-tip', /Map data/);
+    await expect(page.locator('[data-part="version"]')).toHaveText(/^v\d+\.\d+\.\d+ · [0-9a-f]{7,}$/);
+    await expect(page.locator('[data-part="version"]')).not.toHaveAttribute('data-tip');
     await expect(page.locator('[data-part="fit-total"]')).not.toHaveText('—');
     await expect(page.locator('.map-panel')).toContainText('Dorado');
     await expect(page.locator('.map-panel')).toContainText('First checkpoint');
@@ -347,6 +347,9 @@ test('uses an avatar picker without the hero pool on phones', async ({ page }) =
   await expect(search).not.toBeFocused();
   await expect(search).toHaveAttribute('placeholder', 'Search heroes');
   const picker = page.getByRole('dialog', { name: 'Choose hero' });
+  await expect(picker.getByRole('heading', { name: 'Choose hero' })).toBeVisible();
+  await expect(picker.locator('.hero-picker-context')).toHaveText('Your Tank');
+  await expect(picker.getByRole('button', { name: 'Close hero picker' })).toBeVisible();
   expect(await picker.boundingBox()).toEqual({ x: 0, y: 0, width: 420, height: 900 });
   await search.fill('dva');
   const option = page.getByRole('option', { name: 'Dva' });
@@ -418,3 +421,76 @@ for (const width of [1440, 1024, 420]) {
     expect(await page.evaluate(() => (window as any).layoutShifts)).toBe(0);
   });
 }
+
+for (const width of [1440, 1024, 420]) {
+  test(`locks background scrolling while About is open at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 600 });
+    await page.goto('/');
+    await expect(page.locator('body')).not.toHaveClass(/app-loading/);
+    const about = page.getByRole('dialog', { name: 'cownter' });
+    const backgroundY = () => page.evaluate(() => window.scrollY);
+    for (const dismiss of (width <= 760 ? ['escape', 'button'] : ['escape', 'button', 'backdrop'])) {
+      await page.getByRole('button', { name: 'About cownter' }).click();
+      if (width <= 760) {
+        const bounds = await about.boundingBox();
+        expect(bounds).toEqual({ x: 0, y: 0, width, height: 600 });
+      }
+      const before = await backgroundY();
+      await page.mouse.move(2, 300);
+      await page.mouse.wheel(0, 400);
+      await page.waitForTimeout(150);
+      expect(await backgroundY()).toBe(before);
+      await about.hover();
+      await page.mouse.wheel(0, 500);
+      await expect.poll(() => about.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+      expect(await backgroundY()).toBe(before);
+      if (dismiss === 'escape') await page.keyboard.press('Escape');
+      else if (dismiss === 'button') await about.getByRole('button', { name: 'Close' }).click();
+      else await page.mouse.click(2, 300);
+      await expect(about).toBeHidden();
+      expect(await backgroundY()).toBe(before);
+      await page.mouse.move(2, 300);
+      await page.mouse.wheel(0, 200);
+      await expect.poll(backgroundY).toBeGreaterThan(before);
+      await page.evaluate(() => window.scrollTo(0, 0));
+    }
+  });
+}
+
+for (const width of [1280, 1440]) {
+  test(`keeps all escort checkpoints visible at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Escort', exact: true }).click();
+    await page.locator('#map-select').selectOption('havana');
+    const points = page.locator('[data-part="points"]');
+    expect(await points.evaluate(el => el.scrollWidth)).toBeLessThanOrEqual(await points.evaluate(el => el.clientWidth));
+    const group = await points.boundingBox();
+    const last = await points.getByRole('button').last().boundingBox();
+    expect(last!.x + last!.width).toBeLessThanOrEqual(group!.x + group!.width + 1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+  });
+}
+
+test('gives the analysis triangle room on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const plot = page.locator('.compass-plot');
+  await plot.scrollIntoViewIfNeeded();
+  const bounds = await plot.boundingBox();
+  expect(bounds!.width).toBeGreaterThanOrEqual(280);
+  const legend = await page.locator('.compass-legend').boundingBox();
+  expect(legend!.y).toBeGreaterThanOrEqual(bounds!.y + bounds!.height);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
+});
+
+test('shows analysis then enemy, suggestions and your team on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const sections = await page.locator('.compass-card, .board-enemy, .board-yours, .right-column').evaluateAll(elements =>
+    elements.map(el => ({ name: el.className, y: el.getBoundingClientRect().top })).sort((a, b) => a.y - b.y).map(el => el.name));
+  expect(sections[0]).toContain('compass-card');
+  expect(sections[1]).toContain('board-enemy');
+  expect(sections[2]).toContain('right-column');
+  expect(sections[3]).toContain('board-yours');
+});

@@ -2,7 +2,7 @@ import { API } from './api';
 import { findMap, findMode, mapsForMode } from './compFit';
 import { ScoreManager } from './scoreManager';
 import { SuggestionManager } from './suggestionManager';
-import { setTip } from './tooltip';
+import { version as appVersion } from '../package.json';
 import { pageTeams, showStatus } from './teamManager';
 import type { CompData, MatchContext, Side } from './types';
 import { emptyContext, notifyViewChange, saveContext, viewState } from './viewState';
@@ -138,17 +138,7 @@ export const MatchContextBar = {
 
     const version = root.querySelector<HTMLElement>('[data-part="version"]');
     if (version) {
-      const draft = data.maps.status === 'llm-draft' || data.archetypes.status === 'llm-draft';
-      version.textContent = `v${__APP_VERSION__} · ${__GIT_HASH__}`;
-      setTip(version, {
-        title: `cownter v${__APP_VERSION__}`,
-        rows: [
-          ['Build', __GIT_HASH__],
-          ['Map data', `v${data.maps.version} · ${data.maps.status ?? 'unknown'}`],
-          ['Comp types', `v${data.archetypes.version} · ${data.archetypes.status ?? 'unknown'}`],
-        ],
-        note: draft ? 'Map and comp-type values are an unreviewed first draft.' : undefined,
-      });
+      version.textContent = `v${appVersion} · ${__GIT_HASH__}`;
     }
   },
 
