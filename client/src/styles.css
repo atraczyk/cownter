@@ -44,6 +44,8 @@ h1, h2 { margin: 0; }
 
 /* ---------- Header and match bar ---------- */
 
+.app-chrome { display: contents; }
+
 .app-header {
     position: sticky;
     top: 0;
@@ -1078,7 +1080,10 @@ select.hero-select {
         padding: max(18px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
     }
 
-    .app-header { position: sticky; top: 0; gap: 12px; padding: 12px 16px 0; box-shadow: none; }
+    html, body { overscroll-behavior-y: none; }
+    body { min-height: 100dvh; }
+    .app-chrome { display: block; position: sticky; top: 0; z-index: 30; background: var(--ink); }
+    .app-header { position: static; gap: 12px; padding: 12px 16px 0; box-shadow: none; }
     .match-toggle {
         display: flex;
         align-items: center;
@@ -1167,7 +1172,7 @@ select.hero-select {
 
 .mobile-section-tabs { display: none; }
 @media (max-width: 760px) {
-    .mobile-section-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: sticky; top: var(--header-h, 110px); z-index: 30; padding: 12px 16px; gap: 4px; background: var(--ink); }
+    .mobile-section-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: static; padding: 12px 16px; gap: 4px; background: var(--ink); }
     .mobile-section-tabs button { min-height: 44px; padding: 6px 2px; border: 0; border-radius: 5px; color: #c4cdd8; background: transparent; font-size: 12px; font-weight: 600; cursor: pointer; }
     .mobile-section-tabs [aria-selected="true"] { color: var(--ink); background: var(--panel); }
     .main-container {
