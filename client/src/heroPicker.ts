@@ -1,7 +1,9 @@
+import { ARCHETYPE_LABELS, dominant } from './compFit';
+import { viewState } from './viewState';
 import { getHeroIcon } from './utils';
 import { heroLabel } from './tooltip';
 
-let popup: HTMLDivElement | null = null;
+let popup: HTMLDialogElement | null = null;
 let search: HTMLInputElement | null = null;
 let options: HTMLDivElement | null = null;
 let activeSelect: HTMLSelectElement | null = null;
@@ -28,6 +30,13 @@ function sync(select: HTMLSelectElement): void {
 
 function position(): void {
   if (!popup || !options || !activeButton) return;
+  if (window.matchMedia('(max-width: 760px)').matches) {
+    popup.style.width = '100%';
+    popup.style.left = '0';
+    popup.style.top = '0';
+    options.style.maxHeight = 'none';
+    return;
+  }
   const rect = activeButton.getBoundingClientRect();
   const width = Math.min(Math.max(rect.width, 280), window.innerWidth - 16);
   const below = window.innerHeight - rect.bottom - 8;
@@ -43,7 +52,12 @@ function position(): void {
 
 function activate(index: number): void {
   if (!search || !options || !visibleValues.length) return;
+  const step = index < activeIndex ? -1 : 1;
   activeIndex = (index + visibleValues.length) % visibleValues.length;
+  for (let checked = 0; checked < visibleValues.length; checked++) {
+    if (options.querySelectorAll('[role="option"]')[activeIndex]?.getAttribute('aria-disabled') !== 'true') break;
+    activeIndex = (activeIndex + step + visibleValues.length) % visibleValues.length;
+  }
   options.querySelectorAll<HTMLElement>('[role="option"]').forEach((option, item) => {
     option.classList.toggle('is-active', item === activeIndex);
     if (item === activeIndex) {
@@ -56,8 +70,17 @@ function activate(index: number): void {
 function renderOptions(): void {
   if (!activeSelect || !options || !search) return;
   const query = search.value.trim().toLowerCase();
-  const entries = [...activeSelect.options]
-    .filter((option) => !query || (option.value ? heroLabel(option.value) : 'Clear slot').toLowerCase().includes(query));
+  const available = [...activeSelect.options];
+  document.querySelectorAll<HTMLSelectElement>(`.hero-select[data-team="${activeSelect.dataset.team}"][data-role="${activeSelect.dataset.role}"]`).forEach(select => {
+    if (!select.value || available.some(option => option.value === select.value)) return;
+    const entry = new Option(heroLabel(select.value), select.value);
+    entry.disabled = true;
+    available.push(entry);
+  });
+  const entries = available
+    .filter(option => !query || (option.value ? heroLabel(option.value) : 'Clear hero').toLowerCase().includes(query))
+    .sort((a, b) => !a.value ? 1 : !b.value ? -1 : heroLabel(a.value).localeCompare(heroLabel(b.value)));
+
   visibleValues = entries.map((option) => option.value);
   options.replaceChildren(...entries.map((entry, index) => {
     const option = document.createElement('div');
@@ -66,6 +89,8 @@ function renderOptions(): void {
     option.setAttribute('role', 'option');
     option.setAttribute('aria-selected', String(entry.value === activeSelect!.value));
     option.dataset.value = entry.value;
+    option.setAttribute('aria-disabled', String(entry.disabled));
+    option.setAttribute('aria-label', entry.value ? heroLabel(entry.value) : 'Clear hero');
     if (entry.value) {
       const image = document.createElement('img');
       image.src = getHeroIcon(entry.value);
@@ -74,12 +99,22 @@ function renderOptions(): void {
     } else {
       const empty = document.createElement('span');
       empty.className = 'hero-picker-empty-icon';
+      empty.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
       empty.setAttribute('aria-hidden', 'true');
       option.append(empty);
     }
     const name = document.createElement('span');
-    name.textContent = entry.value ? heroLabel(entry.value) : 'Clear slot';
+    name.textContent = entry.value ? heroLabel(entry.value) : 'Clear hero';
+    if (entry.disabled) name.append(' (already selected)');
     option.append(name);
+    const weights = viewState.compData?.archetypes.heroes[entry.value];
+    if (weights) {
+      const archetype = dominant(weights);
+      const hint = document.createElement('span');
+      hint.className = `hero-picker-hint arch-${archetype}`;
+      hint.textContent = ARCHETYPE_LABELS[archetype];
+      option.append(hint);
+    }
     return option;
   }));
   if (!entries.length) {
@@ -90,7 +125,7 @@ function renderOptions(): void {
     activeIndex = -1;
     search.removeAttribute('aria-activedescendant');
   } else {
-    const selected = entries.findIndex((entry) => entry.value === activeSelect!.value);
+    const selected = activeSelect.value ? entries.findIndex((entry) => entry.value === activeSelect!.value) : -1;
     activate(selected >= 0 && !query ? selected : 0);
   }
 }
@@ -98,6 +133,7 @@ function renderOptions(): void {
 function close(restoreFocus = false): void {
   if (!popup || !activeButton) return;
   const button = activeButton;
+  popup.close();
   popup.hidden = true;
   button.setAttribute('aria-expanded', 'false');
   activeSelect = null;
@@ -124,16 +160,25 @@ function open(select: HTMLSelectElement, button: HTMLButtonElement, initialQuery
   search.value = initialQuery;
   renderOptions();
   position();
-  search.focus();
+  if (window.matchMedia('(max-width: 760px)').matches) {
+    popup.showModal();
+    popup.querySelector<HTMLButtonElement>('.hero-picker-close')?.focus();
+  } else {
+    popup.show();
+    search.focus();
+  }
 }
 
 export const HeroPicker = {
   init(): void {
-    popup = document.createElement('div');
+    popup = document.createElement('dialog');
+    popup.setAttribute('aria-label', 'Choose hero');
     popup.className = 'hero-picker-popup';
     popup.hidden = true;
-    popup.innerHTML = '<input type="search" aria-label="Search heroes" aria-controls="hero-picker-options" autocomplete="off" spellcheck="false"><div id="hero-picker-options" role="listbox" aria-label="Available heroes"></div>';
+    popup.innerHTML = '<button type="button" class="hero-picker-close" autofocus>Close</button><input placeholder="Search heroes" type="search" aria-label="Search heroes" aria-controls="hero-picker-options" autocomplete="off" spellcheck="false"><div id="hero-picker-options" role="listbox" aria-label="Available heroes"></div>';
     document.body.append(popup);
+    popup.querySelector('.hero-picker-close')?.addEventListener('click', () => close(true));
+    popup.addEventListener('cancel', event => { event.preventDefault(); close(true); });
     search = popup.querySelector('input');
     options = popup.querySelector('#hero-picker-options');
 
@@ -169,11 +214,11 @@ export const HeroPicker = {
       } else if (event.key === 'Enter') {
         event.preventDefault();
         if (activeIndex >= 0) choose(visibleValues[activeIndex]);
-      } else if (event.key === 'Tab') close();
+      } else if (event.key === 'Tab' && !popup?.matches(':modal')) close();
     });
     options?.addEventListener('click', (event) => {
       const option = event.target instanceof Element ? event.target.closest<HTMLElement>('[role="option"]') : null;
-      if (option) choose(option.dataset.value ?? '');
+      if (option && option.getAttribute('aria-disabled') !== 'true') choose(option.dataset.value ?? '');
     });
     document.addEventListener('pointerdown', (event) => {
       if (!activeButton || !(event.target instanceof Node)) return;

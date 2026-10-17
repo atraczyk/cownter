@@ -8,6 +8,12 @@ Versions follow semver per sheet:
 
 ## 2026-10-17
 
+### maps 0.2.1 (llm-draft)
+
+- Corrected understated ranged fit in five preferences: Midtown A/B attack, Rialto B attack/defense, and Hollywood B attack. Kept mobility value on elevated stages; exact percentages remain draft estimates.
+- Used the captured Overpicker point/side ratings as corroboration, with terrain descriptions and before/after rationale in `reports/map-corrections-2026-10-17.md`. Preserved the original sweep and wrote a separate post-correction sweep.
+- Left ambiguous disagreements, unmapped points, neutral placeholders and hero archetypes unchanged. No scoring formula change.
+
 ### matchup_sources 1.0.0 / hero_data (llm-draft)
 
 - Replaced the mixed legacy and capped matchup lists with all positive directed Overpicker ratings for all 54 heroes. Removed per-hero cutoffs and inferred reverse synergy links.

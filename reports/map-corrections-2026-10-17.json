@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-17",
+  "status": "llm-draft",
+  "sheet_version": "0.2.1",
+  "basis": "Correct the direction/sign of ranged fit in the clearest direct comparisons. Replacement percentages remain estimates, not fitted empirical measurements.",
+  "sources": [
+    "https://www.overpicker.com/maps",
+    "https://overwatchmaps.gg/midtown/guide",
+    "https://overwatch.fandom.com/wiki/Rialto",
+    "https://dignitas.gg/articles/blogs/overwatch/10390/mada-mada-a-collection-of-genji-flank-routes-part-iii-the-hybrid-maps"
+  ],
+  "unchanged": "Other point/side preferences, placeholders, hero archetypes, and engine scoring are unchanged. Descriptive layout guides corroborate terrain only; older guides are not evidence for current meta or every rework detail.",
+  "changes": [
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "point_a",
+      "point_name": "Point A capture",
+      "side": "attack",
+      "before": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "after": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "reason": "The old dive lead penalized ranged pressure against exposed approaches and elevated defenders; source A attack consistently favors ranged heroes."
+    },
+    {
+      "map": "midtown",
+      "map_name": "Midtown",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "before": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "after": {
+        "dive": 0.3,
+        "poke": 0.4,
+        "brawl": 0.3
+      },
+      "reason": "The old dive/brawl split gave poke only 20% despite source B attack favoring ranged pressure along the payload stage."
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "attack",
+      "before": {
+        "dive": 0.5,
+        "poke": 0.2,
+        "brawl": 0.3
+      },
+      "after": {
+        "dive": 0.3,
+        "poke": 0.5,
+        "brawl": 0.2
+      },
+      "reason": "Long bridge/canal sightlines and high-ground angles were underweighted by the old 20% poke preference; mobility remains useful for access."
+    },
+    {
+      "map": "rialto",
+      "map_name": "Rialto",
+      "point": "checkpoint_2",
+      "point_name": "Second checkpoint",
+      "side": "defense",
+      "before": {
+        "dive": 0.4,
+        "poke": 0.3,
+        "brawl": 0.3
+      },
+      "after": {
+        "dive": 0.2,
+        "poke": 0.5,
+        "brawl": 0.3
+      },
+      "reason": "Correct the dive-first defense preference on the same exposed stage; preserve some close-range holding value."
+    },
+    {
+      "map": "hollywood",
+      "map_name": "Hollywood",
+      "point": "checkpoint_1",
+      "point_name": "First checkpoint",
+      "side": "attack",
+      "before": {
+        "dive": 0.4,
+        "poke": 0.2,
+        "brawl": 0.4
+      },
+      "after": {
+        "dive": 0.35,
+        "poke": 0.4,
+        "brawl": 0.25
+      },
+      "reason": "Recognize rooftop firing angles in the streets phase while retaining substantial dive value for reaching and contesting high ground."
+    }
+  ]
+}

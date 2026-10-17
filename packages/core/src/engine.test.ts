@@ -34,6 +34,21 @@ describe('comp fit', () => {
     expect(bonuses.reinhardt).toBeGreaterThan(bonuses.widowmaker);
   });
 
+  it('does not penalize ranged picks on the corrected exposed stages', () => {
+    const provider = new CompDataProvider(archetypesSheet, mapsSheet);
+    const cases = [
+      ['midtown', 'point_a', 'attack', 'ashe'],
+      ['midtown', 'checkpoint_1', 'attack', 'ashe'],
+      ['rialto', 'checkpoint_2', 'attack', 'ashe'],
+      ['rialto', 'checkpoint_2', 'defense', 'ashe'],
+      ['hollywood', 'checkpoint_1', 'attack', 'hanzo'],
+    ] as const;
+    for (const [map, point, side, hero] of cases) {
+      const bonuses = provider.fitBonuses(provider.pointPreference(map, point, side));
+      expect(bonuses[hero], `${hero} on ${map}/${point}/${side}`).toBeGreaterThan(0);
+    }
+  });
+
   it('flags heroes listed under the wrong role', () => {
     const misfiled = structuredClone(heroData);
     misfiled.ana.strong_against.damage = [...(misfiled.ana.strong_against.damage ?? []), 'sombra'];
