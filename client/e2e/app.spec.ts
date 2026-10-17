@@ -61,6 +61,11 @@ test.describe('counter picker', () => {
     await page.getByRole('button', { name: 'About cownter' }).click();
     await expect(about).toBeVisible();
     await expect(about).toContainText('ow counter explorer');
+    await expect(about.getByRole('heading', { name: 'How the hero data is built' })).toBeVisible();
+    await expect(about.getByRole('link', { name: 'Overpicker', exact: true })).toHaveAttribute('href', 'https://www.overpicker.com/');
+    await expect(about.getByRole('link', { name: 'Autopoietico', exact: true })).toHaveAttribute('href', 'https://www.overpicker.com/about');
+    await expect(about.getByRole('link', { name: 'overwatch comps EXPLAINED', exact: true })).toHaveAttribute('href', 'https://www.youtube.com/watch?v=93nrrdo-w0M');
+    await expect(about.getByRole('heading', { name: 'Map preferred play styles', exact: true })).toBeVisible();
     await expect(about).toContainText('not affiliated with, endorsed, sponsored, or approved by Blizzard Entertainment');
     await expect(about).toContainText('claims no ownership');
     await about.getByRole('button', { name: 'Close' }).click();

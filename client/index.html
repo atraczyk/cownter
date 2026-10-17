@@ -19,7 +19,13 @@
             </div>
             <span class="version-cluster">
                 <span class="data-version" data-part="version"></span>
-                <button type="button" class="help-button" data-part="help" aria-label="About cownter" aria-haspopup="dialog" aria-controls="about-dialog">?</button>
+                <button type="button" class="help-button" data-part="help" aria-label="About cownter" title="About, data & credits" aria-haspopup="dialog" aria-controls="about-dialog">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="M12 11v5" />
+                        <circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none" />
+                    </svg>
+                </button>
             </span>
         </div>
 
@@ -180,6 +186,16 @@
                 </div>
                 <button type="submit" class="about-close" aria-label="Close">Close</button>
             </div>
+            <h3>How the hero data is built</h3>
+            <p>Hero names and roles are checked against the live roster through <a href="https://overfast-api.tekrop.fr/" target="_blank" rel="noopener noreferrer">OverFast</a>. Counter and synergy lists are synced for the full roster from Overpicker’s published matrices.</p>
+            <p>Every positive rating (+10 or +20) becomes a matchup link, with its published direction preserved. Both strengths count equally here; neutral and negative ratings add no links. Each counter adds 1 point, and each credited synergy partner adds 0.5. Original ratings are saved with source dates so updates can be checked.</p>
+            <p>For an introduction to dive, poke and brawl, see Yeatle’s <a href="https://www.youtube.com/watch?v=93nrrdo-w0M" target="_blank" rel="noopener noreferrer">overwatch comps EXPLAINED</a>. Our numeric hero weights are AI-drafted interpretations of these play styles, pending player review. Some newer heroes still use neutral placeholders.</p>
+            <h3>Map preferred play styles</h3>
+            <p>Each map point has its own estimated dive, poke and brawl mix, with separate attack and defense preferences on sided modes. Long sightlines favor poke, vertical routes and flanks favor dive, and tight spaces favor brawl. The highest weight sets the preferred-style label; matching a hero’s play style to the point can add or subtract map-fit points.</p>
+            <p>These map weights are separate AI drafts, not values published by Yeatle or imported from Overpicker. They still need player review, and newer map entries may use neutral placeholders. Percentages describe play-style preference, not win rates.</p>
+            <h3>Thanks to Overpicker</h3>
+            <p>Huge thanks to <a href="https://www.overpicker.com/" target="_blank" rel="noopener noreferrer">Overpicker</a> and its creator <a href="https://www.overpicker.com/about" target="_blank" rel="noopener noreferrer">Autopoietico</a> for the <a href="https://www.overpicker.com/counters" target="_blank" rel="noopener noreferrer">counter</a> and <a href="https://www.overpicker.com/synergies" target="_blank" rel="noopener noreferrer">synergy</a> data. Their ratings come from personal tracking and analysis of competitive matches. cownter uses its own scoring, so recommendations can differ.</p>
+            <h3>Fan project</h3>
             <p>cownter is an unofficial fan project. It is not affiliated with, endorsed, sponsored, or approved by Blizzard Entertainment.</p>
             <p>Overwatch and all related names, characters, maps, logos, and images are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries. All rights reserved.</p>
             <p>Every Overwatch trademark and copyright shown here is owned by Blizzard Entertainment. This project claims no ownership of that intellectual property. Hero portraits and map images are shown only to identify the heroes and maps they depict.</p>
