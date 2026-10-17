@@ -197,7 +197,7 @@ test.describe('counter picker', () => {
     await expect(page.locator('.suggestion-block .fit-chip').first()).not.toBeEmpty();
   });
 
-  for (const width of [1440, 1024, 420]) {
+  for (const width of [1440, 1024]) {
     test(`keeps panels stable at ${width}px when context and teams change`, async ({ page }) => {
       page.on('dialog', dialog => void dialog.accept());
       await page.setViewportSize({ width, height: 1000 });
@@ -285,6 +285,7 @@ test('sizes the point selector to its buttons', async ({ page }) => {
 test('balances phone match controls without moving the board when a side disappears', async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
   await page.locator('.match-toggle').click();
   await page.getByRole('button', { name: 'Clash', exact: true }).click();
   await page.locator('#map-select').selectOption('hanaoka');
@@ -338,6 +339,7 @@ test('uses an avatar picker without the hero pool on phones', async ({ page }) =
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
   await expect(page.locator('.hero-selector')).toBeHidden();
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
   page.on('dialog', dialog => void dialog.accept());
   await page.locator('[data-clear-team="counter"]').click();
 
@@ -427,6 +429,7 @@ for (const width of [1440, 1024, 420]) {
     await page.setViewportSize({ width, height: 600 });
     await page.goto('/');
     await expect(page.locator('body')).not.toHaveClass(/app-loading/);
+    if (width <= 760) await page.getByRole('tab', { name: 'Your team', exact: true }).click();
     const about = page.getByRole('dialog', { name: 'cownter' });
     const backgroundY = () => page.evaluate(() => window.scrollY);
     for (const dismiss of (width <= 760 ? ['escape', 'button'] : ['escape', 'button', 'backdrop'])) {
@@ -478,19 +481,112 @@ test('gives the analysis triangle room on phones', async ({ page }) => {
   const plot = page.locator('.compass-plot');
   await plot.scrollIntoViewIfNeeded();
   const bounds = await plot.boundingBox();
-  expect(bounds!.width).toBeGreaterThanOrEqual(280);
+  expect(bounds!.width).toBeGreaterThanOrEqual(220);
   const legend = await page.locator('.compass-legend').boundingBox();
   expect(legend!.y).toBeGreaterThanOrEqual(bounds!.y + bounds!.height);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(420);
 });
 
-test('shows analysis then enemy, suggestions and your team on phones', async ({ page }) => {
+test('switches between the four mobile tabs without losing picks', async ({ page }) => {
   await page.setViewportSize({ width: 420, height: 900 });
   await page.goto('/');
-  const sections = await page.locator('.compass-card, .board-enemy, .board-yours, .right-column').evaluateAll(elements =>
-    elements.map(el => ({ name: el.className, y: el.getBoundingClientRect().top })).sort((a, b) => a.y - b.y).map(el => el.name));
-  expect(sections[0]).toContain('compass-card');
-  expect(sections[1]).toContain('board-enemy');
-  expect(sections[2]).toContain('right-column');
-  expect(sections[3]).toContain('board-yours');
+  await expect(page.getByRole('tabpanel', { name: 'Analysis', exact: true })).toBeVisible();
+  await expect(page.getByRole('tab')).toHaveText(['Analysis', 'Enemy', 'Your team', 'Suggestions']);
+  for (const name of ['Enemy', 'Suggestions', 'Your team', 'Analysis']) {
+    await page.getByRole('tab', { name, exact: true }).click();
+    await expect(page.getByRole('tabpanel', { name, exact: true })).toBeVisible();
+    await expect(page.getByRole('tabpanel')).toHaveCount(1);
+  }
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).click();
+  const picks = await slotValues(page, 'enemy');
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).press('ArrowRight');
+  await expect(page.getByRole('tab', { name: 'Your team', exact: true })).toBeFocused();
+  await page.getByRole('tab', { name: 'Enemy', exact: true }).click();
+  expect(await slotValues(page, 'enemy')).toEqual(picks);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.getByRole('tablist')).toBeHidden();
+  for (const selector of ['.compass-card', '.board-enemy', '.board-yours', '.right-column']) {
+    await expect(page.locator(selector)).toBeVisible();
+  }
+});
+
+test('keeps the mobile header and tabs stacked while scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 600 });
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+  await page.mouse.move(200, 400);
+  await page.mouse.wheel(0, 400);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
+  const header = await page.locator('.app-header').boundingBox();
+  const tabs = await page.getByRole('tablist', { name: 'Team views' }).boundingBox();
+  expect(header!.y).toBe(0);
+  expect(Math.abs(tabs!.y - header!.height)).toBeLessThanOrEqual(1);
+  await page.locator('.match-toggle').click();
+  await expect.poll(async () => {
+    const h = await page.locator('.app-header').boundingBox();
+    const t = await page.getByRole('tablist', { name: 'Team views' }).boundingBox();
+    return Math.abs(t!.y - h!.y - h!.height);
+  }).toBeLessThanOrEqual(1);
+});
+
+test('fills the mobile content area with the active tab', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  for (const name of ['Analysis', 'Enemy', 'Suggestions', 'Your team']) {
+    await page.getByRole('tab', { name, exact: true }).click();
+    const panel = await page.getByRole('tabpanel', { name, exact: true }).boundingBox();
+    const header = await page.locator('.app-header').boundingBox();
+    const tabs = await page.getByRole('tablist').boundingBox();
+    expect(panel!.x).toBe(0);
+    expect(panel!.width).toBe(420);
+    expect(panel!.height).toBeGreaterThanOrEqual(900 - header!.height - tabs!.height - 1);
+  }
+});
+
+test('anchors suggested total to the mobile panel footer', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Suggestions', exact: true }).click();
+  const panel = await page.locator('.suggestion-block').boundingBox();
+  const total = await page.locator('.suggestion-block .total-score-display').boundingBox();
+  expect(Math.abs(panel!.y + panel!.height - total!.y - total!.height - 12)).toBeLessThanOrEqual(1);
+  await page.getByRole('tab', { name: 'Your team', exact: true }).click();
+  const yours = await page.locator('.blue-team .total-score-display').boundingBox();
+  expect(total!.y).toBe(yours!.y);
+});
+
+for (const height of [600, 700, 800, 900]) {
+  test(`fits mobile analysis in a ${height}px viewport`, async ({ page }) => {
+    await page.setViewportSize({ width: 420, height });
+    await page.goto('/');
+    await expect(page.locator('body')).not.toHaveClass(/app-loading/);
+    const panel = await page.locator('.compass-card').boundingBox();
+    expect(panel!.y + panel!.height).toBeLessThanOrEqual(height + 1);
+    expect(await page.locator('.compass-card').evaluate(el => el.scrollHeight - el.clientHeight)).toBeLessThanOrEqual(1);
+    const plot = await page.locator('.compass-plot').boundingBox();
+    expect(plot!.width).toBeGreaterThanOrEqual(150);
+  });
+}
+
+test('uses consistent mobile header and tab margins', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const setup = await page.locator('.match-toggle').boundingBox();
+  const tabs = await page.getByRole('tab').all();
+  const first = await tabs[0].boundingBox();
+  const last = await tabs[tabs.length - 1].boundingBox();
+  expect(first!.x).toBe(setup!.x);
+  expect(last!.x + last!.width).toBe(setup!.x + setup!.width);
+  expect(first!.y - setup!.y - setup!.height).toBe(12);
+});
+
+test('puts mobile map guidance before the smaller triangle', async ({ page }) => {
+  await page.setViewportSize({ width: 420, height: 900 });
+  await page.goto('/');
+  const map = await page.locator('.compass-body .map-panel').boundingBox();
+  const guidance = await page.locator('.map-analysis').boundingBox();
+  const plot = await page.locator('.compass-plot').boundingBox();
+  expect(map!.y + map!.height).toBeLessThanOrEqual(guidance!.y);
+  expect(guidance!.y + guidance!.height).toBeLessThanOrEqual(plot!.y);
+  expect(plot!.width).toBeLessThanOrEqual(280);
 });

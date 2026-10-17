@@ -22,6 +22,40 @@ function bindAbout(): void {
   });
 }
 
+function bindMobileTabs(): void {
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('.mobile-section-tabs [role="tab"]')];
+  const mobile = window.matchMedia('(max-width: 760px)');
+  let selected = 'analysis';
+  const render = () => tabs.forEach(tab => {
+    const active = tab.dataset.view === selected;
+    tab.setAttribute('aria-selected', String(active));
+    tab.tabIndex = active ? 0 : -1;
+    const panel = document.getElementById(tab.getAttribute('aria-controls')!);
+    if (!panel) return;
+    panel.classList.toggle('mobile-panel-inactive', !active);
+    if (mobile.matches) {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', tab.id);
+    } else {
+      panel.removeAttribute('role');
+      panel.removeAttribute('aria-labelledby');
+    }
+  });
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => { selected = tab.dataset.view!; render(); });
+    tab.addEventListener('keydown', event => {
+      const offset = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+      if (!offset && event.key !== 'Home' && event.key !== 'End') return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + offset + tabs.length) % tabs.length;
+      tabs[next].click();
+      tabs[next].focus();
+    });
+  });
+  mobile.addEventListener('change', render);
+  render();
+}
+
 function bindClearButtons(): void {
   document.querySelectorAll<HTMLButtonElement>('[data-clear-team]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -93,6 +127,7 @@ function trackHeaderHeight(): void {
 
 renderTeamRows();
 bindAbout();
+bindMobileTabs();
 bindClearButtons();
 trackHeaderHeight();
 initTooltips();

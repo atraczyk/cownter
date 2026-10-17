@@ -60,6 +60,12 @@
 
     <p class="load-error" role="alert" hidden></p>
 
+    <nav class="mobile-section-tabs" role="tablist" aria-label="Team views">
+        <button type="button" role="tab" id="tab-analysis" aria-controls="panel-analysis" aria-selected="true" data-view="analysis">Analysis</button>
+        <button type="button" role="tab" id="tab-enemy" aria-controls="panel-enemy" aria-selected="false" tabindex="-1" data-view="enemy">Enemy</button>
+        <button type="button" role="tab" id="tab-yours" aria-controls="panel-yours" aria-selected="false" tabindex="-1" data-view="yours">Your team</button>
+        <button type="button" role="tab" id="tab-suggestions" aria-controls="panel-suggestions" aria-selected="false" tabindex="-1" data-view="suggestions">Suggestions</button>
+    </nav>
     <main class="main-container">
         <div class="pool-column">
             <aside class="hero-selector" aria-label="Hero pool">
@@ -82,7 +88,7 @@
             </aside>
         </div>
 
-        <div class="scoreboard board-yours">
+        <div class="scoreboard board-yours" id="panel-yours">
             <div class="team blue-team">
                 <div class="team-header-container">
                     <h2 class="team-header">Your team</h2>
@@ -105,7 +111,7 @@
             </div>
         </div>
 
-        <div class="right-column" data-empty="Fill all five enemy slots to see suggested picks."></div>
+        <div class="right-column" id="panel-suggestions" data-empty="Fill all five enemy slots to see suggested picks."></div>
 
         <button type="button" class="link-toggle" hidden aria-pressed="false" aria-label="Link your team to the suggested picks" data-tip='{"title":"Link teams","note":"Your team follows the suggested picks until you change it."}'>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -118,7 +124,7 @@
         <div class="vs-divider" aria-hidden="true"><span>VS</span></div>
         <div class="insight-gap" aria-hidden="true"></div>
 
-        <div class="scoreboard board-enemy">
+        <div class="scoreboard board-enemy" id="panel-enemy">
             <div class="team red-team">
                 <div class="team-header-container">
                     <h2 class="team-header">Enemy team</h2>
@@ -141,7 +147,7 @@
             </div>
         </div>
 
-        <div class="compass-card">
+        <div class="compass-card" id="panel-analysis">
             <div class="compass-head">
                 <h2 class="team-header">Analysis</h2>
             </div>
